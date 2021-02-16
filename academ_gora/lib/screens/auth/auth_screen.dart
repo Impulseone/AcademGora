@@ -1,3 +1,4 @@
+import 'package:academ_gora/screens/auth/helpers/login_form_widget.dart';
 import 'package:academ_gora/screens/auth/password_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -7,22 +8,32 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("АкадемГора")),
-      body: Center(
-        child: Column(
-          children: [
-            TextField(
-              decoration: InputDecoration(hintText: "Введите номер телефона"),
+        body: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/auth/1_background.png"),
+                fit: BoxFit.cover,
+              ),
             ),
-            ElevatedButton(
-                child: Text("Получить код"),
-                onPressed: () {
-                  _getCode(context);
-                })
-          ],
-        ),
-      ),
-    );
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                        child: Text("СК \"АКАДЕМИЧЕСКИЙ\"",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ))),
+                    LoginFormWidget(() {
+                      _getCode(context);
+                    }),
+                    Container(
+                      height: 150,
+                    )
+                  ],
+                ),
+              ),
+            )));
   }
 
   void _getCode(BuildContext context) {
