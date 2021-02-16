@@ -3,6 +3,11 @@ import 'package:academ_gora/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
 class InputPasswordScreen extends StatelessWidget {
+
+  final String number;
+
+  InputPasswordScreen(this.number);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +29,9 @@ class InputPasswordScreen extends StatelessWidget {
                             ))),
                     PasswordWidget(() {
                       _openMainScreen(context);
-                    }),
+                    }, () {
+                      _onBackPressed(context);
+                    }, number),
                     Container(
                       height: 150,
                     )
@@ -35,6 +42,13 @@ class InputPasswordScreen extends StatelessWidget {
   }
 
   void _openMainScreen(BuildContext context) {
-    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (c) => MainScreen()),(Route<dynamic> route) => false);
+    // Navigator.of(context).pushAndRemoveUntil(
+    //     MaterialPageRoute(builder: (c) => MainScreen()),
+    //     (Route<dynamic> route) => false);
+    Navigator.of(context).push(MaterialPageRoute(builder: (c) => MainScreen()));
+  }
+
+  void _onBackPressed(BuildContext context) {
+    Navigator.of(context).pop();
   }
 }

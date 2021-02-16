@@ -3,15 +3,19 @@ import 'package:flutter/services.dart';
 
 class PasswordWidget extends StatefulWidget {
   final Function _getCode;
+  final Function _back;
+  final String _number;
 
-  PasswordWidget(this._getCode);
+  PasswordWidget(this._getCode, this._back, this._number);
 
   @override
-  _PasswordWidgetState createState() => _PasswordWidgetState(_getCode);
+  _PasswordWidgetState createState() => _PasswordWidgetState(_getCode,_back,_number);
 }
 
 class _PasswordWidgetState extends State<PasswordWidget> {
   final Function _getCode;
+  final Function _back;
+  final String _number;
 
   FocusNode _myFocusNode1 = FocusNode();
   FocusNode _myFocusNode2 = FocusNode();
@@ -23,7 +27,7 @@ class _PasswordWidgetState extends State<PasswordWidget> {
   TextEditingController _controller3 = TextEditingController();
   TextEditingController _controller4 = TextEditingController();
 
-  _PasswordWidgetState(this._getCode);
+  _PasswordWidgetState(this._getCode, this._back, this._number);
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +131,7 @@ class _PasswordWidgetState extends State<PasswordWidget> {
     return Container(
         margin: EdgeInsets.only(top: 10),
         child: Text(
-          "На номер +79999999999 \nвыслан пароль",
+          "На номер $_number \nвыслан пароль",
           textAlign: TextAlign.center,
           style: TextStyle(color: Colors.grey, fontSize: 14),
         ));
@@ -158,11 +162,13 @@ class _PasswordWidgetState extends State<PasswordWidget> {
         width: 200,
         child: Row(
           children: [
-            Image.asset(
-              "assets/auth/e6.png",
-              width: 15,
-              height: 15,
-            ),
+            GestureDetector(
+                onTap: _back,
+                child: Image.asset(
+                  "assets/auth/e6.png",
+                  width: 15,
+                  height: 15,
+                )),
             Container(
                 margin: EdgeInsets.only(left: 60),
                 child: Text(

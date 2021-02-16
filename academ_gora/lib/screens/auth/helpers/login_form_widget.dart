@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class LoginFormWidget extends StatelessWidget {
   final Function _getCode;
+  final TextEditingController _controller;
 
-  LoginFormWidget(this._getCode);
+  LoginFormWidget(this._controller, this._getCode);
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +57,7 @@ class LoginFormWidget extends StatelessWidget {
               margin: EdgeInsets.only(left: 10),
               child: TextField(
                 keyboardType: TextInputType.number,
+                controller: _controller,
                 decoration: InputDecoration(
                     hintText: "+7",
                     hintStyle: TextStyle(color: Colors.grey),

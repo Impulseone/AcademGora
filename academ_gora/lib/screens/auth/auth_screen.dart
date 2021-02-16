@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import '../main_screen.dart';
 
 class AuthScreen extends StatelessWidget {
+
+  TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +27,7 @@ class AuthScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 20,
                             ))),
-                    LoginFormWidget(() {
+                    LoginFormWidget(_controller, () {
                       _getCode(context);
                     }),
                     Container(
@@ -39,6 +42,6 @@ class AuthScreen extends StatelessWidget {
   void _getCode(BuildContext context) {
     //TODO: Firebase auth
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (c) => InputPasswordScreen()));
+        .push(MaterialPageRoute(builder: (c) => InputPasswordScreen(_controller.text)));
   }
 }
