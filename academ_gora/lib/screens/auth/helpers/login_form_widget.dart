@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LoginFormWidget extends StatelessWidget {
-
-  Function _getCode;
+  final Function _getCode;
 
   LoginFormWidget(this._getCode);
 
@@ -16,13 +15,13 @@ class LoginFormWidget extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       child: Column(
-          children: [
-            _topText(),
-            _inputNumberWidget(),
-            _textNumberHint(),
-            _getCodeButton()
-          ],
-        ),
+        children: [
+          _topText(),
+          _inputNumberWidget(),
+          _textNumberHint(),
+          _getCodeButton()
+        ],
+      ),
     );
   }
 
@@ -84,20 +83,20 @@ class LoginFormWidget extends StatelessWidget {
 
   Widget _getCodeButton() {
     return GestureDetector(
-      onTap: _getCode,
+        onTap: _getCode,
         child: Container(
-      margin: EdgeInsets.only(top: 12),
-      width: 200,
-      height: 45,
-      decoration: BoxDecoration(
-          color: Colors.blue,
-          borderRadius: BorderRadius.all(Radius.circular(10.0))),
-      child: Center(
-          child: Text(
-        "Получить код",
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white, fontSize: 24),
-      )),
-    ));
+          margin: EdgeInsets.only(top: 12),
+          width: 200,
+          height: 45,
+          decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          child: Center(
+              child: Text(
+            "Получить код",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white, fontSize: 24),
+          )),
+        ));
   }
 }
