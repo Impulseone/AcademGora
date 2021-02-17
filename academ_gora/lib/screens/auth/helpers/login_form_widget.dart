@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class LoginFormWidget extends StatelessWidget {
   final Function _getCode;
@@ -58,6 +59,7 @@ class LoginFormWidget extends StatelessWidget {
               child: TextField(
                 keyboardType: TextInputType.number,
                 controller: _controller,
+                onChanged: checkFirstNumber,
                 decoration: InputDecoration(
                     hintText: "+7",
                     hintStyle: TextStyle(color: Colors.grey),
@@ -67,10 +69,27 @@ class LoginFormWidget extends StatelessWidget {
                     )),
                 style: TextStyle(fontSize: 20),
                 maxLines: 1,
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(12),
+                ],
               ),
             )
           ],
         ));
+  }
+
+  void checkFirstNumber(String string) {
+    if (string.length == 1) {
+      if (string != "+") {
+        string = "+7";
+        _controller.text = "+7";
+        _controller.value = _controller.value.copyWith(
+          text: string,
+          selection: TextSelection(baseOffset: string.length, extentOffset: string.length),
+          composing: TextRange.empty,
+        );
+      }
+    }
   }
 
   Widget _textNumberHint() {
