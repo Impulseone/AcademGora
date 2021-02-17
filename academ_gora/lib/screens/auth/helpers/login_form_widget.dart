@@ -81,11 +81,17 @@ class LoginFormWidget extends StatelessWidget {
   void checkFirstNumber(String string) {
     if (string.length == 1) {
       if (string != "+") {
-        string = "+7";
-        _controller.text = "+7";
+        if (string == "9") {
+          string = "+79";
+          _controller.text = "+79";
+        } else {
+          string = "+7";
+          _controller.text = "+7";
+        }
         _controller.value = _controller.value.copyWith(
           text: string,
-          selection: TextSelection(baseOffset: string.length, extentOffset: string.length),
+          selection: TextSelection(
+              baseOffset: string.length, extentOffset: string.length),
           composing: TextRange.empty,
         );
       }
