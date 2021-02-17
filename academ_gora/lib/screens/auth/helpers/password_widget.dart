@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:pin_input_text_field/pin_input_text_field.dart';
+
 class PasswordWidget extends StatefulWidget {
   final Function _getCode;
   final Function _back;
@@ -9,7 +11,8 @@ class PasswordWidget extends StatefulWidget {
   PasswordWidget(this._getCode, this._back, this._number);
 
   @override
-  _PasswordWidgetState createState() => _PasswordWidgetState(_getCode,_back,_number);
+  _PasswordWidgetState createState() =>
+      _PasswordWidgetState(_getCode, _back, _number);
 }
 
 class _PasswordWidgetState extends State<PasswordWidget> {
@@ -17,15 +20,9 @@ class _PasswordWidgetState extends State<PasswordWidget> {
   final Function _back;
   final String _number;
 
-  FocusNode _myFocusNode1 = FocusNode();
-  FocusNode _myFocusNode2 = FocusNode();
-  FocusNode _myFocusNode3 = FocusNode();
-  FocusNode _myFocusNode4 = FocusNode();
-
-  TextEditingController _controller1 = TextEditingController();
-  TextEditingController _controller2 = TextEditingController();
-  TextEditingController _controller3 = TextEditingController();
-  TextEditingController _controller4 = TextEditingController();
+  TextEditingController _pinEditingController = TextEditingController();
+  bool _enable = true;
+  bool _cursorEnable = true;
 
   _PasswordWidgetState(this._getCode, this._back, this._number);
 
@@ -41,7 +38,7 @@ class _PasswordWidgetState extends State<PasswordWidget> {
       child: Column(
         children: [
           _topText(),
-          _inputNumberWidget(),
+          _buildPinInputTextFieldExample(),
           _textNumberHint(),
           _getCodeButton(),
           _backAndResendButton()
@@ -64,67 +61,6 @@ class _PasswordWidgetState extends State<PasswordWidget> {
         style: TextStyle(color: Colors.white, fontSize: 28),
       )),
     );
-  }
-
-  Widget _inputNumberWidget() {
-    return Container(
-        margin: EdgeInsets.only(top: 10, left: 10),
-        child: Row(
-          children: [
-            _numberTextField(1, _myFocusNode1, _controller1),
-            _numberTextField(2, _myFocusNode2, _controller2),
-            _numberTextField(3, _myFocusNode3, _controller3),
-            _numberTextField(4, _myFocusNode4, _controller4),
-          ],
-        ));
-  }
-
-  Widget _numberTextField(int id, FocusNode focusNode,
-      TextEditingController textEditingController) {
-    return Container(
-      width: 50,
-      margin: EdgeInsets.only(left: 13),
-      child: TextField(
-        onChanged: (s) {
-          onTextChanged(id);
-        },
-        controller: textEditingController,
-        focusNode: focusNode,
-        textAlign: TextAlign.center,
-        keyboardType: TextInputType.number,
-        inputFormatters: [
-          LengthLimitingTextInputFormatter(1),
-        ],
-        decoration: InputDecoration(
-            border: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
-        )),
-        style: TextStyle(fontSize: 20),
-        maxLines: 1,
-      ),
-    );
-  }
-
-  void onTextChanged(int id) {
-    switch (id) {
-      case 1:
-        if (_controller1.text.isNotEmpty) {
-          _myFocusNode2.requestFocus();
-        }
-        break;
-      case 2:
-        if (_controller2.text.isNotEmpty) {
-          _myFocusNode3.requestFocus();
-        }
-        break;
-      case 3:
-        if (_controller3.text.isNotEmpty) {
-          _myFocusNode4.requestFocus();
-        }
-        break;
-      case 4:
-        break;
-    }
   }
 
   Widget _textNumberHint() {
@@ -176,6 +112,40 @@ class _PasswordWidgetState extends State<PasswordWidget> {
                   style: TextStyle(fontSize: 14, color: Colors.blue),
                 ))
           ],
+        ));
+  }
+
+  Widget _buildPinInputTextFieldExample() {
+    return Container(
+        margin: EdgeInsets.only(left: 10, right: 10),
+        child: Center(
+          child: SizedBox(
+            height: 50.0,
+            child: PinInputTextField(
+              pinLength: 4,
+              decoration: UnderlineDecoration(
+                colorBuilder: PinListenColorBuilder(Colors.blue, Colors.grey),
+              ),
+              controller: _pinEditingController,
+              textInputAction: TextInputAction.go,
+              enabled: _enable,
+              keyboardType: TextInputType.number,
+              textCapitalization: TextCapitalization.characters,
+              onSubmit: (pin) {
+                debugPrint('submit pin:$pin');
+              },
+              onChanged: (pin) {
+                debugPrint('onChanged execute. pin:$pin');
+              },
+              enableInteractiveSelection: false,
+              cursor: Cursor(
+                width: 2,
+                color: Colors.lightBlue,
+                radius: Radius.circular(1),
+                enabled: _cursorEnable,
+              ),
+            ),
+          ),
         ));
   }
 }
