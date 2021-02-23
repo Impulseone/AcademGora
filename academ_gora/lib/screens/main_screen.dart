@@ -1,3 +1,4 @@
+import 'package:academ_gora/screens/registration_to_instructor_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -66,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
               _socialNetworks(),
               _slider(),
               _buttons(),
-              _signUpForLessonButton(),
+              _registrationToInstructorButton(),
               _infoButtons()
             ],
           ))),
@@ -200,7 +201,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget _signUpForLessonButton() {
+  Widget _registrationToInstructorButton() {
     return Container(
       width: 300.0,
       height: 60,
@@ -209,7 +210,7 @@ class _MainScreenState extends State<MainScreen> {
         borderRadius: BorderRadius.all(Radius.circular(35)),
         color: Colors.lightBlue,
         child: InkWell(
-            onTap: null,
+            onTap: _openRegistrationToInstructorScreen,
             child: Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -231,6 +232,11 @@ class _MainScreenState extends State<MainScreen> {
             )),
       ),
     );
+  }
+
+  void _openRegistrationToInstructorScreen() {
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (c) => RegistrationToInstructorScreen()));
   }
 
   Widget _infoButtons() {

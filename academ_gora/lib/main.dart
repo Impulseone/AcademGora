@@ -1,5 +1,6 @@
 import 'package:academ_gora/screens/auth/auth_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
+import 'package:academ_gora/screens/registration_to_instructor_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AuthScreen()
+      home: RegistrationToInstructorScreen()
     );
   }
 }
