@@ -8,6 +8,8 @@ class RegistrationToInstructorScreen extends StatefulWidget {
 
 class _RegistrationToInstructorScreenState
     extends State<RegistrationToInstructorScreen> {
+  int _kindOfSportSelected = -1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +23,7 @@ class _RegistrationToInstructorScreenState
       child: Column(
         children: [
           _topImages(),
-          _buttonsUnderImages(),
+          _kindOfSportButtons(),
           _horizontalDivider(),
           _dateWidget(),
           _horizontalDivider(),
@@ -38,75 +40,73 @@ class _RegistrationToInstructorScreenState
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-          margin: EdgeInsets.only(top: 60),
-          alignment: Alignment.center,
-          child: Image.asset(
-            "assets/registration_to_instructor/2_ski.png",
-            height: 160,
-            width: 160,
-            fit: BoxFit.cover,
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(left: 18, top: 60),
-          alignment: Alignment.center,
-          child: Image.asset(
-            "assets/registration_to_instructor/2_snowboard.png",
-            height: 160,
-            width: 160,
-            fit: BoxFit.cover,
-          ),
-        )
+        _kindOfSportImage("assets/registration_to_instructor/2_ski.png"),
+        _kindOfSportImage("assets/registration_to_instructor/2_snowboard.png",
+            marginLeft: 18)
       ],
     );
   }
 
-  Widget _buttonsUnderImages() {
+  Widget _kindOfSportImage(String imagePath, {double marginLeft = 0}) {
+    return Container(
+      margin: EdgeInsets.only(top: 60, left: marginLeft),
+      alignment: Alignment.center,
+      child: Image.asset(
+        imagePath,
+        height: 160,
+        width: 160,
+        fit: BoxFit.cover,
+      ),
+    );
+  }
+
+  Widget _kindOfSportButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GestureDetector(
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image:
-                      AssetImage("assets/registration_to_instructor/3_e1.png"),
-                  fit: BoxFit.fill),
-            ),
-            height: 40,
-            width: 140,
-            alignment: Alignment.centerRight,
-            padding: EdgeInsets.only(right: 8),
-            child: Text(
-              "ГОРНЫЕ ЛЫЖИ",
-              style: TextStyle(fontSize: 11, color: Colors.blueAccent),
-            ),
+      children: [_kindOfSportButton(0), _kindOfSportButton(1, leftMargin: 40)],
+    );
+  }
+
+  Widget _kindOfSportButton(int which, {double leftMargin = 0}) {
+    return Container(
+      margin: EdgeInsets.only(left: leftMargin),
+      child: GestureDetector(
+        onTap: () => _selectKindOfSport(which),
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage(_createBackgroundOfKindOfSportButton(which)),
+                fit: BoxFit.fill),
+          ),
+          height: 40,
+          width: 140,
+          padding: EdgeInsets.only(right: 12),
+          alignment: Alignment.centerRight,
+          child: Text(
+            which == 0 ? "ГОРНЫЕ ЛЫЖИ" : "СНОУБОРД",
+            style: TextStyle(
+                fontSize: 11,
+                color: _createTextColorOfKindOfSportButton(which)),
           ),
         ),
-        Container(
-          margin: EdgeInsets.only(left: 40),
-          child: GestureDetector(
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(
-                        "assets/registration_to_instructor/3_e1.png"),
-                    fit: BoxFit.fill),
-              ),
-              height: 40,
-              width: 140,
-              padding: EdgeInsets.only(right: 12),
-              alignment: Alignment.centerRight,
-              child: Text(
-                "СНОУБОРД",
-                style: TextStyle(fontSize: 11, color: Colors.blueAccent),
-              ),
-            ),
-          ),
-        )
-      ],
+      ),
     );
+  }
+
+  void _selectKindOfSport(int which) {
+    setState(() {
+      _kindOfSportSelected = which;
+    });
+  }
+
+  String _createBackgroundOfKindOfSportButton(int which) {
+    return which == _kindOfSportSelected
+        ? "assets/registration_to_instructor/3_e2.png"
+        : "assets/registration_to_instructor/3_e1.png";
+  }
+
+  Color _createTextColorOfKindOfSportButton(int which) {
+    return which == _kindOfSportSelected ? Colors.white : Colors.blueAccent;
   }
 
   Widget _horizontalDivider() {
