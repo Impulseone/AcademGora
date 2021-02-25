@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_calendar_carousel/classes/event.dart';
+import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
+import 'package:intl/intl.dart' show DateFormat;
 
 class RegistrationToInstructorScreen extends StatefulWidget {
   @override
@@ -9,6 +12,9 @@ class RegistrationToInstructorScreen extends StatefulWidget {
 class _RegistrationToInstructorScreenState
     extends State<RegistrationToInstructorScreen> {
   int _kindOfSportSelected = -1;
+  DateTime _selectedDate = DateTime.now();
+  String _currentMonth = DateFormat.yMMM().format(DateTime.now());
+  DateTime _targetDateTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +112,7 @@ class _RegistrationToInstructorScreenState
   }
 
   Color _createTextColorOfKindOfSportButton(int which) {
-    return which == _kindOfSportSelected ? Colors.white : Colors.blueAccent;
+    return which == _kindOfSportSelected ? Colors.white : Colors.black;
   }
 
   Widget _horizontalDivider() {
@@ -143,8 +149,36 @@ class _RegistrationToInstructorScreenState
             border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.circular(5.0),
           ),
+          child: GestureDetector(
+            onTap: _showDateDialog,
+          ),
         )
       ],
+    );
+  }
+
+  Future<void> _showDateDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+            builder: (c, setState) => AlertDialog(
+                    content: CalendarCarousel<Event>(
+                  locale: "ru",
+                  height: 270,
+                  todayBorderColor: Colors.transparent,
+                  todayButtonColor: Colors.transparent,
+                  todayTextStyle: TextStyle(color: Colors.blueAccent),
+                  onDayPressed: (DateTime date, List<Event> events) {
+                    setState(() => _selectedDate = date);
+                    events.forEach((event) => print(event.title));
+                  },
+                  selectedDateTime: _selectedDate,
+                  targetDateTime: _selectedDate,
+                  selectedDayTextStyle: TextStyle(color: Colors.white),
+                )));
+      },
     );
   }
 
