@@ -72,7 +72,7 @@ class _DateWidgetState extends State<DateWidget> {
                     ? ""
                     : DateFormat("dd.MM.yyyy").format(_selectedDate),
                 textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                style: TextStyle(fontSize: 16),
               ))),
       onTap: _showDateDialog,
     );
