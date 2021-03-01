@@ -1,20 +1,20 @@
-import 'package:academ_gora/screens/helpers_widgets/date_widget.dart';
-import 'package:academ_gora/screens/helpers_widgets/select_kind_of_sport.dart';
+import 'package:academ_gora/screens/registration/helpers_widgets/time_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_calendar_carousel/classes/event.dart';
-import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
-import 'package:intl/intl.dart' show DateFormat;
+
+import 'helpers_widgets/date_widget.dart';
+import 'helpers_widgets/select_kind_of_sport.dart';
 
 class RegistrationToInstructorScreen extends StatefulWidget {
   @override
-  _RegistrationToInstructorScreenState createState() =>
-      _RegistrationToInstructorScreenState();
+  _RegistrationToInstructorScreenState createState() => _RegistrationToInstructorScreenState();
 }
 
 class _RegistrationToInstructorScreenState
     extends State<RegistrationToInstructorScreen> {
   int _kindOfSportSelected = -1;
   DateTime _selectedDate;
+  String _firstCurrentlySelected;
+  String _secondCurrentlySelected;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class _RegistrationToInstructorScreenState
           _horizontalDivider(),
           DateWidget(_selectedDate),
           _horizontalDivider(),
-          _timeWidget(),
+          TimeWidget(_firstCurrentlySelected,_secondCurrentlySelected),
           _warningText(),
           _continueButton(),
           _selectCoachButton()
@@ -49,49 +49,6 @@ class _RegistrationToInstructorScreenState
     );
   }
 
-  Widget _timeWidget() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _timeNameWidget(),
-        _timeField(50, 10),
-        Text("-"),
-        _timeField(10, 0)
-      ],
-    );
-  }
-
-  Widget _timeNameWidget() {
-    return Row(
-      children: [
-        Container(
-            width: 20,
-            height: 20,
-            margin: EdgeInsets.only(right: 10),
-            child: Image.asset("assets/registration_to_instructor/4_e4.png")),
-        Container(
-            margin: EdgeInsets.only(right: 8),
-            child: Text(
-              "ВРЕМЯ",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ))
-      ],
-    );
-  }
-
-  Widget _timeField(double leftMargin, double rightMargin) {
-    return Container(
-      width: 80,
-      height: 30,
-      margin: EdgeInsets.only(left: leftMargin, right: rightMargin),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(5.0),
-      ),
-    );
-  }
-
-
   Widget _warningText() {
     return Container(
         margin: EdgeInsets.only(top: 20, left: 10, right: 10),
@@ -101,8 +58,6 @@ class _RegistrationToInstructorScreenState
           style: TextStyle(color: Colors.lightBlue),
         ));
   }
-
-
 
   Widget _continueButton() {
     return Container(
