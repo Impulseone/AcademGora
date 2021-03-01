@@ -1,22 +1,21 @@
+import 'package:academ_gora/screens/registration/registration_to_instructor_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 class DateWidget extends StatefulWidget {
+  final DateTime _selectedDate;
+  final RegistrationToInstructorScreenState registrationToInstructorScreenState;
 
- final DateTime _selectedDate;
-
- DateWidget(this._selectedDate);
+  DateWidget(this.registrationToInstructorScreenState, this._selectedDate);
 
   @override
   _DateWidgetState createState() => _DateWidgetState(_selectedDate);
 }
 
 class _DateWidgetState extends State<DateWidget> {
-
   DateTime _selectedDate;
-
 
   _DateWidgetState(this._selectedDate);
 
@@ -90,9 +89,11 @@ class _DateWidgetState extends State<DateWidget> {
   }
 
   void _clearDateFieldButton() {
-    setState(() {
-      _selectedDate = null;
+    _selectedDate = null;
+    widget.registrationToInstructorScreenState.setState(() {
+      widget.registrationToInstructorScreenState.selectedDate = _selectedDate;
     });
+    setState(() {});
   }
 
   Future<void> _showDateDialog() async {
@@ -102,30 +103,33 @@ class _DateWidgetState extends State<DateWidget> {
       builder: (BuildContext context) {
         return StatefulBuilder(
             builder: (c, setState) => AlertDialog(
-                actions: [
-                  TextButton(child: Text('OK'), onPressed: _closeDialog),
-                ],
-                content: CalendarCarousel<Event>(
-                  locale: "ru",
-                  width: 300,
-                  height: 270,
-                  todayBorderColor: Colors.transparent,
-                  todayButtonColor: Colors.transparent,
-                  todayTextStyle: TextStyle(color: Colors.blueAccent),
-                  onDayPressed: (DateTime date, List<Event> events) {
-                    setState(() => _selectedDate = date);
-                    events.forEach((event) => print(event.title));
-                  },
-                  selectedDateTime: _selectedDate,
-                  targetDateTime: _selectedDate,
-                  selectedDayTextStyle: TextStyle(color: Colors.white),
-                )));
+                    actions: [
+                      TextButton(child: Text('OK'), onPressed: _closeDialog),
+                    ],
+                    content: CalendarCarousel<Event>(
+                      locale: "ru",
+                      width: 300,
+                      height: 270,
+                      todayBorderColor: Colors.transparent,
+                      todayButtonColor: Colors.transparent,
+                      todayTextStyle: TextStyle(color: Colors.blueAccent),
+                      onDayPressed: (DateTime date, List<Event> events) {
+                        setState(() => _selectedDate = date);
+                        events.forEach((event) => print(event.title));
+                      },
+                      selectedDateTime: _selectedDate,
+                      targetDateTime: _selectedDate,
+                      selectedDayTextStyle: TextStyle(color: Colors.white),
+                    )));
       },
     );
   }
 
   void _closeDialog() {
     Navigator.of(context).pop();
+    widget.registrationToInstructorScreenState.setState(() {
+      widget.registrationToInstructorScreenState.selectedDate = _selectedDate;
+    });
     setState(() {});
   }
 }

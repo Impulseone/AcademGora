@@ -67,7 +67,7 @@ class _TimeWidgetState extends State<TimeWidget> {
             value: position == 1
                 ? _firstCurrentlySelected
                 : _secondCurrentlySelected,
-            items: <String>['10:00', '10:30', '11:00', '11:30']
+            items: <String>['любое', '10:00', '10:30', '11:00', '11:30']
                 .map((String value) {
               return new DropdownMenuItem<String>(
                 value: value,

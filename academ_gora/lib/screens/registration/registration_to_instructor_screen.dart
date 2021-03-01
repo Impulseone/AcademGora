@@ -7,14 +7,14 @@ import 'helpers_widgets/select_kind_of_sport.dart';
 
 class RegistrationToInstructorScreen extends StatefulWidget {
   @override
-  _RegistrationToInstructorScreenState createState() =>
-      _RegistrationToInstructorScreenState();
+  RegistrationToInstructorScreenState createState() =>
+      RegistrationToInstructorScreenState();
 }
 
-class _RegistrationToInstructorScreenState
+class RegistrationToInstructorScreenState
     extends State<RegistrationToInstructorScreen> {
-  int _kindOfSportSelected = -1;
-  DateTime _selectedDate;
+  int kindOfSportSelected = -1;
+  DateTime selectedDate;
   String _firstCurrentlySelected;
   String _secondCurrentlySelected;
 
@@ -30,15 +30,15 @@ class _RegistrationToInstructorScreenState
       ),
       child: Column(
         children: [
-          SelectKindOfSportWidget(kindOfSportSelected: _kindOfSportSelected),
+          SelectKindOfSportWidget(this, kindOfSportSelected),
           _horizontalDivider(),
-          DateWidget(_selectedDate),
+          DateWidget(this, selectedDate),
           _horizontalDivider(),
           TimeWidget(_firstCurrentlySelected, _secondCurrentlySelected),
           _warningText(),
           _continueButton(),
           Container(
-            padding: EdgeInsets.only(top: 10),
+              padding: EdgeInsets.only(top: 10),
               child: Text("ИЛИ",
                   style: TextStyle(
                       fontSize: 14,
@@ -75,7 +75,7 @@ class _RegistrationToInstructorScreenState
       margin: EdgeInsets.only(top: 18),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
-        color: Colors.white,
+        color: _continueButtonBackgroundColor(),
         child: InkWell(
             onTap: null,
             child: Center(
@@ -86,7 +86,7 @@ class _RegistrationToInstructorScreenState
                       "ПРОДОЛЖИТЬ",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: Colors.grey,
+                          color: _continueButtonTextColor(),
                           fontSize: 22,
                           fontWeight: FontWeight.bold),
                     ),
@@ -96,13 +96,28 @@ class _RegistrationToInstructorScreenState
     );
   }
 
+  Color _continueButtonBackgroundColor() {
+    if (kindOfSportSelected != -1 && selectedDate != null) {
+      return Colors.blue;
+    } else
+      return Colors.white;
+  }
+
+  Color _continueButtonTextColor() {
+    if (kindOfSportSelected != -1 && selectedDate != null) {
+      return Colors.white;
+    } else
+      return Colors.grey;
+  }
+
   Widget _selectCoachButton() {
     return Container(
       width: 250.0,
       height: 55,
       margin: EdgeInsets.only(top: 15),
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.blue),
+          border: Border.all(
+              color: selectedDate == null ? Colors.blue : Colors.grey),
           borderRadius: BorderRadius.all(Radius.circular(30))),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
@@ -126,7 +141,9 @@ class _RegistrationToInstructorScreenState
       text,
       textAlign: TextAlign.center,
       style: TextStyle(
-          color: Colors.blue, fontSize: 16, fontWeight: FontWeight.normal),
+          color: selectedDate == null ? Colors.blue : Colors.grey,
+          fontSize: 16,
+          fontWeight: FontWeight.normal),
     );
   }
 }

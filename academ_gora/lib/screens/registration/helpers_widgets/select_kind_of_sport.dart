@@ -1,9 +1,13 @@
+import 'package:academ_gora/screens/registration/registration_to_instructor_screen.dart';
 import 'package:flutter/material.dart';
 
 class SelectKindOfSportWidget extends StatefulWidget {
   final int kindOfSportSelected;
+  final RegistrationToInstructorScreenState registrationToInstructorScreenState;
 
-  const SelectKindOfSportWidget({Key key, this.kindOfSportSelected})
+  const SelectKindOfSportWidget(
+      this.registrationToInstructorScreenState, this.kindOfSportSelected,
+      {Key key})
       : super(key: key);
 
   @override
@@ -86,6 +90,10 @@ class _SelectKindOfSportWidgetState extends State<SelectKindOfSportWidget> {
   }
 
   void _selectKindOfSport(int which) {
+    widget.registrationToInstructorScreenState.setState(() {
+      widget.registrationToInstructorScreenState.kindOfSportSelected =
+          _kindOfSportSelected;
+    });
     setState(() {
       _kindOfSportSelected = which;
     });
