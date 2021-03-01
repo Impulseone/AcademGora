@@ -27,7 +27,7 @@ class _TimeWidgetState extends State<TimeWidget> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _timeNameWidget(),
-        _timeField(30, 10, 1),
+        _timeField(20, 10, 1),
         Text("-"),
         _timeField(10, 0, 2)
       ],
@@ -54,7 +54,7 @@ class _TimeWidgetState extends State<TimeWidget> {
 
   Widget _timeField(double leftMargin, double rightMargin, int position) {
     return Container(
-        width: 90,
+        width: 95,
         height: 30,
         padding: EdgeInsets.only(left: 15),
         margin: EdgeInsets.only(left: leftMargin, right: rightMargin),
