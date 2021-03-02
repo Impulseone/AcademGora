@@ -90,13 +90,12 @@ class _SelectKindOfSportWidgetState extends State<SelectKindOfSportWidget> {
   }
 
   void _selectKindOfSport(int which) {
+    _kindOfSportSelected = which;
     widget.registrationToInstructorScreenState.setState(() {
       widget.registrationToInstructorScreenState.kindOfSportSelected =
           _kindOfSportSelected;
     });
-    setState(() {
-      _kindOfSportSelected = which;
-    });
+    setState(() {});
   }
 
   String _createBackgroundOfKindOfSportButton(int which) {

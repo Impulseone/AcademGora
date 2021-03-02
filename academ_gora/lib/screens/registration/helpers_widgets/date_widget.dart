@@ -104,7 +104,7 @@ class _DateWidgetState extends State<DateWidget> {
         return StatefulBuilder(
             builder: (c, setState) => AlertDialog(
                     actions: [
-                      TextButton(child: Text('OK'), onPressed: _closeDialog),
+                      TextButton(child: Text('OK'), onPressed: _applyAndCloseDialog),
                     ],
                     content: CalendarCarousel<Event>(
                       locale: "ru",
@@ -125,7 +125,7 @@ class _DateWidgetState extends State<DateWidget> {
     );
   }
 
-  void _closeDialog() {
+  void _applyAndCloseDialog() {
     Navigator.of(context).pop();
     widget.registrationToInstructorScreenState.setState(() {
       widget.registrationToInstructorScreenState.selectedDate = _selectedDate;
