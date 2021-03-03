@@ -13,7 +13,7 @@ class RegistrationToInstructorScreen extends StatefulWidget {
 
 class RegistrationToInstructorScreenState
     extends State<RegistrationToInstructorScreen> {
-  int kindOfSportSelected = -1;
+  int selectedKindOfSport = -1;
   DateTime selectedDate;
   String _firstCurrentlySelected;
   String _secondCurrentlySelected;
@@ -30,7 +30,7 @@ class RegistrationToInstructorScreenState
       ),
       child: Column(
         children: [
-          SelectKindOfSportWidget(this, kindOfSportSelected),
+          SelectKindOfSportWidget(this, selectedKindOfSport),
           _horizontalDivider(),
           DateWidget(this, selectedDate),
           _horizontalDivider(),
@@ -97,14 +97,14 @@ class RegistrationToInstructorScreenState
   }
 
   Color _continueButtonBackgroundColor() {
-    if (kindOfSportSelected != -1 && selectedDate != null) {
+    if (selectedKindOfSport != -1 && selectedDate != null) {
       return Colors.blue;
     } else
       return Colors.white;
   }
 
   Color _continueButtonTextColor() {
-    if (kindOfSportSelected != -1 && selectedDate != null) {
+    if (selectedKindOfSport != -1 && selectedDate != null) {
       return Colors.white;
     } else
       return Colors.grey;
@@ -117,7 +117,7 @@ class RegistrationToInstructorScreenState
       margin: EdgeInsets.only(top: 15),
       decoration: BoxDecoration(
           border: Border.all(
-              color: selectedDate == null ? Colors.blue : Colors.grey),
+              color: _selectCoachButtonColor()),
           borderRadius: BorderRadius.all(Radius.circular(30))),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
@@ -141,9 +141,16 @@ class RegistrationToInstructorScreenState
       text,
       textAlign: TextAlign.center,
       style: TextStyle(
-          color: selectedDate == null ? Colors.blue : Colors.grey,
+          color: _selectCoachButtonColor(),
           fontSize: 16,
           fontWeight: FontWeight.normal),
     );
+  }
+
+  Color _selectCoachButtonColor() {
+    if (selectedKindOfSport == -1)
+      return Colors.grey;
+    else
+      return selectedDate == null ? Colors.blue : Colors.grey;
   }
 }
