@@ -6,7 +6,12 @@ class InstructorsListScreen extends StatefulWidget {
 }
 
 class _InstructorsListScreenState extends State<InstructorsListScreen> {
-  final items = List<String>.generate(10, (i) => "Item $i");
+  final items = [
+    "Ярославский Александр",
+    "Крюкова Ольга",
+    "Карманова Евгения",
+    "Трофимов Павел"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +25,12 @@ class _InstructorsListScreenState extends State<InstructorsListScreen> {
           ),
           child: Column(children: [
             Container(
-              height: 390,
+              height: 360,
+              margin: EdgeInsets.only(top: 50, left: 15, right: 15),
               child: ListView.builder(
                 itemCount: items.length,
                 itemBuilder: (context, index) {
-                  return _instructorWidget('${items[index]}');
+                  return _instructorWidget('${items[index]}',index);
                 },
               ),
             ),
@@ -33,19 +39,44 @@ class _InstructorsListScreenState extends State<InstructorsListScreen> {
     );
   }
 
-  Widget _instructorWidget(String text) {
+  Widget _instructorWidget(String text, int index) {
     return Container(
-      height: 60,
-        child: Card(
-      child: Text(text),
-    ));
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(width: 0.5, color: Colors.grey),
+            top: index==0?BorderSide(width: 0.5, color: Colors.grey):BorderSide(color: Colors.transparent),
+          ),
+        ),
+        height: 60,
+        child: Container(
+            child: Row(
+              children: [
+                Container(
+                    height: 48,
+                    width: 48,
+                    child: Image.asset("assets/instructors_list/e_3.png")),
+                Container(
+                    width: 250,
+                    margin: EdgeInsets.only(left: 12),
+                    child: Text(
+                      text,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                Container(
+                    height: 12,
+                    width: 12,
+                    child: Image.asset("assets/instructors_list/e_2.png"))
+              ],
+            )));
   }
 
   Widget _buttons() {
-    return Container(margin: EdgeInsets.only(top: 100), child:  Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [_backButton(), _continueButton()],
-    ));
+    return Container(
+        margin: EdgeInsets.only(top: 100),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [_backButton(), _continueButton()],
+        ));
   }
 
   Widget _backButton() {

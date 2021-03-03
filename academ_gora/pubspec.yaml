@@ -53,6 +53,7 @@ flutter:
     - assets/main/
     - assets/auth/
     - assets/registration_to_instructor/
+    - assets/instructors_list/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
