@@ -30,7 +30,7 @@ class _InstructorsListScreenState extends State<InstructorsListScreen> {
               child: ListView.builder(
                 itemCount: items.length,
                 itemBuilder: (context, index) {
-                  return _instructorWidget('${items[index]}',index);
+                  return _instructorWidget('${items[index]}', index);
                 },
               ),
             ),
@@ -44,30 +44,32 @@ class _InstructorsListScreenState extends State<InstructorsListScreen> {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(width: 0.5, color: Colors.grey),
-            top: index==0?BorderSide(width: 0.5, color: Colors.grey):BorderSide(color: Colors.transparent),
+            top: index == 0
+                ? BorderSide(width: 0.5, color: Colors.grey)
+                : BorderSide(color: Colors.transparent),
           ),
         ),
         height: 60,
         child: Container(
             child: Row(
-              children: [
-                Container(
-                    height: 48,
-                    width: 48,
-                    child: Image.asset("assets/instructors_list/e_3.png")),
-                Container(
-                    width: 250,
-                    margin: EdgeInsets.only(left: 12),
-                    child: Text(
-                      text,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                Container(
-                    height: 12,
-                    width: 12,
-                    child: Image.asset("assets/instructors_list/e_2.png"))
-              ],
-            )));
+          children: [
+            Container(
+                height: 48,
+                width: 48,
+                child: Image.asset("assets/instructors_list/e_3.png")),
+            Container(
+                width: 250,
+                margin: EdgeInsets.only(left: 12),
+                child: Text(
+                  text,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                )),
+            Container(
+                height: 12,
+                width: 12,
+                child: Image.asset("assets/instructors_list/e_2.png"))
+          ],
+        )));
   }
 
   Widget _buttons() {
