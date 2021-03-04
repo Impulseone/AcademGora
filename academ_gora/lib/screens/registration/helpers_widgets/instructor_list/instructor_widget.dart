@@ -1,4 +1,4 @@
-import 'package:academ_gora/screens/registration/helpers_widgets/datetime_picker_widget.dart';
+import 'package:academ_gora/screens/registration/helpers_widgets/instructor_list/datetime_picker_widget.dart';
 import 'package:academ_gora/screens/registration/instructors_list_screen.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';

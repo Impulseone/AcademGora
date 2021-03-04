@@ -1,5 +1,6 @@
-import 'package:academ_gora/screens/registration/helpers_widgets/instructor_widget.dart';
 import 'package:flutter/material.dart';
+
+import 'instructor_widget.dart';
 
 class DateTimePickerWidget extends StatefulWidget {
   final InstructorWidgetState instructorWidgetState;

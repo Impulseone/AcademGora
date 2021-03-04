@@ -1,5 +1,6 @@
-import 'package:academ_gora/screens/registration/helpers_widgets/instructor_widget.dart';
 import 'package:flutter/material.dart';
+
+import 'helpers_widgets/instructor_list/instructor_widget.dart';
 
 class InstructorsListScreen extends StatefulWidget {
   @override

@@ -1,9 +1,9 @@
-import 'package:academ_gora/screens/registration/helpers_widgets/time_widget.dart';
+import 'package:academ_gora/screens/registration/helpers_widgets/reg_to_instructor/time_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
-import 'helpers_widgets/date_widget.dart';
-import 'helpers_widgets/select_kind_of_sport.dart';
+import 'helpers_widgets/reg_to_instructor/date_widget.dart';
+import 'helpers_widgets/reg_to_instructor/select_kind_of_sport.dart';
 
 class RegistrationToInstructorScreen extends StatefulWidget {
   @override
