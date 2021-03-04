@@ -2,9 +2,7 @@ import 'package:academ_gora/screens/registration/helpers_widgets/instructor_widg
 import 'package:flutter/material.dart';
 
 class DateTimePickerWidget extends StatefulWidget {
-
-  const DateTimePickerWidget({Key key})
-      : super(key: key);
+  const DateTimePickerWidget({Key key}) : super(key: key);
 
   @override
   _DateTimePickerWidgetState createState() => _DateTimePickerWidgetState();
@@ -12,6 +10,8 @@ class DateTimePickerWidget extends StatefulWidget {
 
 class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   var _selectedDate = new DateTime.now();
+
+  int selectedTime = -1;
 
   List months = [
     'Января',
@@ -36,7 +36,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   Widget _dateTimePickerWidget() {
     return Container(
         child: Column(
-      children: [_dateSliderWidget()],
+      children: [_dateSliderWidget(), _timeWidget()],
     ));
   }
 
@@ -83,5 +83,78 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
     setState(() {
       _selectedDate = _selectedDate.subtract(Duration(days: 1));
     });
+  }
+
+  Widget _timeWidget() {
+    return Container(
+      margin: EdgeInsets.only(left: 30, top: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              _pickTimeButtonWidget(0),
+              _pickTimeButtonWidget(1),
+              _pickTimeButtonWidget(2),
+              _pickTimeButtonWidget(3),
+            ],
+          ),
+          Row(
+            children: [
+              _pickTimeButtonWidget(4),
+              _pickTimeButtonWidget(5),
+              _pickTimeButtonWidget(6),
+              _pickTimeButtonWidget(7),
+            ],
+          ),
+          Row(
+            children: [
+              _pickTimeButtonWidget(8),
+              _pickTimeButtonWidget(9),
+              _pickTimeButtonWidget(10),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _pickTimeButtonWidget(int pos) {
+    return GestureDetector(
+        onTap: () => _selectTime(pos),
+        child: Container(
+          height: 25,
+          width: 45,
+          alignment: Alignment.center,
+          margin: EdgeInsets.all(3),
+          decoration: BoxDecoration(
+              color: _getTimeButtonColor(pos),
+              border: Border.all(color: Colors.grey, width: 0.5),
+              borderRadius: BorderRadius.all(Radius.circular(3))),
+          child: Text(
+            "10:00",
+            style: TextStyle(color: _getTimeTextColor(pos)),
+          ),
+        ));
+  }
+
+  void _selectTime(int pos) {
+    setState(() {
+      selectedTime = pos;
+    });
+  }
+
+  Color _getTimeButtonColor(int pos) {
+    if (selectedTime != -1 && selectedTime == pos)
+      return Colors.blue;
+    else
+      return Colors.white;
+  }
+
+  Color _getTimeTextColor(int pos) {
+    if (selectedTime != -1 && selectedTime == pos)
+      return Colors.white;
+    else
+      return Colors.black;
   }
 }
