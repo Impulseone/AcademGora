@@ -5,14 +5,17 @@ import 'package:flutter/material.dart';
 
 class InstructorWidget extends StatefulWidget {
   final String instructorName;
+  final InstructorsListScreenState instructorsListScreenState;
 
-  InstructorWidget(this.instructorName);
+  InstructorWidget(this.instructorName, this.instructorsListScreenState);
 
   @override
   InstructorWidgetState createState() => InstructorWidgetState();
 }
 
 class InstructorWidgetState extends State<InstructorWidget> {
+  Map<DateTime, int> selectedDates = {};
+
   @override
   Widget build(BuildContext context) {
     return ExpandablePanel(
@@ -45,10 +48,7 @@ class InstructorWidgetState extends State<InstructorWidget> {
 
   Widget _body() {
     return Row(
-      children: [
-        _openProfileButton(),
-        DateTimePickerWidget()
-      ],
+      children: [_openProfileButton(), DateTimePickerWidget(this)],
     );
   }
 
@@ -59,12 +59,20 @@ class InstructorWidgetState extends State<InstructorWidget> {
         margin: EdgeInsets.only(bottom: 10),
         height: 45,
         width: 65,
-        color: Colors.grey,
+        color: Colors.blue,
         child: Text(
           "Открыть\nпрофиль",
           style: TextStyle(color: Colors.white),
         ),
       ),
     );
+  }
+
+  @override
+  void setState(fn) {
+    super.setState(fn);
+    widget.instructorsListScreenState.setState(() {
+      widget.instructorsListScreenState.selectedDates = selectedDates;
+    });
   }
 }

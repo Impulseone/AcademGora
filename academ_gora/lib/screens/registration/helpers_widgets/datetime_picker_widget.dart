@@ -2,7 +2,10 @@ import 'package:academ_gora/screens/registration/helpers_widgets/instructor_widg
 import 'package:flutter/material.dart';
 
 class DateTimePickerWidget extends StatefulWidget {
-  const DateTimePickerWidget({Key key}) : super(key: key);
+  final InstructorWidgetState instructorWidgetState;
+
+  const DateTimePickerWidget(this.instructorWidgetState, {Key key})
+      : super(key: key);
 
   @override
   _DateTimePickerWidgetState createState() => _DateTimePickerWidgetState();
@@ -149,6 +152,9 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
         }
       } else
         selectedDates.putIfAbsent(_selectedDate, () => pos);
+    });
+    widget.instructorWidgetState.setState(() {
+      widget.instructorWidgetState.selectedDates = selectedDates;
     });
   }
 

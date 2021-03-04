@@ -14,6 +14,8 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
     "Трофимов Павел"
   ];
 
+  Map<DateTime, int> selectedDates = {};
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +52,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
                 : BorderSide(color: Colors.transparent),
           ),
         ),
-        child: Container(child: InstructorWidget(text)));
+        child: Container(child: InstructorWidget(text, this)));
   }
 
   Widget _buttons() {
@@ -100,16 +102,10 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
   }
 
   Color _continueButtonBackgroundColor() {
-    // if (kindOfSportSelected != -1 && selectedDate != null) {
-    //   return Colors.blue;
-    // } else
-    return Colors.white;
+    return selectedDates.isEmpty ? Colors.white : Colors.blue;
   }
 
   Color _continueButtonTextColor() {
-    // if (kindOfSportSelected != -1 && selectedDate != null) {
-    //   return Colors.white;
-    // } else
-    return Colors.grey;
+    return selectedDates.isEmpty ? Colors.grey : Colors.white;
   }
 }
