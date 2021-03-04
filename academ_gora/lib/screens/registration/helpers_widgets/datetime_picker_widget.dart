@@ -9,9 +9,9 @@ class DateTimePickerWidget extends StatefulWidget {
 }
 
 class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
-  var _selectedDate = new DateTime.now();
+  Map<DateTime, int> selectedDates = {};
 
-  int selectedTime = -1;
+  var _selectedDate = new DateTime.now();
 
   List months = [
     'Января',
@@ -140,19 +140,29 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   void _selectTime(int pos) {
     setState(() {
-      selectedTime = pos;
+      if (selectedDates.containsKey(_selectedDate)) {
+        if (selectedDates[_selectedDate] == pos) {
+          selectedDates.remove(_selectedDate);
+        } else {
+          selectedDates.remove(_selectedDate);
+          selectedDates.putIfAbsent(_selectedDate, () => pos);
+        }
+      } else
+        selectedDates.putIfAbsent(_selectedDate, () => pos);
     });
   }
 
   Color _getTimeButtonColor(int pos) {
-    if (selectedTime != -1 && selectedTime == pos)
+    if (selectedDates.containsKey(_selectedDate) &&
+        selectedDates[_selectedDate] == pos)
       return Colors.blue;
     else
       return Colors.white;
   }
 
   Color _getTimeTextColor(int pos) {
-    if (selectedTime != -1 && selectedTime == pos)
+    if (selectedDates.containsKey(_selectedDate) &&
+        selectedDates[_selectedDate] == pos)
       return Colors.white;
     else
       return Colors.black;
