@@ -57,12 +57,18 @@ class InstructorWidgetState extends State<InstructorWidget> {
       child: Container(
         alignment: Alignment.center,
         margin: EdgeInsets.only(bottom: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(7)),
+          image: DecorationImage(
+            image: AssetImage("assets/instructors_list/e_9.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         height: 45,
         width: 65,
-        color: Colors.blue,
         child: Text(
-          "Открыть\nпрофиль",
-          style: TextStyle(color: Colors.white),
+          "открыть\nпрофиль",
+          style: TextStyle(color: Color(0xff007CC0),fontSize: 14),
         ),
       ),
     );
