@@ -1,11 +1,12 @@
+import 'package:academ_gora/screens/registration/helpers_widgets/instructor_widget.dart';
 import 'package:flutter/material.dart';
 
 class InstructorsListScreen extends StatefulWidget {
   @override
-  _InstructorsListScreenState createState() => _InstructorsListScreenState();
+  InstructorsListScreenState createState() => InstructorsListScreenState();
 }
 
-class _InstructorsListScreenState extends State<InstructorsListScreen> {
+class InstructorsListScreenState extends State<InstructorsListScreen> {
   final items = [
     "Ярославский Александр",
     "Крюкова Ольга",
@@ -49,27 +50,7 @@ class _InstructorsListScreenState extends State<InstructorsListScreen> {
                 : BorderSide(color: Colors.transparent),
           ),
         ),
-        height: 60,
-        child: Container(
-            child: Row(
-          children: [
-            Container(
-                height: 48,
-                width: 48,
-                child: Image.asset("assets/instructors_list/e_3.png")),
-            Container(
-                width: 250,
-                margin: EdgeInsets.only(left: 12),
-                child: Text(
-                  text,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
-            Container(
-                height: 12,
-                width: 12,
-                child: Image.asset("assets/instructors_list/e_2.png"))
-          ],
-        )));
+        child: Container(child: InstructorWidget(text)));
   }
 
   Widget _buttons() {
