@@ -39,29 +39,33 @@ class RegistrationParametersScreenState
                   Container(
                       margin: EdgeInsets.only(top: 12, left: 5),
                       child: SelectPeopleCountWidget(selectedCount, this)),
-                  horizontalDivider(10,10,10,10),
+                  horizontalDivider(10, 10, 10, 10),
                   Container(
                       margin: EdgeInsets.only(left: 5),
                       child: SelectDurationWidget(selectedDuration, this)),
-                  horizontalDivider(10,10,10,10),
+                  horizontalDivider(10, 10, 10, 10),
                   Container(
-                      margin: EdgeInsets.only (left: 5),
+                      margin: EdgeInsets.only(left: 5),
                       child:
                           SelectLevelOfSkatingWidget(selectedDuration, this)),
-                  horizontalDivider(10,10,10,10),
+                  horizontalDivider(10, 10, 10, 10),
                   Container(
-                      margin: EdgeInsets.only (left: 25),
-                      child: HumanInfoWidget(),
-                  ),Container(
-                      margin: EdgeInsets.only (left: 25),
-                      child: HumanInfoWidget(),
-                  ),Container(
-                      margin: EdgeInsets.only (left: 25),
-                      child: HumanInfoWidget(),
-                  ), Container(
                     margin: EdgeInsets.only(left: 25),
                     child: HumanInfoWidget(),
                   ),
+                  Container(
+                    margin: EdgeInsets.only(left: 25),
+                    child: HumanInfoWidget(),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 25),
+                    child: HumanInfoWidget(),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 25),
+                    child: HumanInfoWidget(),
+                  ),
+                  _commentFieldWidget(),
                   _continueButton()
                 ],
               ))),
@@ -113,32 +117,71 @@ class RegistrationParametersScreenState
         ));
   }
 
-  Widget _continueButton() {
+  Widget _commentFieldWidget() {
     return Container(
-      width: 200.0,
-      height: 45,
-      margin: EdgeInsets.only(top: 18),
-      child: Material(
-        borderRadius: BorderRadius.all(Radius.circular(35)),
-        color: _continueButtonBackgroundColor(),
-        child: InkWell(
-            onTap: null,
-            child: Center(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "ПРОДОЛЖИТЬ",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: _continueButtonTextColor(),
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ]),
-            )),
+      margin: EdgeInsets.only(top: 10, left: 10),
+      child: Row(
+        children: [
+          Container(
+              height: 20,
+              width: 20,
+              child: Image.asset("assets/registration_parameters/e12.png")),
+          Container(
+            width: 300,
+            height: 20,
+            margin: EdgeInsets.only(left: 5),
+            child: TextField(
+              maxLines: 1,
+              style: TextStyle(fontSize: 12),
+              decoration: InputDecoration(
+                  hintText: "Добавить комментарий",
+                  hintStyle: TextStyle(fontSize: 12)),
+            ),
+          )
+        ],
       ),
     );
+  }
+
+  Widget _continueButton() {
+    return Container(
+      margin: EdgeInsets.only(top: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          child: Icon(
+            Icons.chevron_left,
+            color: Colors.blue,
+            size: 40,
+          ),
+        ),
+        Container(
+          width: 170,
+          height: 40,
+          child: Material(
+            borderRadius: BorderRadius.all(Radius.circular(35)),
+            color: _continueButtonBackgroundColor(),
+            child: InkWell(
+                onTap: null,
+                child: Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "ПРОДОЛЖИТЬ",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: _continueButtonTextColor(),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ]),
+                )),
+          ),
+        )
+      ],
+    ));
   }
 
   Color _continueButtonBackgroundColor() {
