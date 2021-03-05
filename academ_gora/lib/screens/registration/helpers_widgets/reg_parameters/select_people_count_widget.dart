@@ -32,21 +32,26 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
   }
 
   Widget _peoplesCountWidget() {
-    return Row(
-      children: [Text("Количество человек")],
-    );
+    return Container(
+        margin: EdgeInsets.only(left: 27),
+        child: Text(
+          "Количество человек",
+          style: TextStyle(fontSize: 12, color: Colors.blue),
+        ));
   }
 
   Widget _countButtons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _countButton(0),
-        _countButton(1, leftMargin: 10),
-        _countButton(2, leftMargin: 10),
-        _countButton(3, leftMargin: 10)
-      ],
-    );
+    return Container(
+        margin: EdgeInsets.only(left: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _countButton(0),
+            _countButton(1, leftMargin: 10),
+            _countButton(2, leftMargin: 10),
+            _countButton(3, leftMargin: 10)
+          ],
+        ));
   }
 
   Widget _countButton(int which, {double leftMargin = 0}) {
@@ -56,18 +61,20 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
         onTap: () => _selectCount(which),
         child: Container(
           decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(5)),
             image: DecorationImage(
-                image: AssetImage(_createBackgroundOfKindOfSportButton(which)),
+                image: AssetImage(_createBackgroundOfCountButton(which)),
                 fit: BoxFit.fill),
           ),
-          height: 40,
-          width: 40,
+          height: 35,
+          width: 35,
           padding: EdgeInsets.only(right: 12),
           alignment: Alignment.centerRight,
           child: Text(
             (which + 1).toString(),
             style: TextStyle(
-                fontSize: 11,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
                 color: which == _selectedCount ? Colors.white : Colors.black),
           ),
         ),
@@ -83,7 +90,7 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
     setState(() {});
   }
 
-  String _createBackgroundOfKindOfSportButton(int which) {
+  String _createBackgroundOfCountButton(int which) {
     return which == _selectedCount
         ? "assets/registration_parameters/e_4.png"
         : "assets/registration_parameters/e_1.png";

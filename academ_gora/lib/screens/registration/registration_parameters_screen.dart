@@ -1,7 +1,9 @@
 import 'dart:convert';
 
-import 'package:academ_gora/screens/registration/helpers_widgets/info_text.dart';
-import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/select_people_count.dart';
+import 'package:academ_gora/screens/registration/helpers_widgets/horizontal_divider.dart';
+import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/info_text.dart';
+import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/select_duration_widget.dart';
+import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/select_people_count_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,6 +16,7 @@ class RegistrationParametersScreen extends StatefulWidget {
 class RegistrationParametersScreenState
     extends State<RegistrationParametersScreen> {
   int selectedCount;
+  int selectedDuration;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,14 @@ class RegistrationParametersScreenState
               child: Column(
                 children: [
                   _infoWidget(),
-                  SelectPeopleCountWidget(selectedCount, this)
+                  Container(
+                      margin: EdgeInsets.only(top: 12, left: 5),
+                      child: SelectPeopleCountWidget(selectedCount, this)),
+                  horizontalDivider(),
+                  Container(
+                      margin: EdgeInsets.only(top: 12, left: 5),
+                      child: SelectDurationWidget(selectedDuration, this)),
+                  horizontalDivider()
                 ],
               ))),
     );
@@ -39,8 +49,8 @@ class RegistrationParametersScreenState
   Widget _infoWidget() {
     return Container(
         margin: EdgeInsets.only(top: 50),
-        width: 310,
-        height: 200,
+        width: 300,
+        height: 180,
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -63,16 +73,19 @@ class RegistrationParametersScreenState
                 Text(
                   InfoText.getLevelText(),
                   textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12),
                 )
               ],
             ),
             Text(
               InfoText.getText(),
               textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 12),
             ),
             Text(
               InfoText.getAge(),
               textAlign: TextAlign.left,
+              style: TextStyle(fontSize: 12),
             ),
           ],
         ));

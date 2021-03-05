@@ -2,6 +2,7 @@ import 'package:academ_gora/screens/registration/helpers_widgets/reg_to_instruct
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
+import 'helpers_widgets/horizontal_divider.dart';
 import 'helpers_widgets/reg_to_instructor/date_widget.dart';
 import 'helpers_widgets/reg_to_instructor/select_kind_of_sport.dart';
 
@@ -31,9 +32,9 @@ class RegistrationToInstructorScreenState
       child: Column(
         children: [
           SelectKindOfSportWidget(this, selectedKindOfSport),
-          _horizontalDivider(),
+          horizontalDivider(),
           DateWidget(this, selectedDate),
-          _horizontalDivider(),
+          horizontalDivider(),
           TimeWidget(_firstCurrentlySelected, _secondCurrentlySelected),
           _warningText(),
           _continueButton(),
@@ -48,14 +49,6 @@ class RegistrationToInstructorScreenState
         ],
       ),
     ));
-  }
-
-  Widget _horizontalDivider() {
-    return Container(
-      color: Colors.grey,
-      height: 1,
-      margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
-    );
   }
 
   Widget _warningText() {
