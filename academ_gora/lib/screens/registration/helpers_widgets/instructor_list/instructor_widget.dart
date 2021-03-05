@@ -26,6 +26,7 @@ class InstructorWidgetState extends State<InstructorWidget> {
 
   @override
   Widget build(BuildContext context) {
+    regToInstructorData = widget.instructorsListScreenState.regToInstructorData;
     return ExpandablePanel(
       header: _header(widget.instructorName),
       expanded: _body(),

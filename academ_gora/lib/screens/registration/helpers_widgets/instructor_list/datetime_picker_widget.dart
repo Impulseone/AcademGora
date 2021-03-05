@@ -162,6 +162,17 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   void _selectTime(int time) {
     RegToInstructorData regToInstructorData = RegToInstructorData(
         widget.instructorWidgetState.instructorName, _selectedDate, time);
+
+    if (widget.instructorWidgetState.regToInstructorData == null)
+      _updateRegToInstructorData(regToInstructorData);
+    else if (widget.instructorWidgetState.regToInstructorData.instructorName ==
+        regToInstructorData.instructorName) {
+      _updateRegToInstructorData(regToInstructorData);
+    } else
+      return;
+  }
+
+  void _updateRegToInstructorData(RegToInstructorData regToInstructorData) {
     setState(() {
       if (_regToInstructorDataCurrent == regToInstructorData)
         _regToInstructorDataCurrent = null;

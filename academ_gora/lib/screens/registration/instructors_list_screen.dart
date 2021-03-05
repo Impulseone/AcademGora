@@ -30,7 +30,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
           ),
           child: Column(children: [
             Container(
-              height: 380,
+              height: 420,
               margin: EdgeInsets.only(top: 50, left: 15, right: 15),
               child: ListView.builder(
                 itemCount: items.length,
@@ -59,7 +59,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
 
   Widget _buttons() {
     return Container(
-        margin: EdgeInsets.only(top: 100),
+        margin: EdgeInsets.only(top: 50),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [_backButton(), _continueButton()],
