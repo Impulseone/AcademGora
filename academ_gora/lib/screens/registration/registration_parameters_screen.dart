@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:academ_gora/screens/registration/helpers_widgets/horizontal_divider.dart';
+import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/human_info_widget.dart';
 import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/info_text.dart';
 import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/select_duration_widget.dart';
 import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/select_level_of_skating_widget.dart';
@@ -48,6 +49,20 @@ class RegistrationParametersScreenState
                       child:
                           SelectLevelOfSkatingWidget(selectedDuration, this)),
                   horizontalDivider(10,10,10,10),
+                  Container(
+                      margin: EdgeInsets.only (left: 25),
+                      child: HumanInfoWidget(),
+                  ),Container(
+                      margin: EdgeInsets.only (left: 25),
+                      child: HumanInfoWidget(),
+                  ),Container(
+                      margin: EdgeInsets.only (left: 25),
+                      child: HumanInfoWidget(),
+                  ), Container(
+                    margin: EdgeInsets.only(left: 25),
+                    child: HumanInfoWidget(),
+                  ),
+                  _continueButton()
                 ],
               ))),
     );
@@ -96,5 +111,49 @@ class RegistrationParametersScreenState
             ),
           ],
         ));
+  }
+
+  Widget _continueButton() {
+    return Container(
+      width: 200.0,
+      height: 45,
+      margin: EdgeInsets.only(top: 18),
+      child: Material(
+        borderRadius: BorderRadius.all(Radius.circular(35)),
+        color: _continueButtonBackgroundColor(),
+        child: InkWell(
+            onTap: null,
+            child: Center(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "ПРОДОЛЖИТЬ",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: _continueButtonTextColor(),
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ]),
+            )),
+      ),
+    );
+  }
+
+  Color _continueButtonBackgroundColor() {
+    return Colors.blue;
+    // if (selectedKindOfSport != -1 && selectedDate != null) {
+    //   return Colors.blue;
+    // } else
+    //   return Colors.white;
+  }
+
+  Color _continueButtonTextColor() {
+    return Colors.white;
+    // if (selectedKindOfSport != -1 && selectedDate != null) {
+    //   return Colors.white;
+    // } else
+    //   return Colors.grey;
   }
 }
