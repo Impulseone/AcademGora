@@ -71,15 +71,15 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
       child: Icon(
         Icons.chevron_left,
         color: Colors.blue,
-        size: 40,
+        size: 35,
       ),
     );
   }
 
   Widget _continueButton() {
     return Container(
-      width: 180,
-      height: 40,
+      width: 160,
+      height: 35,
       margin: EdgeInsets.only(right: 20),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),

@@ -69,8 +69,9 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
               ),
             ),
             Container(
-                width: 100,
-                margin: EdgeInsets.only(left: 15, right: 15),
+                width: 120,
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(),
                 child: Text(_getSelectedDate())),
             GestureDetector(
               onTap: _increaseDate,
@@ -169,7 +170,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
         regToInstructorData.instructorName) {
       _updateRegToInstructorData(regToInstructorData);
     } else
-      return;
+      _updateRegToInstructorData(regToInstructorData);
   }
 
   void _updateRegToInstructorData(RegToInstructorData regToInstructorData) {
@@ -186,7 +187,9 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   }
 
   Color _getTimeButtonColor(int time) {
-    if (_regToInstructorDataCurrent != null &&
+    if (widget.instructorWidgetState.regToInstructorData != null && _regToInstructorDataCurrent != null&&
+        widget.instructorWidgetState.regToInstructorData.instructorName ==
+            _regToInstructorDataCurrent.instructorName &&
         _regToInstructorDataCurrent.date == _selectedDate &&
         _regToInstructorDataCurrent.time == time) {
       return Colors.blue;
@@ -195,7 +198,9 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   }
 
   Color _getTimeTextColor(int time) {
-    if (_regToInstructorDataCurrent != null &&
+    if (widget.instructorWidgetState.regToInstructorData != null && _regToInstructorDataCurrent != null&&
+        widget.instructorWidgetState.regToInstructorData.instructorName ==
+            _regToInstructorDataCurrent.instructorName &&
         _regToInstructorDataCurrent.date == _selectedDate &&
         _regToInstructorDataCurrent.time == time)
       return Colors.white;

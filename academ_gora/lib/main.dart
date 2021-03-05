@@ -1,7 +1,5 @@
-import 'package:academ_gora/screens/auth/auth_screen.dart';
-import 'package:academ_gora/screens/main_screen.dart';
 import 'package:academ_gora/screens/registration/instructors_list_screen.dart';
-import 'package:academ_gora/screens/registration/registration_to_instructor_screen.dart';
+import 'package:academ_gora/screens/registration/registration_parameters_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
