@@ -64,14 +64,14 @@ class _SelectDurationWidgetState extends State<SelectDurationWidget> {
                 image: AssetImage(_createBackgroundOfCountButton(which)),
                 fit: BoxFit.fill),
           ),
-          height: 35,
-          width: 100,
+          height: 30,
+          width: 105,
           padding: EdgeInsets.only(right: 12),
           alignment: Alignment.centerRight,
           child: Text(
             which == 0 ? "1 час" : "2 часа",
             style: TextStyle(
-                fontSize: 20,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: which == _selectedDuration ? Colors.white : Colors.black),
           ),

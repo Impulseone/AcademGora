@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:academ_gora/screens/registration/helpers_widgets/horizontal_divider.dart';
 import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/info_text.dart';
 import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/select_duration_widget.dart';
+import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/select_level_of_skating_widget.dart';
 import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/select_people_count_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +18,7 @@ class RegistrationParametersScreenState
     extends State<RegistrationParametersScreen> {
   int selectedCount;
   int selectedDuration;
+  int selectedLevelOfSkating;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class RegistrationParametersScreenState
       body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/registration_to_instructor/1_bg.png"),
+              image: AssetImage("assets/registration_parameters/0_bg.png"),
               fit: BoxFit.cover,
             ),
           ),
@@ -36,11 +38,16 @@ class RegistrationParametersScreenState
                   Container(
                       margin: EdgeInsets.only(top: 12, left: 5),
                       child: SelectPeopleCountWidget(selectedCount, this)),
-                  horizontalDivider(),
+                  horizontalDivider(10,10,10,10),
                   Container(
-                      margin: EdgeInsets.only(top: 12, left: 5),
+                      margin: EdgeInsets.only(left: 5),
                       child: SelectDurationWidget(selectedDuration, this)),
-                  horizontalDivider()
+                  horizontalDivider(10,10,10,10),
+                  Container(
+                      margin: EdgeInsets.only (left: 5),
+                      child:
+                          SelectLevelOfSkatingWidget(selectedDuration, this)),
+                  horizontalDivider(10,10,10,10),
                 ],
               ))),
     );
@@ -48,7 +55,7 @@ class RegistrationParametersScreenState
 
   Widget _infoWidget() {
     return Container(
-        margin: EdgeInsets.only(top: 50),
+        margin: EdgeInsets.only(top: 20),
         width: 300,
         height: 180,
         padding: EdgeInsets.all(5),

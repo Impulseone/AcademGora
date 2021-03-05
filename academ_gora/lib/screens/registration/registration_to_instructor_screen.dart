@@ -32,9 +32,9 @@ class RegistrationToInstructorScreenState
       child: Column(
         children: [
           SelectKindOfSportWidget(this, selectedKindOfSport),
-          horizontalDivider(),
+          horizontalDivider(20,20,20,20),
           DateWidget(this, selectedDate),
-          horizontalDivider(),
+          horizontalDivider(20,20,20,20),
           TimeWidget(_firstCurrentlySelected, _secondCurrentlySelected),
           _warningText(),
           _continueButton(),
