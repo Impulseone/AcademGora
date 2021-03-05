@@ -1,3 +1,4 @@
+import 'package:academ_gora/model/reg_to_instructor_data.dart';
 import 'package:flutter/material.dart';
 
 import 'helpers_widgets/instructor_list/instructor_widget.dart';
@@ -15,7 +16,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
     "Трофимов Павел"
   ];
 
-  Map<DateTime, int> selectedDates = {};
+  RegToInstructorData regToInstructorData;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
           ),
           child: Column(children: [
             Container(
-              height: 360,
+              height: 380,
               margin: EdgeInsets.only(top: 50, left: 15, right: 15),
               child: ListView.builder(
                 itemCount: items.length,
@@ -70,15 +71,16 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
       child: Icon(
         Icons.chevron_left,
         color: Colors.blue,
-        size: 50,
+        size: 40,
       ),
     );
   }
 
   Widget _continueButton() {
     return Container(
-      width: 250.0,
-      height: 55,
+      width: 180,
+      height: 40,
+      margin: EdgeInsets.only(right: 20),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
         color: _continueButtonBackgroundColor(),
@@ -93,7 +95,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: _continueButtonTextColor(),
-                          fontSize: 22,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold),
                     ),
                   ]),
@@ -103,10 +105,10 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
   }
 
   Color _continueButtonBackgroundColor() {
-    return selectedDates.isEmpty ? Colors.white : Colors.blue;
+    return regToInstructorData == null ? Colors.white : Colors.blue;
   }
 
   Color _continueButtonTextColor() {
-    return selectedDates.isEmpty ? Colors.grey : Colors.white;
+    return regToInstructorData == null ? Colors.grey : Colors.white;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:academ_gora/model/reg_to_instructor_data.dart';
 import 'package:flutter/material.dart';
 
 import 'instructor_widget.dart';
@@ -13,7 +14,7 @@ class DateTimePickerWidget extends StatefulWidget {
 }
 
 class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
-  Map<DateTime, int> selectedDates = {};
+  RegToInstructorData _regToInstructorDataCurrent;
 
   var _selectedDate = new DateTime.now();
 
@@ -30,6 +31,16 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
     'Октября',
     'Ноября',
     'Декабря'
+  ];
+
+  List weekdays = [
+    'ПН',
+    'ВТ',
+    'СР',
+    'ЧТ',
+    'ПТ',
+    'СБ',
+    'ВС',
   ];
 
   @override
@@ -52,19 +63,20 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
             GestureDetector(
               onTap: _decreaseDate,
               child: Container(
-                height: 20,
-                width: 20,
+                height: 28,
+                width: 28,
                 child: Image.asset("assets/instructors_list/e_6.png"),
               ),
             ),
             Container(
-                margin: EdgeInsets.only(left: 10, right: 10),
+                width: 100,
+                margin: EdgeInsets.only(left: 15, right: 15),
                 child: Text(_getSelectedDate())),
             GestureDetector(
               onTap: _increaseDate,
               child: Container(
-                height: 20,
-                width: 20,
+                height: 28,
+                width: 28,
                 child: Image.asset("assets/instructors_list/e_7.png"),
               ),
             ),
@@ -74,7 +86,8 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   String _getSelectedDate() {
     String month = months[_selectedDate.month - 1];
-    return "${_selectedDate.day} $month";
+    String weekday = weekdays[_selectedDate.weekday - 1];
+    return "${_selectedDate.day} $month ($weekday)";
   }
 
   void _increaseDate() {
@@ -84,9 +97,13 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   }
 
   void _decreaseDate() {
-    setState(() {
-      _selectedDate = _selectedDate.subtract(Duration(days: 1));
-    });
+    if (_selectedDate.month == DateTime.now().month &&
+        _selectedDate.day == DateTime.now().day)
+      return;
+    else
+      setState(() {
+        _selectedDate = _selectedDate.subtract(Duration(days: 1));
+      });
   }
 
   Widget _timeWidget() {
@@ -123,53 +140,53 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
     );
   }
 
-  Widget _pickTimeButtonWidget(int pos) {
+  Widget _pickTimeButtonWidget(int time) {
     return GestureDetector(
-        onTap: () => _selectTime(pos),
+        onTap: () => _selectTime(time),
         child: Container(
           height: 25,
           width: 45,
           alignment: Alignment.center,
           margin: EdgeInsets.all(3),
           decoration: BoxDecoration(
-              color: _getTimeButtonColor(pos),
+              color: _getTimeButtonColor(time),
               border: Border.all(color: Colors.grey, width: 0.5),
               borderRadius: BorderRadius.all(Radius.circular(3))),
           child: Text(
             "10:00",
-            style: TextStyle(color: _getTimeTextColor(pos)),
+            style: TextStyle(color: _getTimeTextColor(time)),
           ),
         ));
   }
 
-  void _selectTime(int pos) {
+  void _selectTime(int time) {
+    RegToInstructorData regToInstructorData = RegToInstructorData(
+        widget.instructorWidgetState.instructorName, _selectedDate, time);
     setState(() {
-      if (selectedDates.containsKey(_selectedDate)) {
-        if (selectedDates[_selectedDate] == pos) {
-          selectedDates.remove(_selectedDate);
-        } else {
-          selectedDates.remove(_selectedDate);
-          selectedDates.putIfAbsent(_selectedDate, () => pos);
-        }
-      } else
-        selectedDates.putIfAbsent(_selectedDate, () => pos);
+      if (_regToInstructorDataCurrent == regToInstructorData)
+        _regToInstructorDataCurrent = null;
+      else
+        _regToInstructorDataCurrent = regToInstructorData;
     });
     widget.instructorWidgetState.setState(() {
-      widget.instructorWidgetState.selectedDates = selectedDates;
+      widget.instructorWidgetState.regToInstructorData =
+          _regToInstructorDataCurrent;
     });
   }
 
-  Color _getTimeButtonColor(int pos) {
-    if (selectedDates.containsKey(_selectedDate) &&
-        selectedDates[_selectedDate] == pos)
+  Color _getTimeButtonColor(int time) {
+    if (_regToInstructorDataCurrent != null &&
+        _regToInstructorDataCurrent.date == _selectedDate &&
+        _regToInstructorDataCurrent.time == time) {
       return Colors.blue;
-    else
+    } else
       return Colors.white;
   }
 
-  Color _getTimeTextColor(int pos) {
-    if (selectedDates.containsKey(_selectedDate) &&
-        selectedDates[_selectedDate] == pos)
+  Color _getTimeTextColor(int time) {
+    if (_regToInstructorDataCurrent != null &&
+        _regToInstructorDataCurrent.date == _selectedDate &&
+        _regToInstructorDataCurrent.time == time)
       return Colors.white;
     else
       return Colors.black;

@@ -1,3 +1,4 @@
+import 'package:academ_gora/model/reg_to_instructor_data.dart';
 import 'package:academ_gora/screens/registration/helpers_widgets/instructor_list/datetime_picker_widget.dart';
 import 'package:academ_gora/screens/registration/instructors_list_screen.dart';
 import 'package:expandable/expandable.dart';
@@ -14,7 +15,14 @@ class InstructorWidget extends StatefulWidget {
 }
 
 class InstructorWidgetState extends State<InstructorWidget> {
-  Map<DateTime, int> selectedDates = {};
+  RegToInstructorData regToInstructorData;
+  String instructorName;
+
+  @override
+  void initState() {
+    super.initState();
+    instructorName = widget.instructorName;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +72,9 @@ class InstructorWidgetState extends State<InstructorWidget> {
             fit: BoxFit.cover,
           ),
         ),
-        height: 45,
-        width: 65,
+        height: 43,
+        width: 67,
+        padding: EdgeInsets.all(1),
         child: Text(
           "открыть\nпрофиль",
           style: TextStyle(color: Color(0xff007CC0),fontSize: 14),
@@ -78,7 +87,7 @@ class InstructorWidgetState extends State<InstructorWidget> {
   void setState(fn) {
     super.setState(fn);
     widget.instructorsListScreenState.setState(() {
-      widget.instructorsListScreenState.selectedDates = selectedDates;
+      widget.instructorsListScreenState.regToInstructorData = regToInstructorData;
     });
   }
 }
