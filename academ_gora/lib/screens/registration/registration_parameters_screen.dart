@@ -1,17 +1,20 @@
 import 'dart:convert';
 
 import 'package:academ_gora/screens/registration/helpers_widgets/info_text.dart';
+import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/select_people_count.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class RegistrationParametersScreen extends StatefulWidget {
   @override
-  _RegistrationParametersScreenState createState() =>
-      _RegistrationParametersScreenState();
+  RegistrationParametersScreenState createState() =>
+      RegistrationParametersScreenState();
 }
 
-class _RegistrationParametersScreenState
+class RegistrationParametersScreenState
     extends State<RegistrationParametersScreen> {
+  int selectedCount;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +28,10 @@ class _RegistrationParametersScreenState
           child: Container(
               width: MediaQuery.of(context).size.width,
               child: Column(
-                children: [_infoWidget()],
+                children: [
+                  _infoWidget(),
+                  SelectPeopleCountWidget(selectedCount, this)
+                ],
               ))),
     );
   }
