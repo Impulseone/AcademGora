@@ -17,7 +17,8 @@ class RegistrationParametersScreen extends StatefulWidget {
 
 class RegistrationParametersScreenState
     extends State<RegistrationParametersScreen> {
-  int selectedCount;
+  List<Pair> textEditingControllers = [];
+  int selectedPeopleCount = 0;
   int selectedDuration;
   int selectedLevelOfSkating;
 
@@ -33,42 +34,43 @@ class RegistrationParametersScreenState
           ),
           child: Container(
               width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  _infoWidget(),
-                  Container(
-                      margin: EdgeInsets.only(top: 12, left: 5),
-                      child: SelectPeopleCountWidget(selectedCount, this)),
-                  horizontalDivider(10, 10, 10, 10),
-                  Container(
-                      margin: EdgeInsets.only(left: 5),
-                      child: SelectDurationWidget(selectedDuration, this)),
-                  horizontalDivider(10, 10, 10, 10),
-                  Container(
-                      margin: EdgeInsets.only(left: 5),
-                      child:
-                          SelectLevelOfSkatingWidget(selectedDuration, this)),
-                  horizontalDivider(10, 10, 10, 10),
-                  Container(
-                    margin: EdgeInsets.only(left: 25),
-                    child: HumanInfoWidget(),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 25),
-                    child: HumanInfoWidget(),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 25),
-                    child: HumanInfoWidget(),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 25),
-                    child: HumanInfoWidget(),
-                  ),
-                  _commentFieldWidget(),
-                  _continueButton()
-                ],
-              ))),
+              child: SingleChildScrollView(
+                  child: Container(
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  children: [
+                    _infoWidget(),
+                    Container(
+                        margin: EdgeInsets.only(top: 12, left: 5),
+                        child:
+                            SelectPeopleCountWidget(selectedPeopleCount, this)),
+                    horizontalDivider(10, 10, 10, 10),
+                    Container(
+                        margin: EdgeInsets.only(left: 5),
+                        child: SelectDurationWidget(selectedDuration, this)),
+                    horizontalDivider(10, 10, 10, 10),
+                    Container(
+                        margin: EdgeInsets.only(left: 5),
+                        child: SelectLevelOfSkatingWidget(
+                            selectedLevelOfSkating, this)),
+                    horizontalDivider(10, 10, 10, 10),
+                    Container(
+                        height: 140,
+                        child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            padding: const EdgeInsets.all(8),
+                            itemCount: selectedPeopleCount,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Container(
+                                margin: EdgeInsets.only(left: 25),
+                                child: HumanInfoWidget(index + 1),
+                              );
+                            })),
+                    _commentFieldWidget(),
+                    _continueButton()
+                  ],
+                ),
+              )))),
     );
   }
 
@@ -145,43 +147,43 @@ class RegistrationParametersScreenState
 
   Widget _continueButton() {
     return Container(
-      margin: EdgeInsets.only(top: 10),
+        margin: EdgeInsets.only(top: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          child: Icon(
-            Icons.chevron_left,
-            color: Colors.blue,
-            size: 40,
-          ),
-        ),
-        Container(
-          width: 170,
-          height: 40,
-          child: Material(
-            borderRadius: BorderRadius.all(Radius.circular(35)),
-            color: _continueButtonBackgroundColor(),
-            child: InkWell(
-                onTap: null,
-                child: Center(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "ПРОДОЛЖИТЬ",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: _continueButtonTextColor(),
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ]),
-                )),
-          ),
-        )
-      ],
-    ));
+          children: [
+            Container(
+              child: Icon(
+                Icons.chevron_left,
+                color: Colors.blue,
+                size: 40,
+              ),
+            ),
+            Container(
+              width: 170,
+              height: 38,
+              child: Material(
+                borderRadius: BorderRadius.all(Radius.circular(35)),
+                color: _continueButtonBackgroundColor(),
+                child: InkWell(
+                    onTap: null,
+                    child: Center(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "ПРОДОЛЖИТЬ",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: _continueButtonTextColor(),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ]),
+                    )),
+              ),
+            )
+          ],
+        ));
   }
 
   Color _continueButtonBackgroundColor() {
@@ -199,4 +201,14 @@ class RegistrationParametersScreenState
     // } else
     //   return Colors.grey;
   }
+}
+
+class Pair {
+  Pair(this.left, this.right);
+
+  final dynamic left;
+  final dynamic right;
+
+  @override
+  String toString() => 'Pair[$left, $right]';
 }

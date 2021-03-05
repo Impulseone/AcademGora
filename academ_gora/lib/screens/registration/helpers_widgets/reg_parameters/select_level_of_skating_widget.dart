@@ -18,9 +18,9 @@ class SelectLevelOfSkatingWidget extends StatefulWidget {
 
 class _SelectLevelOfSkatingWidgetState
     extends State<SelectLevelOfSkatingWidget> {
-  int _selectedLevelOfScating;
+  int _selectedLevelOfSkating;
 
-  _SelectLevelOfSkatingWidgetState(this._selectedLevelOfScating);
+  _SelectLevelOfSkatingWidgetState(this._selectedLevelOfSkating);
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +67,12 @@ class _SelectLevelOfSkatingWidgetState
           height: 33,
           width: width,
           padding: EdgeInsets.only(right: 12),
-          alignment: Alignment.centerRight,
+          alignment: Alignment.center,
           child: Text(
             text,
             style: TextStyle(
                 fontSize: 14,
-                color: which == _selectedLevelOfScating
+                color: which == _selectedLevelOfSkating
                     ? Colors.white
                     : Colors.black),
           ),
@@ -82,16 +82,16 @@ class _SelectLevelOfSkatingWidgetState
   }
 
   void _selectCount(int which) {
-    _selectedLevelOfScating = which;
+    _selectedLevelOfSkating = which;
     widget.registrationParametersScreenState.setState(() {
       widget.registrationParametersScreenState.selectedLevelOfSkating =
-          _selectedLevelOfScating;
+          _selectedLevelOfSkating;
     });
     setState(() {});
   }
 
   String _createBackgroundOfLevelOfSkatingButton(int which) {
-    return which == _selectedLevelOfScating
+    return which == _selectedLevelOfSkating
         ? "assets/auth/e2.png"
         : "assets/registration_parameters/e_1.png";
   }

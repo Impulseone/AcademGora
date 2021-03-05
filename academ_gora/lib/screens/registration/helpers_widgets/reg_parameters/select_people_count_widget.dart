@@ -46,10 +46,10 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _countButton(0),
-            _countButton(1, leftMargin: 10),
+            _countButton(1),
             _countButton(2, leftMargin: 10),
-            _countButton(3, leftMargin: 10)
+            _countButton(3, leftMargin: 10),
+            _countButton(4, leftMargin: 10)
           ],
         ));
   }
@@ -70,7 +70,7 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
           width: 30,
           alignment: Alignment.center,
           child: Text(
-            (which + 1).toString(),
+            which.toString(),
             style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -84,7 +84,7 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
   void _selectCount(int which) {
     _selectedCount = which;
     widget.registrationParametersScreenState.setState(() {
-      widget.registrationParametersScreenState.selectedCount = _selectedCount;
+      widget.registrationParametersScreenState.selectedPeopleCount = _selectedCount;
     });
     setState(() {});
   }

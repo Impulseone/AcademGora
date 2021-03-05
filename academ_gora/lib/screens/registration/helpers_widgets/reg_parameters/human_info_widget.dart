@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class HumanInfoWidget extends StatefulWidget {
+
+  final int which;
+
+  const HumanInfoWidget(this.which, {Key key}) : super(key: key);
+
   @override
   _HumanInfoWidgetState createState() => _HumanInfoWidgetState();
 }
@@ -22,7 +27,7 @@ class _HumanInfoWidgetState extends State<HumanInfoWidget> {
 
   Widget _numberOfPersonWidget() {
     return Text(
-      "1",
+      widget.which.toString(),
       style: TextStyle(
           color: Colors.grey, fontSize: 18, fontWeight: FontWeight.bold),
     );
