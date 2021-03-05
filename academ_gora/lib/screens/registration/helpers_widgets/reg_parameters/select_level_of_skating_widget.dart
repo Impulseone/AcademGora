@@ -64,7 +64,7 @@ class _SelectLevelOfSkatingWidgetState
                     AssetImage(_createBackgroundOfLevelOfSkatingButton(which)),
                 fit: BoxFit.fill),
           ),
-          height: 35,
+          height: 33,
           width: width,
           padding: EdgeInsets.only(right: 12),
           alignment: Alignment.centerRight,

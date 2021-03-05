@@ -72,7 +72,7 @@ class RegistrationParametersScreenState
     return Container(
         margin: EdgeInsets.only(top: 20),
         width: 300,
-        height: 180,
+        height: 155,
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
