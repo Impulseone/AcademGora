@@ -1,4 +1,5 @@
 import 'package:academ_gora/screens/registration/instructors_list_screen.dart';
+import 'package:academ_gora/screens/registration/reg_final_screen.dart';
 import 'package:academ_gora/screens/registration/registration_parameters_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: RegistrationParametersScreen());
+        home: RegistrationFinalScreen());
   }
 }

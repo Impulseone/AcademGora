@@ -56,6 +56,7 @@ flutter:
     - assets/registration_to_instructor/
     - assets/instructors_list/
     - assets/registration_parameters/
+    - assets/reg_final/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
