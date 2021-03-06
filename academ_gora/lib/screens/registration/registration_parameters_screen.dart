@@ -134,9 +134,11 @@ class RegistrationParametersScreenState
             height: 20,
             margin: EdgeInsets.only(left: 5),
             child: TextField(
-              maxLines: 1,
+              maxLines: 10,
               style: TextStyle(fontSize: 12),
               decoration: InputDecoration(
+                  isDense: true,
+                  contentPadding: EdgeInsets.fromLTRB(5.0, 1.0, 5.0, 1.0),
                   hintText: "Добавить комментарий",
                   hintStyle: TextStyle(fontSize: 12)),
             ),
