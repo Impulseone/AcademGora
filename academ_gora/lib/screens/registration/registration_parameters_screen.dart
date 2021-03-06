@@ -63,7 +63,8 @@ class RegistrationParametersScreenState
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
                                 margin: EdgeInsets.only(left: 25),
-                                child: HumanInfoWidget(index + 1),
+                                child: HumanInfoWidget(
+                                    index + 1, textEditingControllers, this),
                               );
                             })),
                     _commentFieldWidget(),
@@ -187,28 +188,44 @@ class RegistrationParametersScreenState
   }
 
   Color _continueButtonBackgroundColor() {
-    return Colors.blue;
-    // if (selectedKindOfSport != -1 && selectedDate != null) {
-    //   return Colors.blue;
-    // } else
-    //   return Colors.white;
+    if (selectedPeopleCount != null &&
+        selectedLevelOfSkating != null &&
+        selectedDuration != null &&
+        _checkTextControllers())
+      return Colors.blue;
+    else
+      return Colors.white;
   }
 
   Color _continueButtonTextColor() {
-    return Colors.white;
-    // if (selectedKindOfSport != -1 && selectedDate != null) {
-    //   return Colors.white;
-    // } else
-    //   return Colors.grey;
+    if (selectedPeopleCount != null &&
+        selectedLevelOfSkating != null &&
+        selectedDuration != null &&
+        _checkTextControllers())
+      return Colors.white;
+    else
+      return Colors.grey;
+  }
+
+  bool _checkTextControllers() {
+    if (textEditingControllers.isNotEmpty) {
+      List<bool> conditions = [];
+      for (var textControllersPair in textEditingControllers) {
+        conditions.add(textControllersPair.left.text.isNotEmpty &&
+            textControllersPair.right.text.isNotEmpty);
+      }
+      if (conditions.contains(false))
+        return false;
+      else
+        return true;
+    } else
+      return false;
   }
 }
 
 class Pair {
   Pair(this.left, this.right);
 
-  final dynamic left;
-  final dynamic right;
-
-  @override
-  String toString() => 'Pair[$left, $right]';
+  final TextEditingController left;
+  final TextEditingController right;
 }

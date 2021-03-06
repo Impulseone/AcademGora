@@ -32,9 +32,9 @@ class RegistrationToInstructorScreenState
       child: Column(
         children: [
           SelectKindOfSportWidget(this, selectedKindOfSport),
-          horizontalDivider(20,20,20,20),
+          horizontalDivider(20, 20, 20, 20),
           DateWidget(this, selectedDate),
-          horizontalDivider(20,20,20,20),
+          horizontalDivider(20, 20, 20, 20),
           TimeWidget(_firstCurrentlySelected, _secondCurrentlySelected),
           _warningText(),
           _continueButton(),
@@ -109,8 +109,7 @@ class RegistrationToInstructorScreenState
       height: 55,
       margin: EdgeInsets.only(top: 15),
       decoration: BoxDecoration(
-          border: Border.all(
-              color: _selectCoachButtonColor()),
+          border: Border.all(color: _selectCoachButtonColor()),
           borderRadius: BorderRadius.all(Radius.circular(30))),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),

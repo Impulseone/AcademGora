@@ -85,6 +85,11 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
     _selectedCount = which;
     widget.registrationParametersScreenState.setState(() {
       widget.registrationParametersScreenState.selectedPeopleCount = _selectedCount;
+      widget.registrationParametersScreenState.textEditingControllers = [];
+      for (var i = 0; i < which; ++i) {
+        widget.registrationParametersScreenState.textEditingControllers
+            .add(Pair(TextEditingController(), TextEditingController()));
+      }
     });
     setState(() {});
   }
