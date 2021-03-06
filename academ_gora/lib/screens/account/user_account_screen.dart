@@ -17,9 +17,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
         ),
       ),
       child: Column(
-        children: [
-          _topAccountInfo(),
-        ],
+        children: [_topAccountInfo(), _lessonsTitle()],
       ),
     ));
   }
@@ -56,18 +54,30 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
 
   Widget _exitButton() {
     return Container(
-      margin: EdgeInsets.only(top: 20),
+        margin: EdgeInsets.only(top: 20),
         child: Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Text(
-          "ВЫЙТИ",
-          style: TextStyle(color: Colors.white),
-        ),
-        Container(
-          margin: EdgeInsets.only(left: 5),
-            height: 20, width: 20, child: Image.asset("assets/account/e1.png"))
-      ],
-    ));
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              "ВЫЙТИ",
+              style: TextStyle(color: Colors.white),
+            ),
+            Container(
+                margin: EdgeInsets.only(left: 5),
+                height: 20,
+                width: 20,
+                child: Image.asset("assets/account/e1.png"))
+          ],
+        ));
+  }
+
+  Widget _lessonsTitle() {
+    return Container(
+      margin: EdgeInsets.only(top: 20, left: 20),
+        alignment: Alignment.centerLeft,
+        child: Text(
+          "мои занятия",
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ));
   }
 }
