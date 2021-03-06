@@ -1,3 +1,4 @@
+import 'package:academ_gora/screens/account/helpers_widgets/lesson_widget.dart';
 import 'package:flutter/material.dart';
 
 class UserAccountScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
         ),
       ),
       child: Column(
-        children: [_topAccountInfo(), _lessonsTitle()],
+        children: [_topAccountInfo(), _lessonsTitle(), LessonWidget()],
       ),
     ));
   }
@@ -73,11 +74,12 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
 
   Widget _lessonsTitle() {
     return Container(
-      margin: EdgeInsets.only(top: 20, left: 20),
+      margin: EdgeInsets.only(top: 20, left: 20, bottom: 10),
         alignment: Alignment.centerLeft,
         child: Text(
           "мои занятия",
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ));
   }
+
 }
