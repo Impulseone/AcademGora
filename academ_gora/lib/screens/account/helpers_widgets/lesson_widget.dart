@@ -12,6 +12,7 @@ class _LessonWidgetState extends State<LessonWidget> {
     return Container(
       width: 320,
       height: 370,
+      margin: EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/account/e2.png"),
@@ -166,7 +167,10 @@ class _LessonWidgetState extends State<LessonWidget> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Text("+79999999999", style: TextStyle(color: Colors.white),));
+        child: Text(
+          "+79999999999",
+          style: TextStyle(color: Colors.white),
+        ));
   }
 
   Widget _whatsAppButton() {
@@ -182,6 +186,9 @@ class _LessonWidgetState extends State<LessonWidget> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Text("Написать",style: TextStyle(color: Colors.white),));
+        child: Text(
+          "Написать",
+          style: TextStyle(color: Colors.white),
+        ));
   }
 }

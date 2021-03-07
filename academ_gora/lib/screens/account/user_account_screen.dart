@@ -18,7 +18,22 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
         ),
       ),
       child: Column(
-        children: [_topAccountInfo(), _lessonsTitle(), LessonWidget()],
+        children: [
+          _topAccountInfo(),
+          _lessonsTitle(),
+          Container(
+            height: 400,
+            margin: EdgeInsets.only(right: 20),
+            child: ListView.builder(
+                itemCount: 2,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    margin: EdgeInsets.only(left: 25),
+                    child: LessonWidget(),
+                  );
+                }),
+          )
+        ],
       ),
     ));
   }
@@ -74,12 +89,11 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
 
   Widget _lessonsTitle() {
     return Container(
-      margin: EdgeInsets.only(top: 20, left: 20, bottom: 10),
+        margin: EdgeInsets.only(top: 20, left: 20, bottom: 10),
         alignment: Alignment.centerLeft,
         child: Text(
           "мои занятия",
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ));
   }
-
 }
