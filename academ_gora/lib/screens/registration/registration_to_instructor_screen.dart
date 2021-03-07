@@ -1,4 +1,5 @@
 import 'package:academ_gora/screens/registration/helpers_widgets/reg_to_instructor/time_widget.dart';
+import 'package:academ_gora/screens/registration/instructors_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
@@ -115,7 +116,9 @@ class RegistrationToInstructorScreenState
         borderRadius: BorderRadius.all(Radius.circular(35)),
         color: Colors.transparent,
         child: InkWell(
-            onTap: null,
+            onTap: (selectedKindOfSport != -1 && selectedDate == null)
+                ? _openInstructorsListScreen
+                : null,
             child: Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -126,6 +129,11 @@ class RegistrationToInstructorScreenState
             )),
       ),
     );
+  }
+
+  void _openInstructorsListScreen() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (c) => InstructorsListScreen()));
   }
 
   Widget _selectCoachText(String text) {

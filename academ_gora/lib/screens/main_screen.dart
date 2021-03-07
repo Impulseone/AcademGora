@@ -1,3 +1,4 @@
+import 'package:academ_gora/screens/account/user_account_screen.dart';
 import 'package:academ_gora/screens/registration/registration_to_instructor_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -87,6 +88,7 @@ class _MainScreenState extends State<MainScreen> {
                   style: TextStyle(color: Colors.white, fontSize: 14),
                 )),
             GestureDetector(
+                onTap: _openAccountScreen,
                 child: Container(
                     width: 26,
                     height: 26,
@@ -94,6 +96,11 @@ class _MainScreenState extends State<MainScreen> {
                     child: Image.asset("assets/main/lk.svg"))),
           ],
         ));
+  }
+
+  void _openAccountScreen() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (c) => UserAccountScreen()));
   }
 
   Widget _socialNetworks() {

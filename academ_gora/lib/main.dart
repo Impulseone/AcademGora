@@ -1,4 +1,5 @@
 import 'package:academ_gora/screens/account/user_account_screen.dart';
+import 'package:academ_gora/screens/auth/auth_screen.dart';
 import 'package:academ_gora/screens/registration/instructors_list_screen.dart';
 import 'package:academ_gora/screens/registration/reg_final_screen.dart';
 import 'package:academ_gora/screens/registration/registration_parameters_screen.dart';
@@ -16,6 +17,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: UserAccountScreen());
+        home: AuthScreen());
   }
 }
