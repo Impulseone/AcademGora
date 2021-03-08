@@ -1,8 +1,9 @@
 import 'package:academ_gora/model/reg_to_instructor_data.dart';
-import 'package:academ_gora/screens/registration/helpers_widgets/instructor_list/datetime_picker_widget.dart';
-import 'package:academ_gora/screens/registration/instructors_list_screen.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+
+import '../../instructors_list_screen.dart';
+import 'datetime_picker_widget.dart';
 
 class InstructorWidget extends StatefulWidget {
   final String instructorName;

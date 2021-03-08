@@ -1,3 +1,5 @@
+import 'package:academ_gora/screens/account/user_account_screen.dart';
+import 'package:academ_gora/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationFinalScreen extends StatefulWidget {
@@ -25,14 +27,16 @@ class _RegistrationFinalScreenState extends State<RegistrationFinalScreen> {
                   _textWidget("Запись оформлена\n\n"),
                   _textWidget(
                       "Ждем вас на занятии\n22.02.2021 в 15:30\nв СК \"Академический\"\n\n"),
-                  _textWidget("Информация о занятии\nдоступна в личном\nкабинете"),
+                  _textWidget(
+                      "Информация о занятии\nдоступна в личном\nкабинете"),
                   _buttonWidget("В личный кабинет", 220),
                   _buttonWidget("На главную", 20),
                 ],
               ),
             )));
   }
-  Widget _textWidget(String text){
+
+  Widget _textWidget(String text) {
     return Text(
       text,
       textAlign: TextAlign.center,
@@ -49,7 +53,9 @@ class _RegistrationFinalScreenState extends State<RegistrationFinalScreen> {
         borderRadius: BorderRadius.all(Radius.circular(35)),
         color: Colors.blue,
         child: InkWell(
-            onTap: null,
+            onTap: text == "В личный кабинет"
+                ? () => _openAccount()
+                : () => _openMain(),
             child: Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -66,5 +72,15 @@ class _RegistrationFinalScreenState extends State<RegistrationFinalScreen> {
             )),
       ),
     );
+  }
+
+  void _openAccount() {
+    Navigator.of(context)
+        .pushAndRemoveUntil(MaterialPageRoute(builder:(c)=> UserAccountScreen()), (route) => false);
+  }
+
+  void _openMain() {
+    Navigator.of(context)
+        .pushAndRemoveUntil(MaterialPageRoute(builder:(c)=> MainScreen()), (route) => false);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:academ_gora/model/reg_to_instructor_data.dart';
+import 'package:academ_gora/screens/registration_to_instructor/registration_parameters_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'helpers_widgets/instructor_list/instructor_widget.dart';
@@ -67,13 +68,15 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
   }
 
   Widget _backButton() {
-    return Container(
-      child: Icon(
-        Icons.chevron_left,
-        color: Colors.blue,
-        size: 50,
-      ),
-    );
+    return GestureDetector(
+        onTap: _onBackPressed,
+        child: Container(
+          child: Icon(
+            Icons.chevron_left,
+            color: Colors.blue,
+            size: 50,
+          ),
+        ));
   }
 
   Widget _continueButton() {
@@ -85,7 +88,8 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
         borderRadius: BorderRadius.all(Radius.circular(35)),
         color: _continueButtonBackgroundColor(),
         child: InkWell(
-            onTap: null,
+            onTap:
+                regToInstructorData == null ? null : _openRegParametersScreen,
             child: Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -110,5 +114,14 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
 
   Color _continueButtonTextColor() {
     return regToInstructorData == null ? Colors.grey : Colors.white;
+  }
+
+  void _onBackPressed() {
+    Navigator.of(context).pop();
+  }
+
+  void _openRegParametersScreen() {
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (c) => RegistrationParametersScreen()));
   }
 }

@@ -1,25 +1,25 @@
-import 'package:academ_gora/screens/registration/registration_parameters_screen.dart';
-import 'package:academ_gora/screens/registration/registration_to_instructor_screen.dart';
 import 'package:flutter/material.dart';
 
-class SelectPeopleCountWidget extends StatefulWidget {
-  final int selectedCount;
+import '../../registration_parameters_screen.dart';
+
+class SelectDurationWidget extends StatefulWidget {
+  final int selectedDuration;
   final RegistrationParametersScreenState registrationParametersScreenState;
 
-  const SelectPeopleCountWidget(
-      this.selectedCount, this.registrationParametersScreenState,
+  const SelectDurationWidget(
+      this.selectedDuration, this.registrationParametersScreenState,
       {Key key})
       : super(key: key);
 
   @override
-  _SelectPeopleCountWidgetState createState() =>
-      _SelectPeopleCountWidgetState(selectedCount);
+  _SelectDurationWidgetState createState() =>
+      _SelectDurationWidgetState(selectedDuration);
 }
 
-class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
-  int _selectedCount;
+class _SelectDurationWidgetState extends State<SelectDurationWidget> {
+  int _selectedDuration;
 
-  _SelectPeopleCountWidgetState(this._selectedCount);
+  _SelectDurationWidgetState(this._selectedDuration);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
     return Container(
         margin: EdgeInsets.only(left: 27),
         child: Text(
-          "Количество человек",
+          "Длительность\nзанятия",
           style: TextStyle(fontSize: 12, color: Colors.blue),
         ));
   }
@@ -46,10 +46,8 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _countButton(1),
-            _countButton(2, leftMargin: 10),
-            _countButton(3, leftMargin: 10),
-            _countButton(4, leftMargin: 10)
+            _countButton(0),
+            _countButton(1, leftMargin: 10),
           ],
         ));
   }
@@ -67,14 +65,15 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
                 fit: BoxFit.fill),
           ),
           height: 30,
-          width: 30,
-          alignment: Alignment.center,
+          width: 105,
+          padding: EdgeInsets.only(right: 12),
+          alignment: Alignment.centerRight,
           child: Text(
-            which.toString(),
+            which == 0 ? "1 час" : "2 часа",
             style: TextStyle(
-                fontSize: 20,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: which == _selectedCount ? Colors.white : Colors.black),
+                color: which == _selectedDuration ? Colors.white : Colors.black),
           ),
         ),
       ),
@@ -82,21 +81,16 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
   }
 
   void _selectCount(int which) {
-    _selectedCount = which;
+    _selectedDuration = which;
     widget.registrationParametersScreenState.setState(() {
-      widget.registrationParametersScreenState.selectedPeopleCount = _selectedCount;
-      widget.registrationParametersScreenState.textEditingControllers = [];
-      for (var i = 0; i < which; ++i) {
-        widget.registrationParametersScreenState.textEditingControllers
-            .add(Pair(TextEditingController(), TextEditingController()));
-      }
+      widget.registrationParametersScreenState.selectedDuration = _selectedDuration;
     });
     setState(() {});
   }
 
   String _createBackgroundOfCountButton(int which) {
-    return which == _selectedCount
-        ? "assets/registration_parameters/e_4.png"
-        : "assets/registration_parameters/e_1.png";
+    return which == _selectedDuration
+        ? "assets/registration_to_instructor/3_e2.png"
+        : "assets/registration_to_instructor/3_e1.png";
   }
 }

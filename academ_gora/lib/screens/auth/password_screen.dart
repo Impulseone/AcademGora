@@ -42,10 +42,8 @@ class InputPasswordScreen extends StatelessWidget {
   }
 
   void _openMainScreen(BuildContext context) {
-    // Navigator.of(context).pushAndRemoveUntil(
-    //     MaterialPageRoute(builder: (c) => MainScreen()),
-    //     (Route<dynamic> route) => false);
-    Navigator.of(context).push(MaterialPageRoute(builder: (c) => MainScreen()));
+    // Navigator.of(context).push(MaterialPageRoute(builder: (c) => MainScreen()));
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (c)=>MainScreen()), (route) => false);
   }
 
   void _onBackPressed(BuildContext context) {

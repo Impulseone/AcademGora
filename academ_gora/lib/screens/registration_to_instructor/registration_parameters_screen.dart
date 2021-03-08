@@ -1,13 +1,12 @@
-import 'dart:convert';
-
-import 'package:academ_gora/screens/registration/helpers_widgets/horizontal_divider.dart';
-import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/human_info_widget.dart';
-import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/info_text.dart';
-import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/select_duration_widget.dart';
-import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/select_level_of_skating_widget.dart';
-import 'package:academ_gora/screens/registration/helpers_widgets/reg_parameters/select_people_count_widget.dart';
+import 'package:academ_gora/screens/registration_to_instructor/reg_final_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
+import 'helpers_widgets/horizontal_divider.dart';
+import 'helpers_widgets/reg_parameters/human_info_widget.dart';
+import 'helpers_widgets/reg_parameters/info_text.dart';
+import 'helpers_widgets/reg_parameters/select_duration_widget.dart';
+import 'helpers_widgets/reg_parameters/select_level_of_skating_widget.dart';
+import 'helpers_widgets/reg_parameters/select_people_count_widget.dart';
 
 class RegistrationParametersScreen extends StatefulWidget {
   @override
@@ -154,11 +153,14 @@ class RegistrationParametersScreenState
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              child: Icon(
-                Icons.chevron_left,
-                color: Colors.blue,
-                size: 40,
+            GestureDetector(
+              onTap: _onBackPressed,
+              child: Container(
+                child: Icon(
+                  Icons.chevron_left,
+                  color: Colors.blue,
+                  size: 40,
+                ),
               ),
             ),
             Container(
@@ -168,7 +170,12 @@ class RegistrationParametersScreenState
                 borderRadius: BorderRadius.all(Radius.circular(35)),
                 color: _continueButtonBackgroundColor(),
                 child: InkWell(
-                    onTap: null,
+                    onTap: selectedPeopleCount != null &&
+                            selectedLevelOfSkating != null &&
+                            selectedDuration != null &&
+                            _checkTextControllers()
+                        ? _openRegFinalScreen
+                        : null,
                     child: Center(
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -187,6 +194,11 @@ class RegistrationParametersScreenState
             )
           ],
         ));
+  }
+
+  void _openRegFinalScreen() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (c) => RegistrationFinalScreen()));
   }
 
   Color _continueButtonBackgroundColor() {
@@ -222,6 +234,10 @@ class RegistrationParametersScreenState
         return true;
     } else
       return false;
+  }
+
+  void _onBackPressed() {
+    Navigator.of(context).pop();
   }
 }
 

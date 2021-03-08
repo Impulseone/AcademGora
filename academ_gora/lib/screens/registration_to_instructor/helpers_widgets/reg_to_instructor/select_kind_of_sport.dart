@@ -1,5 +1,6 @@
-import 'package:academ_gora/screens/registration/registration_to_instructor_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../registration_to_instructor_screen.dart';
 
 class SelectKindOfSportWidget extends StatefulWidget {
   final int kindOfSportSelected;

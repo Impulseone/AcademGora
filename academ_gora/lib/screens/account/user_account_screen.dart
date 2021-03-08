@@ -1,4 +1,5 @@
 import 'package:academ_gora/screens/account/helpers_widgets/lesson_widget.dart';
+import 'package:academ_gora/screens/auth/auth_screen.dart';
 import 'package:flutter/material.dart';
 
 class UserAccountScreen extends StatefulWidget {
@@ -69,7 +70,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
   }
 
   Widget _exitButton() {
-    return Container(
+    return GestureDetector(onTap: _openAuthScreen, child: Container(
         margin: EdgeInsets.only(top: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -84,7 +85,12 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                 width: 20,
                 child: Image.asset("assets/account/e1.png"))
           ],
-        ));
+        )));
+  }
+
+  void _openAuthScreen() {
+    Navigator.of(context)
+        .pushAndRemoveUntil(MaterialPageRoute(builder:(c)=> AuthScreen()), (route) => false);
   }
 
   Widget _lessonsTitle() {

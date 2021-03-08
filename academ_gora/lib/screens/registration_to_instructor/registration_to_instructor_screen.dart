@@ -1,11 +1,12 @@
-import 'package:academ_gora/screens/registration/helpers_widgets/reg_to_instructor/time_widget.dart';
-import 'package:academ_gora/screens/registration/instructors_list_screen.dart';
+import 'package:academ_gora/screens/registration_to_instructor/registration_parameters_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 import 'helpers_widgets/horizontal_divider.dart';
 import 'helpers_widgets/reg_to_instructor/date_widget.dart';
 import 'helpers_widgets/reg_to_instructor/select_kind_of_sport.dart';
+import 'helpers_widgets/reg_to_instructor/time_widget.dart';
+import 'instructors_list_screen.dart';
 
 class RegistrationToInstructorScreen extends StatefulWidget {
   @override
@@ -71,7 +72,9 @@ class RegistrationToInstructorScreenState
         borderRadius: BorderRadius.all(Radius.circular(35)),
         color: _continueButtonBackgroundColor(),
         child: InkWell(
-            onTap: null,
+            onTap: (selectedKindOfSport != -1 && selectedDate != null)
+                ? _openRegParametersScreen
+                : null,
             child: Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -88,6 +91,11 @@ class RegistrationToInstructorScreenState
             )),
       ),
     );
+  }
+
+  void _openRegParametersScreen() {
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (c) => RegistrationParametersScreen()));
   }
 
   Color _continueButtonBackgroundColor() {

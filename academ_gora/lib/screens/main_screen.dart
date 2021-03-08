@@ -1,5 +1,5 @@
 import 'package:academ_gora/screens/account/user_account_screen.dart';
-import 'package:academ_gora/screens/registration/registration_to_instructor_screen.dart';
+import 'package:academ_gora/screens/registration_to_instructor/registration_to_instructor_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
