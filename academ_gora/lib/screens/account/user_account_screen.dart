@@ -8,6 +8,8 @@ class UserAccountScreen extends StatefulWidget {
 }
 
 class _UserAccountScreenState extends State<UserAccountScreen> {
+  int itemCount = 2;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,15 +25,26 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
           _topAccountInfo(),
           _lessonsTitle(),
           Container(
-            height: 400,
+            height: 420,
             margin: EdgeInsets.only(right: 20),
             child: ListView.builder(
                 itemCount: 2,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
-                    margin: EdgeInsets.only(left: 25),
-                    child: LessonWidget(),
-                  );
+                      margin: EdgeInsets.only(left: 25),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          LessonWidget(),
+                          index != itemCount - 1
+                              ? Container(
+                                  height: 30,
+                                  width: 30,
+                                  child: Icon(Icons.keyboard_arrow_down),
+                                )
+                              : Container()
+                        ],
+                      ));
                 }),
           )
         ],
@@ -70,27 +83,29 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
   }
 
   Widget _exitButton() {
-    return GestureDetector(onTap: _openAuthScreen, child: Container(
-        margin: EdgeInsets.only(top: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              "ВЫЙТИ",
-              style: TextStyle(color: Colors.white),
-            ),
-            Container(
-                margin: EdgeInsets.only(left: 5),
-                height: 20,
-                width: 20,
-                child: Image.asset("assets/account/e1.png"))
-          ],
-        )));
+    return GestureDetector(
+        onTap: _openAuthScreen,
+        child: Container(
+            margin: EdgeInsets.only(top: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  "ВЫЙТИ",
+                  style: TextStyle(color: Colors.white),
+                ),
+                Container(
+                    margin: EdgeInsets.only(left: 5),
+                    height: 20,
+                    width: 20,
+                    child: Image.asset("assets/account/e1.png"))
+              ],
+            )));
   }
 
   void _openAuthScreen() {
-    Navigator.of(context)
-        .pushAndRemoveUntil(MaterialPageRoute(builder:(c)=> AuthScreen()), (route) => false);
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (c) => AuthScreen()), (route) => false);
   }
 
   Widget _lessonsTitle() {

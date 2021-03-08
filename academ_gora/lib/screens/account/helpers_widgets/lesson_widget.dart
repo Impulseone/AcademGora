@@ -12,7 +12,6 @@ class _LessonWidgetState extends State<LessonWidget> {
     return Container(
       width: 320,
       height: 370,
-      margin: EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/account/e2.png"),

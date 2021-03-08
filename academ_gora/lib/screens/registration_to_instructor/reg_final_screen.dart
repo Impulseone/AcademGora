@@ -75,8 +75,7 @@ class _RegistrationFinalScreenState extends State<RegistrationFinalScreen> {
   }
 
   void _openAccount() {
-    Navigator.of(context)
-        .pushAndRemoveUntil(MaterialPageRoute(builder:(c)=> UserAccountScreen()), (route) => false);
+    Navigator.of(context).push(MaterialPageRoute(builder: (c)=>UserAccountScreen()));
   }
 
   void _openMain() {
