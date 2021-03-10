@@ -95,7 +95,7 @@ class RegistrationToInstructorScreenState
 
   void _openRegParametersScreen() {
     Navigator.of(context).push(
-        MaterialPageRoute(builder: (c) => RegistrationParametersScreen()));
+        MaterialPageRoute(builder: (c) => InstructorsListScreen()));
   }
 
   Color _continueButtonBackgroundColor() {

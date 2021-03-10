@@ -143,7 +143,7 @@ class _LessonWidgetState extends State<LessonWidget> {
               style: TextStyle(fontSize: 14),
             ),
             Container(
-              width: width*0.4,
+                width: width * 0.4,
                 margin: EdgeInsets.only(left: 50),
                 child: Text(
                   "Ярославский Александр",
@@ -164,7 +164,7 @@ class _LessonWidgetState extends State<LessonWidget> {
     return Container(
         alignment: Alignment.center,
         height: 30,
-        width: width*0.45,
+        width: width * 0.45,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
           image: DecorationImage(
@@ -181,8 +181,8 @@ class _LessonWidgetState extends State<LessonWidget> {
     return Container(
         alignment: Alignment.center,
         height: 30,
-        width: width*0.35,
-        margin: EdgeInsets.only(left: width*0.05),
+        width: width * 0.35,
+        margin: EdgeInsets.only(left: width * 0.05),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
           image: DecorationImage(

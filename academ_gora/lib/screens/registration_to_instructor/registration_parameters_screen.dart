@@ -25,6 +25,7 @@ class RegistrationParametersScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+          height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/registration_parameters/0_bg.png"),
@@ -34,8 +35,6 @@ class RegistrationParametersScreenState
           child: Container(
               width: MediaQuery.of(context).size.width,
               child: SingleChildScrollView(
-                  child: Container(
-                height: MediaQuery.of(context).size.height,
                 child: Column(
                   children: [
                     _infoWidget(),
@@ -70,7 +69,7 @@ class RegistrationParametersScreenState
                     _continueButton()
                   ],
                 ),
-              )))),
+              ))),
     );
   }
 
@@ -130,7 +129,7 @@ class RegistrationParametersScreenState
               child: Image.asset("assets/registration_parameters/e12.png")),
           Container(
             width: 300,
-            height: 20,
+            height: 30,
             margin: EdgeInsets.only(left: 5),
             child: TextField(
               maxLines: 10,
