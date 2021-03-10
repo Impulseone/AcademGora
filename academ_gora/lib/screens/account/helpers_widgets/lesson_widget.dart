@@ -7,11 +7,15 @@ class LessonWidget extends StatefulWidget {
 }
 
 class _LessonWidgetState extends State<LessonWidget> {
+  double height;
+  double width;
+
   @override
   Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
     return Container(
-      width: 320,
-      height: 370,
+      width: width * 0.9,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/account/e2.png"),
@@ -32,7 +36,7 @@ class _LessonWidgetState extends State<LessonWidget> {
   Widget _titleRow() {
     return Container(
         color: Colors.blue,
-        height: 35,
+        height: 40,
         child: Row(
           children: [
             Container(
@@ -42,7 +46,7 @@ class _LessonWidgetState extends State<LessonWidget> {
                   style: TextStyle(color: Colors.white, fontSize: 22),
                 )),
             Container(
-                margin: EdgeInsets.only(left: 70),
+                margin: EdgeInsets.only(left: width / 7),
                 child: Text("11:30-12:30",
                     style: TextStyle(color: Colors.white, fontSize: 22)))
           ],
@@ -61,7 +65,7 @@ class _LessonWidgetState extends State<LessonWidget> {
                   style: TextStyle(fontSize: 18),
                 )),
             Container(
-              margin: EdgeInsets.only(left: 100),
+              margin: EdgeInsets.only(left: width / 6),
               child: Text("2", style: TextStyle(fontSize: 18)),
             ),
           ],
@@ -74,7 +78,7 @@ class _LessonWidgetState extends State<LessonWidget> {
         child: Row(
           children: [
             _button("РЕДАКТИРОВАТЬ", 10),
-            _button("ОТМЕНИТЬ", 80),
+            _button("ОТМЕНИТЬ", width / 8),
           ],
         ));
   }
@@ -130,6 +134,7 @@ class _LessonWidgetState extends State<LessonWidget> {
 
   Widget _instructorInfoWidget() {
     return Container(
+        width: width * 0.9,
         margin: EdgeInsets.only(left: 10, top: 5),
         child: Row(
           children: [
@@ -138,6 +143,7 @@ class _LessonWidgetState extends State<LessonWidget> {
               style: TextStyle(fontSize: 14),
             ),
             Container(
+              width: width*0.4,
                 margin: EdgeInsets.only(left: 50),
                 child: Text(
                   "Ярославский Александр",
@@ -149,7 +155,7 @@ class _LessonWidgetState extends State<LessonWidget> {
 
   Widget _callToInstructorButtons() {
     return Container(
-      margin: EdgeInsets.only(top: 5, left: 10),
+      margin: EdgeInsets.only(top: 5, left: 10, bottom: 5),
       child: Row(children: [_phoneNumberButton(), _whatsAppButton()]),
     );
   }
@@ -158,17 +164,16 @@ class _LessonWidgetState extends State<LessonWidget> {
     return Container(
         alignment: Alignment.center,
         height: 30,
-        width: 160,
+        width: width*0.45,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
           image: DecorationImage(
             image: AssetImage("assets/account/phone.png"),
-            fit: BoxFit.cover,
           ),
         ),
         child: Text(
           "+79999999999",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontSize: 12),
         ));
   }
 
@@ -176,18 +181,17 @@ class _LessonWidgetState extends State<LessonWidget> {
     return Container(
         alignment: Alignment.center,
         height: 30,
-        width: 120,
-        margin: EdgeInsets.only(left: 20),
+        width: width*0.35,
+        margin: EdgeInsets.only(left: width*0.05),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
           image: DecorationImage(
             image: AssetImage("assets/account/wa.png"),
-            fit: BoxFit.cover,
           ),
         ),
         child: Text(
           "Написать",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontSize: 12),
         ));
   }
 }

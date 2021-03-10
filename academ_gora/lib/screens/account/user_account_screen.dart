@@ -25,13 +25,11 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
           _topAccountInfo(),
           _lessonsTitle(),
           Container(
-            height: 420,
-            margin: EdgeInsets.only(right: 20),
+            height: MediaQuery.of(context).size.height*0.6,
             child: ListView.builder(
                 itemCount: 2,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
-                      margin: EdgeInsets.only(left: 25),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
