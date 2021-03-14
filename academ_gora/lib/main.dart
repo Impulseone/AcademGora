@@ -1,3 +1,4 @@
+import 'package:academ_gora/screens/all_instructors/all_instructors_screen.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: AuthScreen());
+        home: AllInstructorsScreenWidget());
   }
 }
