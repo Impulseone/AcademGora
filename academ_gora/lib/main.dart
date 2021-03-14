@@ -1,5 +1,6 @@
 import 'package:academ_gora/screens/all_instructors/all_instructors_screen.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
+import 'package:academ_gora/screens/instructor_profile/instructor_profile_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

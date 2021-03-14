@@ -1,3 +1,4 @@
+import 'package:academ_gora/screens/instructor_profile/instructor_profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class AllInstructorsScreenWidget extends StatefulWidget {
@@ -164,16 +165,28 @@ class _AllInstructorsScreenWidgetState
                   fit: BoxFit.cover,
                 ),
               ),
-              child: Text(
-                "ОТКРЫТЬ ПРОФИЛЬ",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 10, color: Colors.blue),
-              ),
+              child: GestureDetector(
+                  onTap: () =>
+                      _openInstructorProfileScreen(_instructors[which]),
+                  child: Text(
+                    "ОТКРЫТЬ ПРОФИЛЬ",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 10, color: Colors.blue),
+                  )),
             ),
           )
         ],
       ),
     );
+  }
+
+  void _openInstructorProfileScreen(String instructorName) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (c) => InstructorProfileScreen(
+              instructorName,
+              screenHeight: _screenHeight,
+              screenWidth: _screenWidth,
+            )));
   }
 
   Widget _backToMainScreenButton() {

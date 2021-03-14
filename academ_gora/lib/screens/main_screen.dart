@@ -3,6 +3,8 @@ import 'package:academ_gora/screens/registration_to_instructor/registration_to_i
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import 'all_instructors/all_instructors_screen.dart';
+
 final List<String> imgList = [
   "assets/main/10_pic1.png",
   "assets/main/10_pic2.png",
@@ -256,7 +258,10 @@ class _MainScreenState extends State<MainScreen> {
           borderRadius: BorderRadius.all(Radius.circular(35)),
           color: Colors.white,
           child: InkWell(
-              onTap: null,
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (c) => AllInstructorsScreenWidget()));
+              },
               child: Center(
                 child: Text(
                   "О нас",
