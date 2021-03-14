@@ -1,4 +1,5 @@
 import 'package:academ_gora/screens/account/user_account_screen.dart';
+import 'package:academ_gora/screens/info_screens/info_screen.dart';
 import 'package:academ_gora/screens/registration_to_instructor/registration_to_instructor_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -53,8 +54,13 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> buttons = [];
   int _current = 0;
 
+  double _screenWidth;
+  double _screenHeight;
+
   @override
   Widget build(BuildContext context) {
+    _screenWidth = MediaQuery.of(context).size.width;
+    _screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
           decoration: BoxDecoration(
@@ -260,7 +266,7 @@ class _MainScreenState extends State<MainScreen> {
           child: InkWell(
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (c) => AllInstructorsScreenWidget()));
+                    builder: (c) => InfoScreen()));
               },
               child: Center(
                 child: Text(

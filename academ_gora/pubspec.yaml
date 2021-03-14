@@ -60,6 +60,7 @@ flutter:
     - assets/account/
     - assets/all_instructors/
     - assets/instructor_profile/
+    - assets/info_screens/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

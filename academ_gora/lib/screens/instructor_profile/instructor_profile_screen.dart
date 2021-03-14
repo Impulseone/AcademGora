@@ -9,7 +9,7 @@ class InstructorProfileScreen extends StatelessWidget {
   final double screenHeight;
 
   const InstructorProfileScreen(this._instructorName,
-      {Key key, this.screenWidth, this.screenHeight})
+      {Key key, @required this.screenWidth, @required this.screenHeight})
       : super(key: key);
 
   @override
