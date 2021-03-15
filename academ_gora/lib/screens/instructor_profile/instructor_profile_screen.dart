@@ -52,7 +52,11 @@ class InstructorProfileScreen extends StatelessWidget {
     return Container(
         margin: EdgeInsets.only(top: 10),
         child: Text(
-          _instructorName.split("\n")[0] + " " + _instructorName.split("\n")[1],
+          _instructorName.split("\n").length > 1
+              ? _instructorName.split("\n")[0] +
+                  " " +
+                  _instructorName.split("\n")[1]
+              : _instructorName,
           style: TextStyle(
               fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
         ));

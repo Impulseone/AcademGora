@@ -1,4 +1,5 @@
 import 'package:academ_gora/model/reg_to_instructor_data.dart';
+import 'package:academ_gora/screens/instructor_profile/instructor_profile_screen.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
@@ -36,20 +37,27 @@ class InstructorWidgetState extends State<InstructorWidget> {
     );
   }
 
-  Widget _header(String text) {
+  Widget _header(String instructorName) {
     return Container(
         height: 65,
         child: Row(
           children: [
-            Container(
-                height: 48,
-                width: 48,
-                child: Image.asset("assets/instructors_list/e_3.png")),
+            GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (c) => InstructorProfileScreen(instructorName,
+                          screenWidth: MediaQuery.of(context).size.width,
+                          screenHeight: MediaQuery.of(context).size.height)));
+                },
+                child: Container(
+                    height: 48,
+                    width: 48,
+                    child: Image.asset("assets/instructors_list/e_3.png"))),
             Container(
                 width: 220,
                 margin: EdgeInsets.only(left: 12),
                 child: Text(
-                  text,
+                  instructorName,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 )),
           ],
@@ -79,7 +87,7 @@ class InstructorWidgetState extends State<InstructorWidget> {
         padding: EdgeInsets.all(1),
         child: Text(
           "открыть\nпрофиль",
-          style: TextStyle(color: Color(0xff007CC0),fontSize: 14),
+          style: TextStyle(color: Color(0xff007CC0), fontSize: 14),
         ),
       ),
     );
@@ -89,7 +97,8 @@ class InstructorWidgetState extends State<InstructorWidget> {
   void setState(fn) {
     super.setState(fn);
     widget.instructorsListScreenState.setState(() {
-      widget.instructorsListScreenState.regToInstructorData = regToInstructorData;
+      widget.instructorsListScreenState.regToInstructorData =
+          regToInstructorData;
     });
   }
 }

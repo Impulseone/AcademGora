@@ -1,4 +1,5 @@
 import 'package:academ_gora/screens/instructor_profile/instructor_profile_screen.dart';
+import 'package:academ_gora/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
 class AllInstructorsScreen extends StatefulWidget {
@@ -222,7 +223,11 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
         borderRadius: BorderRadius.all(Radius.circular(35)),
         color: Colors.blue,
         child: InkWell(
-            onTap: () => {Navigator.of(context).pop()},
+            onTap: () => {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (c) => MainScreen()),
+                      (route) => false)
+                },
             child: Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
