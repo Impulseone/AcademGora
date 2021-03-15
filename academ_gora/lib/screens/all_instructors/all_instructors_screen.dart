@@ -1,14 +1,14 @@
 import 'package:academ_gora/screens/instructor_profile/instructor_profile_screen.dart';
 import 'package:flutter/material.dart';
 
-class AllInstructorsScreenWidget extends StatefulWidget {
+class AllInstructorsScreen extends StatefulWidget {
   @override
-  _AllInstructorsScreenWidgetState createState() =>
-      _AllInstructorsScreenWidgetState();
+  _AllInstructorsScreenState createState() =>
+      _AllInstructorsScreenState();
 }
 
-class _AllInstructorsScreenWidgetState
-    extends State<AllInstructorsScreenWidget> {
+class _AllInstructorsScreenState
+    extends State<AllInstructorsScreen> {
   double _screenWidth;
   double _screenHeight;
 

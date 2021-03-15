@@ -54,13 +54,8 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> buttons = [];
   int _current = 0;
 
-  double _screenWidth;
-  double _screenHeight;
-
   @override
   Widget build(BuildContext context) {
-    _screenWidth = MediaQuery.of(context).size.width;
-    _screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
           decoration: BoxDecoration(
