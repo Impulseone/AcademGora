@@ -1,6 +1,7 @@
 import 'package:academ_gora/screens/account/user_account_screen.dart';
 import 'package:academ_gora/screens/info_screens/chill_zone_screen.dart';
 import 'package:academ_gora/screens/info_screens/info_screen.dart';
+import 'package:academ_gora/screens/info_screens/regime_screen.dart';
 import 'package:academ_gora/screens/registration_to_instructor/registration_to_instructor_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -225,6 +226,7 @@ class _MainScreenState extends State<MainScreen> {
         }
       case "Режим работы\nи схема\nпроезда":
         {
+          _openRegimeScreen();
           break;
         }
       case "Зона отдыха \nи детского\nдосуга":
@@ -238,6 +240,10 @@ class _MainScreenState extends State<MainScreen> {
   void _openChillZoneScreen() {
     Navigator.of(context).push(
         MaterialPageRoute(builder: (c) => ChillZoneScreen()));
+  }
+  void _openRegimeScreen() {
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (c) => RegimeScreen()));
   }
 
   Widget _registrationToInstructorButton() {
