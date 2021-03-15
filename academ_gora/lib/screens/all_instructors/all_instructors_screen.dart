@@ -3,24 +3,33 @@ import 'package:flutter/material.dart';
 
 class AllInstructorsScreen extends StatefulWidget {
   @override
-  _AllInstructorsScreenState createState() =>
-      _AllInstructorsScreenState();
+  _AllInstructorsScreenState createState() => _AllInstructorsScreenState();
 }
 
-class _AllInstructorsScreenState
-    extends State<AllInstructorsScreen> {
+class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
   double _screenWidth;
   double _screenHeight;
 
-  int _selectedKindOfSport = 0;
+  String _selectedKindOfSport = "ГОРНЫЕ ЛЫЖИ";
 
-  List<String> _instructors = [
+  List<String> _snowboardInstructors = [
     "Ярославский\nАлександр",
     "Карманова\nЕвгения",
     "Крюкова\nОльга",
     "Трофимов\nПавел",
     "Ярославский\nАлександр",
     "Карманова\nЕвгения",
+  ];
+
+  List<String> _skiesInstructors = [
+    "Ярославский\nАлександр",
+    "Карманова\nЕвгения",
+    "Крюкова\nОльга",
+    "Трофимов\nПавел",
+    "Крюкова\nОльга",
+    "Трофимов\nПавел",
+    "Иванов\nИван",
+    "Петров\nПетр",
   ];
 
   @override
@@ -40,49 +49,49 @@ class _AllInstructorsScreenState
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _arrowButton("assets/all_instructors/5.png", 4, 0, 0),
-            _centerWidget(
-                _selectedKindOfSport == 0 ? "ГОРНЫЕ ЛЫЖИ" : "СНОУБОРД"),
-            _arrowButton("assets/all_instructors/4.png", 0, 4, 1),
+            // _arrowButton("assets/all_instructors/5.png", 4, 0, 0),
+            _centerWidget(),
+            // _arrowButton("assets/all_instructors/4.png", 0, 4, 1),
           ],
         ),
       ),
     );
   }
 
-  void _checkoutKindOfSport(int value) {
+  void _checkoutKindOfSport(String value) {
     setState(() {
       _selectedKindOfSport = value;
     });
   }
 
-  Widget _arrowButton(
-      String imagePath, double marginLeft, double marginRight, int value) {
-    return (_selectedKindOfSport == 0 && value == 0 ||
-            _selectedKindOfSport == 1 && value == 1)
-        ? Container(
-            height: 35,
-            width: 35,
-            margin: EdgeInsets.only(left: marginLeft, right: marginRight),
-          )
-        : GestureDetector(
-            onTap: () {
-              _checkoutKindOfSport(value);
-            },
-            child: Container(
-              height: 35,
-              width: 35,
-              margin: EdgeInsets.only(left: marginLeft, right: marginRight),
-              child: Image.asset(imagePath),
-            ));
-  }
+  // Widget _arrowButton(
+  //     String imagePath, double marginLeft, double marginRight, int value) {
+  //   return (_selectedKindOfSport == 0 && value == 0 ||
+  //           _selectedKindOfSport == 1 && value == 1)
+  //       ? Container(
+  //           height: 35,
+  //           width: 35,
+  //           margin: EdgeInsets.only(left: marginLeft, right: marginRight),
+  //         )
+  //       : GestureDetector(
+  //           onTap: () {
+  //             _checkoutKindOfSport(value);
+  //           },
+  //           child: Container(
+  //             height: 35,
+  //             width: 35,
+  //             margin: EdgeInsets.only(left: marginLeft, right: marginRight),
+  //             child: Image.asset(imagePath),
+  //           ));
+  // }
 
-  Widget _centerWidget(String kindOfSport) {
+  Widget _centerWidget() {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _kindOfSportName(kindOfSport),
+          _kindOfSportButton("ГОРНЫЕ ЛЫЖИ"),
+          _kindOfSportButton("СНОУБОРД"),
           _instructorsListWidget(),
           _backToMainScreenButton()
         ],
@@ -90,24 +99,38 @@ class _AllInstructorsScreenState
     );
   }
 
-  Widget _kindOfSportName(String name) {
-    return Container(
-      width: _screenWidth * 0.7,
-      height: _screenHeight * 0.05,
-      margin: EdgeInsets.only(top: 40),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(7)),
-        image: DecorationImage(
-          image: AssetImage("assets/all_instructors/1.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Text(
-        name,
-        style: TextStyle(color: Colors.blue, fontSize: 20),
-      ),
-    );
+  Widget _kindOfSportButton(String name) {
+    return GestureDetector(
+        onTap: () {
+          if (_selectedKindOfSport != name)
+            _checkoutKindOfSport(_selectedKindOfSport == "ГОРНЫЕ ЛЫЖИ"
+                ? "СНОУБОРД"
+                : "ГОРНЫЕ ЛЫЖИ");
+        },
+        child: Container(
+          width: _checkKindOfSport(name)
+              ? _screenWidth * 0.75
+              : _screenWidth * 0.7,
+          height: _checkKindOfSport(name)
+              ? _screenHeight * 0.06
+              : _screenHeight * 0.05,
+          margin: EdgeInsets.only(top: 15),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(7)),
+              color: _checkKindOfSport(name) ? Colors.blue : Colors.white),
+          child: Text(
+            name,
+            style: TextStyle(
+                color: _checkKindOfSport(name) ? Colors.white : Colors.blue,
+                fontSize: _checkKindOfSport(name) ? 22 : 20),
+          ),
+        ));
+  }
+
+  bool _checkKindOfSport(String name) {
+    return (name == "ГОРНЫЕ ЛЫЖИ" && _selectedKindOfSport == name) ||
+        (name == "СНОУБОРД" && _selectedKindOfSport == name);
   }
 
   Widget _instructorsListWidget() {
@@ -124,21 +147,23 @@ class _AllInstructorsScreenState
               sliver: SliverGrid.count(
                   mainAxisSpacing: 20,
                   crossAxisCount: 2,
-                  children: _profileWidgets()),
+                  children: _profileWidgets(_selectedKindOfSport == "СНОУБОРД"
+                      ? _snowboardInstructors
+                      : _skiesInstructors)),
             )
           ],
         ));
   }
 
-  List<Widget> _profileWidgets() {
+  List<Widget> _profileWidgets(List<String> instructors) {
     List<Widget> widgets = [];
-    for (var i = 0; i < 6; ++i) {
-      widgets.add(_profileWidget(i));
+    for (var i = 0; i < instructors.length; ++i) {
+      widgets.add(_profileWidget(i, instructors));
     }
     return widgets;
   }
 
-  Widget _profileWidget(int which) {
+  Widget _profileWidget(int which, List<String> instructors) {
     return Container(
       child: Column(
         children: [
@@ -148,7 +173,7 @@ class _AllInstructorsScreenState
             child: Image.asset("assets/all_instructors/2.png"),
           ),
           Text(
-            _instructors[which],
+            instructors[which],
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
@@ -166,8 +191,7 @@ class _AllInstructorsScreenState
                 ),
               ),
               child: GestureDetector(
-                  onTap: () =>
-                      _openInstructorProfileScreen(_instructors[which]),
+                  onTap: () => _openInstructorProfileScreen(instructors[which]),
                   child: Text(
                     "ОТКРЫТЬ ПРОФИЛЬ",
                     textAlign: TextAlign.center,
