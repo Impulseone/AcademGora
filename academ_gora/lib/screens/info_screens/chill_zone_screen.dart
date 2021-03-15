@@ -1,9 +1,8 @@
-import 'package:academ_gora/screens/all_instructors/all_instructors_screen.dart';
-import 'package:academ_gora/screens/info_screens/about_us_info.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 import '../main_screen.dart';
+import 'about_us_info.dart';
 
 final List<String> imgList = [
   "assets/info_screens/one.jpg",
@@ -12,12 +11,13 @@ final List<String> imgList = [
   "assets/info_screens/four.jpg",
 ];
 
-class InfoScreen extends StatefulWidget {
+class ChillZoneScreen extends StatefulWidget {
   @override
-  _InfoScreenState createState() => _InfoScreenState();
+  _ChillZoneScreenState createState() => _ChillZoneScreenState();
 }
 
-class _InfoScreenState extends State<InfoScreen> {
+class _ChillZoneScreenState extends State<ChillZoneScreen> {
+
   double screenWidth;
   double screenHeight;
 
@@ -29,31 +29,29 @@ class _InfoScreenState extends State<InfoScreen> {
     screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         body: Container(
-      height: screenHeight,
-      width: screenWidth,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/info_screens/bg.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Column(
-        children: [
-          _title(),
-          _slider(),
-          _description(),
-          _button(context, "НАШИ ИНСТРУКТОРЫ"),
-          _button(context, "НА ГЛАВНУЮ")
-        ],
-      ),
-    ));
+          height: screenHeight,
+          width: screenWidth,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/info_screens/bg.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Column(
+            children: [
+              _title(),
+              _slider(),
+              _description(),
+              _button(context, "НА ГЛАВНУЮ")
+            ],
+          ),
+        ));
   }
-
   Widget _title() {
     return Container(
         margin: EdgeInsets.only(top: screenHeight * 0.14),
         child: Text(
-          "СК \"АКАДЕМИЧЕСКИЙ\"",
+          "ЗОНА ОТДЫХА И ДЕТСКОГО ДОСУГА",
           style: TextStyle(
               fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
         ));
@@ -100,45 +98,43 @@ class _InfoScreenState extends State<InfoScreen> {
     return imgList
         .map(
           (item) => Container(
-            child: Container(
-              margin: EdgeInsets.all(5.0),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              child: Image.asset(item),
-            ),
-          ),
-        )
+        child: Container(
+          margin: EdgeInsets.all(5.0),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Image.asset(item),
+        ),
+      ),
+    )
         .toList();
   }
 
   Widget _description() {
     return Container(
-        height: screenHeight * 0.25,
+        height: screenHeight * 0.3,
         width: screenWidth * 0.8,
         child: SingleChildScrollView(
             child: Flex(
-          direction: Axis.vertical,
-          children: [
-            Text(
-              AboutUs.aboutUs(),
-              style: TextStyle(fontSize: 12),
-            )
-          ],
-        )));
+              direction: Axis.vertical,
+              children: [
+                Text(
+                  AboutUs.chillZone(),
+                  style: TextStyle(fontSize: 12),
+                )
+              ],
+            )));
   }
 
   Widget _button(BuildContext context, String text) {
     return Container(
       width: screenWidth * 0.63,
       height: screenHeight * 0.08,
-      margin: EdgeInsets.only(top: 10),
+      margin: EdgeInsets.only(top: 20),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
         color: Colors.blue,
         child: InkWell(
-            onTap: () => text == "НАШИ ИНСТРУКТОРЫ"
-                ? _openInstructorsScreen()
-                : _openMainScreen(),
+            onTap: () => _openMainScreen(),
             child: Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -161,10 +157,5 @@ class _InfoScreenState extends State<InfoScreen> {
   void _openMainScreen() {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (c) => MainScreen()), (route) => false);
-  }
-
-  void _openInstructorsScreen() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (c) => AllInstructorsScreen()));
   }
 }

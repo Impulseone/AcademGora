@@ -1,4 +1,5 @@
 import 'package:academ_gora/screens/account/user_account_screen.dart';
+import 'package:academ_gora/screens/info_screens/chill_zone_screen.dart';
 import 'package:academ_gora/screens/info_screens/info_screen.dart';
 import 'package:academ_gora/screens/registration_to_instructor/registration_to_instructor_screen.dart';
 import 'package:flutter/material.dart';
@@ -176,39 +177,67 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _button(String text, String assetPath) {
-    return Center(
-      child: Stack(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(left: 10),
-            alignment: Alignment.center,
-            child: Image.asset(
-              assetPath,
-              height: 130,
-              width: 100,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            bottom: 0.0,
-            left: 0.0,
-            right: 0.0,
-            child: Container(
-              decoration: BoxDecoration(),
-              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-              child: Text(
-                text,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12.0,
+    return GestureDetector(
+        onTap: () {
+          _openInfoScreen(text);
+        },
+        child: Center(
+          child: Stack(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                alignment: Alignment.center,
+                child: Image.asset(
+                  assetPath,
+                  height: 130,
+                  width: 100,
+                  fit: BoxFit.cover,
                 ),
               ),
-            ),
+              Positioned(
+                bottom: 0.0,
+                left: 0.0,
+                right: 0.0,
+                child: Container(
+                  decoration: BoxDecoration(),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                  child: Text(
+                    text,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12.0,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ));
+  }
+
+  void _openInfoScreen(String text) {
+    switch (text) {
+      case "Прайс и\nподарочные\nсертификаты":
+        {
+          break;
+        }
+      case "Режим работы\nи схема\nпроезда":
+        {
+          break;
+        }
+      case "Зона отдыха \nи детского\nдосуга":
+        {
+          _openChillZoneScreen();
+          break;
+        }
+    }
+  }
+
+  void _openChillZoneScreen() {
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (c) => ChillZoneScreen()));
   }
 
   Widget _registrationToInstructorButton() {
@@ -260,8 +289,8 @@ class _MainScreenState extends State<MainScreen> {
           color: Colors.white,
           child: InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (c) => InfoScreen()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (c) => InfoScreen()));
               },
               child: Center(
                 child: Text(
