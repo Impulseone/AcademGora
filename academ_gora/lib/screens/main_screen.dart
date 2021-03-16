@@ -1,7 +1,7 @@
 import 'package:academ_gora/screens/account/user_account_screen.dart';
 import 'package:academ_gora/screens/info_screens/call_us_screen.dart';
 import 'package:academ_gora/screens/info_screens/chill_zone_screen.dart';
-import 'package:academ_gora/screens/info_screens/info_screen.dart';
+import 'package:academ_gora/screens/info_screens/about_us_screen.dart';
 import 'package:academ_gora/screens/info_screens/price_screen.dart';
 import 'package:academ_gora/screens/info_screens/regime_screen.dart';
 import 'package:academ_gora/screens/registration_to_instructor/registration_to_instructor_screen.dart';
@@ -305,7 +305,7 @@ class _MainScreenState extends State<MainScreen> {
           child: InkWell(
               onTap: () {
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (c) => InfoScreen()));
+                    .push(MaterialPageRoute(builder: (c) => AboutUsScreen()));
               },
               child: Center(
                 child: Text(

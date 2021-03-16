@@ -63,6 +63,8 @@ flutter:
     - assets/info_screens/
     - assets/info_screens/call_us/
     - assets/info_screens/prices/
+    - assets/info_screens/about_us/
+    - assets/info_screens/chill_zone/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

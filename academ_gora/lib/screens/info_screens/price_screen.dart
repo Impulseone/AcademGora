@@ -22,7 +22,7 @@ class _PriceScreenState extends State<PriceScreen> {
             width: screenWidth,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/info_screens/bg.png"),
+                image: AssetImage("assets/info_screens/prices/bg.png"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -33,7 +33,7 @@ class _PriceScreenState extends State<PriceScreen> {
 
   Widget _priceTitle() {
     return Container(
-      margin: EdgeInsets.only(top: screenHeight * 0.05),
+      margin: EdgeInsets.only(top: screenHeight * 0.04),
       child: Text(
         "ПРАЙС",
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
@@ -87,14 +87,14 @@ class _PriceScreenState extends State<PriceScreen> {
       {Color color = Colors.transparent, double leftPadding = 0}) {
     return Container(
         alignment: alignment,
-        padding: EdgeInsets.only(left: leftPadding, top: 6, bottom: 6),
+        padding: EdgeInsets.only(left: leftPadding, top: 5, bottom: 5),
         color: color,
         child: Text(text, style: TextStyle(fontWeight: FontWeight.bold)));
   }
 
   Widget _info() {
     return Container(
-      height: screenHeight * 0.3,
+      height: screenHeight * 0.29,
       width: screenWidth * 0.9,
       margin: EdgeInsets.only(top: 10),
       child: SingleChildScrollView(
@@ -109,8 +109,8 @@ class _PriceScreenState extends State<PriceScreen> {
 
   Widget _openMainScreenButton() {
     return Container(
-      width: screenWidth * 0.63,
-      height: screenHeight * 0.08,
+      width: screenWidth * 0.6,
+      height: screenHeight * 0.065,
       margin: EdgeInsets.only(top: 10),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),

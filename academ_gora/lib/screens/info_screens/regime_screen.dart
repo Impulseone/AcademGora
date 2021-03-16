@@ -5,10 +5,7 @@ import '../main_screen.dart';
 import 'about_us_info.dart';
 
 final List<String> imgList = [
-  "assets/info_screens/one.jpg",
-  "assets/info_screens/two.jpg",
-  "assets/info_screens/three.jpg",
-  "assets/info_screens/four.jpg",
+  "assets/info_screens/about_us/0.jpg",
 ];
 
 class RegimeScreen extends StatefulWidget {
@@ -32,7 +29,7 @@ class _RegimeScreenState extends State<RegimeScreen> {
           width: screenWidth,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/info_screens/bg.png"),
+              image: AssetImage("assets/info_screens/about_us/bg.png"),
               fit: BoxFit.cover,
             ),
           ),
