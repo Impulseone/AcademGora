@@ -1,4 +1,5 @@
 import 'package:academ_gora/screens/account/user_account_screen.dart';
+import 'package:academ_gora/screens/info_screens/call_us_screen.dart';
 import 'package:academ_gora/screens/info_screens/chill_zone_screen.dart';
 import 'package:academ_gora/screens/info_screens/info_screen.dart';
 import 'package:academ_gora/screens/info_screens/regime_screen.dart';
@@ -238,12 +239,13 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _openChillZoneScreen() {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (c) => ChillZoneScreen()));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (c) => ChillZoneScreen()));
   }
+
   void _openRegimeScreen() {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (c) => RegimeScreen()));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (c) => RegimeScreen()));
   }
 
   Widget _registrationToInstructorButton() {
@@ -317,7 +319,10 @@ class _MainScreenState extends State<MainScreen> {
           borderRadius: BorderRadius.all(Radius.circular(35)),
           color: Colors.white,
           child: InkWell(
-              onTap: null,
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (c) => CallUsScreen()));
+              },
               child: Center(
                 child: Text(
                   " Связаться с нами    ",

@@ -61,6 +61,7 @@ flutter:
     - assets/all_instructors/
     - assets/instructor_profile/
     - assets/info_screens/
+    - assets/info_screens/call_us/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
