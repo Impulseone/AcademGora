@@ -21,8 +21,13 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
 
   _SelectPeopleCountWidgetState(this._selectedCount);
 
+  double _screenHeight;
+  double _screenWidth;
+
   @override
   Widget build(BuildContext context) {
+    _screenHeight = MediaQuery.of(context).size.height;
+    _screenWidth = MediaQuery.of(context).size.width;
     return Row(
       children: [
         _peoplesCountWidget(),
@@ -33,7 +38,7 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
 
   Widget _peoplesCountWidget() {
     return Container(
-        margin: EdgeInsets.only(left: 27),
+        margin: EdgeInsets.only(left: _screenWidth * 0.03),
         child: Text(
           "Количество человек",
           style: TextStyle(fontSize: 12, color: Colors.blue),
@@ -84,7 +89,8 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
   void _selectCount(int which) {
     _selectedCount = which;
     widget.registrationParametersScreenState.setState(() {
-      widget.registrationParametersScreenState.selectedPeopleCount = _selectedCount;
+      widget.registrationParametersScreenState.selectedPeopleCount =
+          _selectedCount;
       widget.registrationParametersScreenState.textEditingControllers = [];
       for (var i = 0; i < which; ++i) {
         widget.registrationParametersScreenState.textEditingControllers

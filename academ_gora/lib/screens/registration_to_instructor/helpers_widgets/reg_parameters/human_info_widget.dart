@@ -18,14 +18,18 @@ class HumanInfoWidget extends StatefulWidget {
 }
 
 class _HumanInfoWidgetState extends State<HumanInfoWidget> {
+  double _screenHeight;
+  double _screenWidth;
 
   @override
   Widget build(BuildContext context) {
+    _screenHeight = MediaQuery.of(context).size.height;
+    _screenWidth = MediaQuery.of(context).size.width;
     return Row(
       children: [
         _numberOfPersonWidget(),
         _titleWidget("Имя"),
-        _textFieldWidget(130, 50, TextInputType.name),
+        _textFieldWidget(_screenWidth * 0.3, 50, TextInputType.name),
         _titleWidget("Возраст"),
         _textFieldWidget(50, 3, TextInputType.number)
       ],
@@ -36,7 +40,9 @@ class _HumanInfoWidgetState extends State<HumanInfoWidget> {
     return Text(
       widget.which.toString(),
       style: TextStyle(
-          color: Colors.grey, fontSize: 18, fontWeight: FontWeight.bold),
+          color: Colors.grey,
+          fontSize: _screenHeight * 0.025,
+          fontWeight: FontWeight.bold),
     );
   }
 

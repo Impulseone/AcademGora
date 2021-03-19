@@ -114,6 +114,7 @@ class _DateWidgetState extends State<DateWidget> {
                           child: Text('OK'), onPressed: _applyAndCloseDialog),
                     ],
                     content: CalendarCarousel<Event>(
+                      headerTextStyle: TextStyle(fontSize: _screenHeight*0.028, color: Colors.blueAccent),
                       locale: "ru",
                       width: 300,
                       height: 270,

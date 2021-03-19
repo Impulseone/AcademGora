@@ -18,6 +18,9 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   var _selectedDate = new DateTime.now();
 
+  double _screenWidth;
+  double _screenHeight;
+
   List months = [
     'Января',
     'Февраля',
@@ -45,6 +48,8 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   @override
   Widget build(BuildContext context) {
+    _screenHeight = MediaQuery.of(context).size.height;
+    _screenWidth = MediaQuery.of(context).size.width;
     return _dateTimePickerWidget();
   }
 
@@ -57,27 +62,26 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   Widget _dateSliderWidget() {
     return Container(
-        margin: EdgeInsets.only(left: 60),
+        margin: EdgeInsets.only(left: _screenWidth * 0.08),
         child: Row(
           children: [
             GestureDetector(
               onTap: _decreaseDate,
               child: Container(
-                height: 28,
-                width: 28,
+                height: _screenWidth * 0.09,
+                width: _screenWidth * 0.09,
                 child: Image.asset("assets/instructors_list/e_6.png"),
               ),
             ),
             Container(
-                width: 120,
+                width: _screenWidth * 0.38,
                 alignment: Alignment.center,
-                margin: EdgeInsets.only(),
                 child: Text(_getSelectedDate())),
             GestureDetector(
               onTap: _increaseDate,
               child: Container(
-                height: 28,
-                width: 28,
+                height: _screenWidth * 0.09,
+                width: _screenWidth * 0.09,
                 child: Image.asset("assets/instructors_list/e_7.png"),
               ),
             ),
@@ -109,7 +113,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   Widget _timeWidget() {
     return Container(
-      margin: EdgeInsets.only(left: 30, top: 10),
+      margin: EdgeInsets.only(left: _screenWidth * 0.1, top: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -145,8 +149,8 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
     return GestureDetector(
         onTap: () => _selectTime(time),
         child: Container(
-          height: 25,
-          width: 45,
+          height: _screenHeight * 0.05,
+          width: _screenWidth * 0.13,
           alignment: Alignment.center,
           margin: EdgeInsets.all(3),
           decoration: BoxDecoration(
@@ -187,7 +191,8 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   }
 
   Color _getTimeButtonColor(int time) {
-    if (widget.instructorWidgetState.regToInstructorData != null && _regToInstructorDataCurrent != null&&
+    if (widget.instructorWidgetState.regToInstructorData != null &&
+        _regToInstructorDataCurrent != null &&
         widget.instructorWidgetState.regToInstructorData.instructorName ==
             _regToInstructorDataCurrent.instructorName &&
         _regToInstructorDataCurrent.date == _selectedDate &&
@@ -198,7 +203,8 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   }
 
   Color _getTimeTextColor(int time) {
-    if (widget.instructorWidgetState.regToInstructorData != null && _regToInstructorDataCurrent != null&&
+    if (widget.instructorWidgetState.regToInstructorData != null &&
+        _regToInstructorDataCurrent != null &&
         widget.instructorWidgetState.regToInstructorData.instructorName ==
             _regToInstructorDataCurrent.instructorName &&
         _regToInstructorDataCurrent.date == _selectedDate &&

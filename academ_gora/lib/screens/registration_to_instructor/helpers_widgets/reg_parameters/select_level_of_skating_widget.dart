@@ -22,17 +22,26 @@ class _SelectLevelOfSkatingWidgetState
 
   _SelectLevelOfSkatingWidgetState(this._selectedLevelOfSkating);
 
+  double _screenHeight;
+  double _screenWidth;
+
   @override
   Widget build(BuildContext context) {
+    _screenHeight = MediaQuery.of(context).size.height;
+    _screenWidth = MediaQuery.of(context).size.width;
     return Column(
-      children: [_title(), _levelButtons(), _levelButton(2, 310, "Умею с любой горы, улучшение техники")],
+      children: [
+        _title(),
+        _levelButtons(),
+        _levelButton(2, _screenWidth*0.92, "Умею с любой горы, улучшение техники")
+      ],
     );
   }
 
   Widget _title() {
     return Container(
         alignment: Alignment.centerLeft,
-        margin: EdgeInsets.only(left: 27),
+        margin: EdgeInsets.only(left: _screenWidth * 0.03),
         child: Text(
           "Выбор уровня катания:",
           style: TextStyle(fontSize: 12, color: Colors.blue),
@@ -41,17 +50,19 @@ class _SelectLevelOfSkatingWidgetState
 
   Widget _levelButtons() {
     return Container(
-        margin: EdgeInsets.only(left: 24, top: 10, bottom: 10),
+        margin: EdgeInsets.only(left: _screenWidth * 0.03, top: 10, bottom: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            _levelButton(0, 120,"C нуля"),
-            _levelButton(1, 170, "Немного умею", leftMargin: 20),
+            _levelButton(0, _screenWidth * 0.33, "C нуля"),
+            _levelButton(1, _screenWidth * 0.52, "Немного умею",
+                leftMargin: 20),
           ],
         ));
   }
 
-  Widget _levelButton(int which, double width, String text, {double leftMargin = 0}) {
+  Widget _levelButton(int which, double width, String text,
+      {double leftMargin = 0}) {
     return Container(
       margin: EdgeInsets.only(left: leftMargin),
       child: GestureDetector(

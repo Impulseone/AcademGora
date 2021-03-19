@@ -19,8 +19,13 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
 
   RegToInstructorData regToInstructorData;
 
+  double _screenHeight;
+  double _screenWidth;
+
   @override
   Widget build(BuildContext context) {
+    _screenHeight = MediaQuery.of(context).size.height;
+    _screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
           decoration: BoxDecoration(
@@ -31,7 +36,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
           ),
           child: Column(children: [
             Container(
-              height: 450,
+              height: _screenHeight*0.72,
               margin: EdgeInsets.only(top: 50, left: 15, right: 15),
               child: ListView.builder(
                 itemCount: items.length,

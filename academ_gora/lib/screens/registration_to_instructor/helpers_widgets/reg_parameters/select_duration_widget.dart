@@ -19,10 +19,15 @@ class SelectDurationWidget extends StatefulWidget {
 class _SelectDurationWidgetState extends State<SelectDurationWidget> {
   int _selectedDuration;
 
+  double _screenHeight;
+  double _screenWidth;
+
   _SelectDurationWidgetState(this._selectedDuration);
 
   @override
   Widget build(BuildContext context) {
+    _screenHeight = MediaQuery.of(context).size.height;
+    _screenWidth = MediaQuery.of(context).size.width;
     return Row(
       children: [
         _peoplesCountWidget(),
@@ -33,7 +38,7 @@ class _SelectDurationWidgetState extends State<SelectDurationWidget> {
 
   Widget _peoplesCountWidget() {
     return Container(
-        margin: EdgeInsets.only(left: 27),
+        margin: EdgeInsets.only(left: _screenWidth*0.03),
         child: Text(
           "Длительность\nзанятия",
           style: TextStyle(fontSize: 12, color: Colors.blue),
@@ -65,7 +70,7 @@ class _SelectDurationWidgetState extends State<SelectDurationWidget> {
                 fit: BoxFit.fill),
           ),
           height: 30,
-          width: 105,
+          width: _screenWidth*0.3,
           padding: EdgeInsets.only(right: 12),
           alignment: Alignment.centerRight,
           child: Text(

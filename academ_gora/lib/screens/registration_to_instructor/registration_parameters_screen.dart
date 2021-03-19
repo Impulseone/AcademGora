@@ -20,9 +20,13 @@ class RegistrationParametersScreenState
   int selectedPeopleCount = 0;
   int selectedDuration;
   int selectedLevelOfSkating;
+  double _screenHeight;
+  double _screenWidth;
 
   @override
   Widget build(BuildContext context) {
+    _screenHeight = MediaQuery.of(context).size.height;
+    _screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
           height: MediaQuery.of(context).size.height,
@@ -33,7 +37,7 @@ class RegistrationParametersScreenState
             ),
           ),
           child: Container(
-              width: MediaQuery.of(context).size.width,
+              width: _screenWidth,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -53,10 +57,10 @@ class RegistrationParametersScreenState
                             selectedLevelOfSkating, this)),
                     horizontalDivider(10, 10, 10, 10),
                     Container(
-                        height: 140,
+                        height: _screenHeight*0.15,
                         child: ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
-                            padding: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(3),
                             itemCount: selectedPeopleCount,
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
@@ -75,9 +79,9 @@ class RegistrationParametersScreenState
 
   Widget _infoWidget() {
     return Container(
-        margin: EdgeInsets.only(top: 20),
-        width: 300,
-        height: 155,
+        margin: EdgeInsets.only(top: 15),
+        width: _screenWidth*0.9,
+        height: _screenHeight*0.25,
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -87,7 +91,7 @@ class RegistrationParametersScreenState
           ),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -100,19 +104,19 @@ class RegistrationParametersScreenState
                 Text(
                   InfoText.getLevelText(),
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 12),
+                  style: TextStyle(fontSize: _screenHeight*0.017),
                 )
               ],
             ),
             Text(
               InfoText.getText(),
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12),
+              style: TextStyle(fontSize: _screenHeight*0.017),
             ),
             Text(
               InfoText.getAge(),
               textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 12),
+              style: TextStyle(fontSize: _screenHeight*0.017),
             ),
           ],
         ));
@@ -128,7 +132,7 @@ class RegistrationParametersScreenState
               width: 20,
               child: Image.asset("assets/registration_parameters/e12.png")),
           Container(
-            width: 300,
+            width: _screenWidth*0.85,
             height: 30,
             margin: EdgeInsets.only(left: 5),
             child: TextField(
