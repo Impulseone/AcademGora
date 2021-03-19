@@ -110,17 +110,7 @@ class _LessonWidgetState extends State<LessonWidget> {
   Widget _infoTextColumn() {
     return Container(
         margin: EdgeInsets.only(top: 8, left: 10),
-        child: Column(
-          children: [
-            _infoText(LessonInfo.firstCondition()),
-            _infoText(LessonInfo.secondCondition()),
-            _infoText(LessonInfo.thirdCondition()),
-            _infoText(LessonInfo.fourthCondition()),
-            _infoText(LessonInfo.fifthCondition()),
-            _infoText(LessonInfo.sixthCondition()),
-            _infoText(LessonInfo.seventhCondition()),
-          ],
-        ));
+        child: _infoText(LessonInfo.getLessonInfo()));
   }
 
   Widget _infoText(String text) {
@@ -139,12 +129,12 @@ class _LessonWidgetState extends State<LessonWidget> {
         child: Row(
           children: [
             Text(
-              "Инструктор:",
+              "Инструктор:\n(Горные лыжи)",
               style: TextStyle(fontSize: 14),
             ),
             Container(
                 width: width * 0.4,
-                margin: EdgeInsets.only(left: 50),
+                margin: EdgeInsets.only(left: 45),
                 child: Text(
                   "Ярославский Александр",
                   style: TextStyle(fontSize: 14),

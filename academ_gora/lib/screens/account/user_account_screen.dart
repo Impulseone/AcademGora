@@ -1,5 +1,6 @@
 import 'package:academ_gora/screens/account/helpers_widgets/lesson_widget.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
+import 'package:academ_gora/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
 class UserAccountScreen extends StatefulWidget {
@@ -10,8 +11,13 @@ class UserAccountScreen extends StatefulWidget {
 class _UserAccountScreenState extends State<UserAccountScreen> {
   int itemCount = 2;
 
+  double _screenHeight;
+  double _screenWidth;
+
   @override
   Widget build(BuildContext context) {
+    _screenWidth = MediaQuery.of(context).size.width;
+    _screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(
@@ -21,40 +27,16 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
         ),
       ),
       child: Column(
-        children: [
-          _topAccountInfo(),
-          _lessonsTitle(),
-          Container(
-            height: MediaQuery.of(context).size.height*0.6,
-            child: ListView.builder(
-                itemCount: 2,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          LessonWidget(),
-                          index != itemCount - 1
-                              ? Container(
-                                  height: 30,
-                                  width: 30,
-                                  child: Icon(Icons.keyboard_arrow_down),
-                                )
-                              : Container()
-                        ],
-                      ));
-                }),
-          )
-        ],
+        children: [_topAccountInfo(), _lessonsTitle(), _lessonsList()],
       ),
     ));
   }
 
   Widget _topAccountInfo() {
     return Container(
-        margin: EdgeInsets.only(top: 50, right: 10),
+        margin: EdgeInsets.only(top: _screenHeight * 0.07, right: 10),
         child: Column(
-          children: [_accountTextWidget(), _phoneTextWidget(), _exitButton()],
+          children: [_accountTextWidget(), _phoneTextWidget(), _exitAndMainButtons()],
         ));
   }
 
@@ -80,6 +62,18 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
         ));
   }
 
+  Widget _exitAndMainButtons() {
+    return Row(
+      children: [
+        _backToMainScreenButton(),
+        Padding(
+            padding: EdgeInsets.only(
+                right: _screenWidth * 0.17, left: _screenWidth * 0.17)),
+        _exitButton()
+      ],
+    );
+  }
+
   Widget _exitButton() {
     return GestureDetector(
         onTap: _openAuthScreen,
@@ -101,9 +95,39 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
             )));
   }
 
+  Widget _backToMainScreenButton() {
+    return GestureDetector(
+        onTap: _openMainScreen,
+        child: Container(
+            margin: EdgeInsets.only(top: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                    margin: EdgeInsets.only(left: 5),
+                    height: 20,
+                    width: 20,
+                    child: Icon(
+                      Icons.arrow_back_ios_outlined,
+                      color: Colors.blue,
+                      size: 16,
+                    )),
+                Text(
+                  "НА ГЛАВНУЮ",
+                  style: TextStyle(color: Colors.blue),
+                ),
+              ],
+            )));
+  }
+
   void _openAuthScreen() {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (c) => AuthScreen()), (route) => false);
+  }
+
+  void _openMainScreen() {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (c) => MainScreen()), (route) => false);
   }
 
   Widget _lessonsTitle() {
@@ -114,5 +138,29 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
           "мои занятия",
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ));
+  }
+
+  Widget _lessonsList() {
+    return Container(
+      height: _screenHeight * 0.6,
+      child: ListView.builder(
+          itemCount: 2,
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                LessonWidget(),
+                index != itemCount - 1
+                    ? Container(
+                        height: 30,
+                        width: 30,
+                        child: Icon(Icons.keyboard_arrow_down),
+                      )
+                    : Container()
+              ],
+            ));
+          }),
+    );
   }
 }
