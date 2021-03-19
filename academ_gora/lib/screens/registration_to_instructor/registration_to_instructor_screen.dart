@@ -20,9 +20,13 @@ class RegistrationToInstructorScreenState
   DateTime selectedDate;
   String _firstCurrentlySelected;
   String _secondCurrentlySelected;
+  double _screenHeight;
+  double _screenWidth;
 
   @override
   Widget build(BuildContext context) {
+    _screenHeight = MediaQuery.of(context).size.height;
+    _screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(
@@ -55,7 +59,7 @@ class RegistrationToInstructorScreenState
 
   Widget _warningText() {
     return Container(
-        margin: EdgeInsets.only(top: 15, left: 10, right: 10),
+        margin: EdgeInsets.only(top: _screenHeight*0.02, left: 10, right: 10),
         child: Text(
           "Укажите конкретное время или желаемый интервал для начала занятия",
           textAlign: TextAlign.center,
@@ -65,8 +69,8 @@ class RegistrationToInstructorScreenState
 
   Widget _continueButton() {
     return Container(
-      width: 280.0,
-      height: 55,
+      width: _screenWidth*0.75,
+      height: _screenHeight*0.08,
       margin: EdgeInsets.only(top: 18),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
@@ -94,8 +98,8 @@ class RegistrationToInstructorScreenState
   }
 
   void _openRegParametersScreen() {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (c) => InstructorsListScreen()));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (c) => InstructorsListScreen()));
   }
 
   Color _continueButtonBackgroundColor() {
@@ -114,8 +118,8 @@ class RegistrationToInstructorScreenState
 
   Widget _selectCoachButton() {
     return Container(
-      width: 250.0,
-      height: 55,
+      width: _screenWidth*0.75,
+      height: _screenHeight*0.08,
       margin: EdgeInsets.only(top: 15),
       decoration: BoxDecoration(
           border: Border.all(color: _selectCoachButtonColor()),

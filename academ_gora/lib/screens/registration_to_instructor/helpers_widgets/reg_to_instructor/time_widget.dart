@@ -15,10 +15,15 @@ class _TimeWidgetState extends State<TimeWidget> {
   String _firstCurrentlySelected;
   String _secondCurrentlySelected;
 
+  double _screenHeight;
+  double _screenWidth;
+
   _TimeWidgetState(this._firstCurrentlySelected, this._secondCurrentlySelected);
 
   @override
   Widget build(BuildContext context) {
+    _screenHeight = MediaQuery.of(context).size.height;
+    _screenWidth = MediaQuery.of(context).size.width;
     return _timeWidget();
   }
 
@@ -40,7 +45,7 @@ class _TimeWidgetState extends State<TimeWidget> {
         Container(
             width: 20,
             height: 20,
-            margin: EdgeInsets.only(right: 10),
+            margin: EdgeInsets.only(right: 10, left: 10),
             child: Image.asset("assets/registration_to_instructor/4_e4.png")),
         Container(
             margin: EdgeInsets.only(right: 8),
@@ -54,9 +59,9 @@ class _TimeWidgetState extends State<TimeWidget> {
 
   Widget _timeField(double leftMargin, double rightMargin, int position) {
     return Container(
-        width: 95,
+        width: _screenWidth*0.25,
         height: 30,
-        padding: EdgeInsets.only(left: 15),
+        padding: EdgeInsets.only(left: 3),
         margin: EdgeInsets.only(left: leftMargin, right: rightMargin),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey),

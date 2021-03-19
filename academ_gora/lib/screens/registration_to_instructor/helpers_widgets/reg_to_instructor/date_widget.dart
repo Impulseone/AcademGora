@@ -20,8 +20,13 @@ class _DateWidgetState extends State<DateWidget> {
 
   _DateWidgetState(this._selectedDate);
 
+  double _screenHeight;
+  double _screenWidth;
+
   @override
   Widget build(BuildContext context) {
+    _screenHeight = MediaQuery.of(context).size.height;
+    _screenWidth = MediaQuery.of(context).size.width;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [_dateNameWidget(), _dateFieldWidget()],
@@ -34,7 +39,7 @@ class _DateWidgetState extends State<DateWidget> {
         Container(
             width: 20,
             height: 20,
-            margin: EdgeInsets.only(right: 10),
+            margin: EdgeInsets.only(right: 10, left: 10),
             child: Image.asset("assets/registration_to_instructor/4_e3.png")),
         Text(
           "ДАТА",
@@ -46,9 +51,9 @@ class _DateWidgetState extends State<DateWidget> {
 
   Widget _dateFieldWidget() {
     return Container(
-      width: 160,
+      width: _screenWidth * 0.5,
       height: 30,
-      margin: EdgeInsets.only(left: 90),
+      margin: EdgeInsets.only(left: _screenWidth * 0.18),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(5.0),
@@ -63,10 +68,10 @@ class _DateWidgetState extends State<DateWidget> {
     return GestureDetector(
       child: Center(
           child: Container(
+              width: _screenWidth * 0.4,
               alignment: Alignment.center,
               color: Colors.white,
               height: 30,
-              width: 130,
               child: Text(
                 _selectedDate == null
                     ? ""
@@ -105,7 +110,8 @@ class _DateWidgetState extends State<DateWidget> {
         return StatefulBuilder(
             builder: (c, setState) => AlertDialog(
                     actions: [
-                      TextButton(child: Text('OK'), onPressed: _applyAndCloseDialog),
+                      TextButton(
+                          child: Text('OK'), onPressed: _applyAndCloseDialog),
                     ],
                     content: CalendarCarousel<Event>(
                       locale: "ru",

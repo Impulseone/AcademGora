@@ -19,10 +19,15 @@ class SelectKindOfSportWidget extends StatefulWidget {
 class _SelectKindOfSportWidgetState extends State<SelectKindOfSportWidget> {
   int _kindOfSportSelected;
 
+  double _screenHeight;
+  double _screenWidth;
+
   _SelectKindOfSportWidgetState(this._kindOfSportSelected);
 
   @override
   Widget build(BuildContext context) {
+    _screenHeight = MediaQuery.of(context).size.height;
+    _screenWidth = MediaQuery.of(context).size.width;
     return Column(
       children: [
         _topImages(),
@@ -37,19 +42,19 @@ class _SelectKindOfSportWidgetState extends State<SelectKindOfSportWidget> {
       children: [
         _kindOfSportImage("assets/registration_to_instructor/2_ski.png"),
         _kindOfSportImage("assets/registration_to_instructor/2_snowboard.png",
-            marginLeft: 18)
+            marginLeft: _screenWidth * 0.05)
       ],
     );
   }
 
   Widget _kindOfSportImage(String imagePath, {double marginLeft = 0}) {
     return Container(
-      margin: EdgeInsets.only(top: 60, left: marginLeft),
+      margin: EdgeInsets.only(top: _screenHeight * 0.07, left: marginLeft),
       alignment: Alignment.center,
       child: Image.asset(
         imagePath,
-        height: 160,
-        width: 160,
+        height: _screenHeight * 0.26,
+        width: _screenHeight * 0.26,
         fit: BoxFit.cover,
       ),
     );
@@ -73,9 +78,9 @@ class _SelectKindOfSportWidgetState extends State<SelectKindOfSportWidget> {
                 image: AssetImage(_createBackgroundOfKindOfSportButton(which)),
                 fit: BoxFit.fill),
           ),
-          height: 40,
-          width: 140,
-          padding: EdgeInsets.only(right: 12),
+          height: _screenHeight * 0.06,
+          width: _screenWidth * 0.4,
+          padding: EdgeInsets.only(right: 7),
           alignment: Alignment.centerRight,
           child: Text(
             which == 0 ? "ГОРНЫЕ ЛЫЖИ" : "СНОУБОРД",
