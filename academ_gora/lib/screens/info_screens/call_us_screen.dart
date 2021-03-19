@@ -48,7 +48,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
   Widget _callNumberButton() {
     return Container(
       height: _screenHeight * 0.07,
-      width: _screenWidth * 0.7,
+      width: _screenWidth * 0.8,
       alignment: Alignment.centerRight,
       padding: EdgeInsets.only(right: _screenWidth * 0.1),
       margin: EdgeInsets.only(top: _screenHeight * 0.07),
@@ -62,7 +62,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
       child: Text(
         "89025101513",
         style: TextStyle(
-            fontSize: 26, color: Colors.white, fontWeight: FontWeight.bold),
+            fontSize: _screenHeight*0.04, color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -70,7 +70,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
   Widget _whatsAppButton() {
     return Container(
       height: _screenHeight * 0.07,
-      width: _screenWidth * 0.7,
+      width: _screenWidth * 0.8,
       alignment: Alignment.centerRight,
       padding: EdgeInsets.only(right: _screenWidth * 0.15),
       margin: EdgeInsets.only(top: _screenHeight * 0.04),
@@ -84,7 +84,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
       child: Text(
         "НАПИСАТЬ",
         style: TextStyle(
-            fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+            fontSize: _screenHeight*0.04, color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -92,7 +92,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
   Widget _mailButton() {
     return Container(
       height: _screenHeight * 0.07,
-      width: _screenWidth * 0.7,
+      width: _screenWidth * 0.8,
       alignment: Alignment.centerRight,
       padding: EdgeInsets.only(right: _screenWidth * 0.05),
       margin: EdgeInsets.only(top: _screenHeight * 0.04),
@@ -106,7 +106,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
       child: Text(
         "Progress077@yandex.ru",
         style: TextStyle(
-            fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
+            fontSize: _screenHeight*0.028, color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
   }

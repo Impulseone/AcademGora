@@ -52,11 +52,11 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
 
   Widget _title() {
     return Container(
-        margin: EdgeInsets.only(top: screenHeight * 0.14),
+        margin: EdgeInsets.only(top: screenHeight * 0.07),
         child: Text(
           "СК \"АКАДЕМИЧЕСКИЙ\"",
           style: TextStyle(
-              fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: screenHeight * 0.024, fontWeight: FontWeight.bold, color: Colors.white),
         ));
   }
 
@@ -114,7 +114,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
 
   Widget _description() {
     return Container(
-        height: screenHeight * 0.25,
+        height: screenHeight * 0.32,
         width: screenWidth * 0.8,
         child: SingleChildScrollView(
             child: Flex(
@@ -150,7 +150,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        fontSize: screenHeight*0.027,
                       ),
                     ),
                   ]),

@@ -8,8 +8,6 @@ import 'package:academ_gora/screens/registration_to_instructor/registration_to_i
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-import 'all_instructors/all_instructors_screen.dart';
-
 final List<String> imgList = [
   "assets/main/10_pic1.png",
   "assets/main/10_pic2.png",
@@ -57,9 +55,13 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final List<Widget> buttons = [];
   int _current = 0;
+  double _screenHeight;
+  double _screenWidth;
 
   @override
   Widget build(BuildContext context) {
+    _screenHeight = MediaQuery.of(context).size.height;
+    _screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
           decoration: BoxDecoration(
@@ -71,7 +73,7 @@ class _MainScreenState extends State<MainScreen> {
           child: Center(
               child: Column(
             children: [
-              _nameAndAccButton(),
+              _titleAndAccButton(),
               _socialNetworks(),
               _slider(),
               _buttons(),
@@ -82,9 +84,9 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  Widget _nameAndAccButton() {
+  Widget _titleAndAccButton() {
     return Container(
-        margin: EdgeInsets.only(top: 40),
+        margin: EdgeInsets.only(top: _screenHeight * 0.06),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -115,17 +117,17 @@ class _MainScreenState extends State<MainScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-            width: 40,
-            height: 40,
+            width: _screenWidth * 0.1,
+            height: _screenWidth * 0.1,
             child: Image.asset("assets/main/2_phone.png")),
         Container(
-            width: 40,
-            height: 40,
+            width: _screenWidth * 0.1,
+            height: _screenWidth * 0.1,
             margin: EdgeInsets.only(left: 18),
             child: Image.asset("assets/main/3_insta.png")),
         Container(
-            width: 40,
-            height: 40,
+            width: _screenWidth * 0.1,
+            height: _screenWidth * 0.1,
             margin: EdgeInsets.only(left: 18),
             child: Image.asset("assets/main/4_vk.png")),
       ],
@@ -134,7 +136,7 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _slider() {
     return Container(
-        margin: EdgeInsets.only(top: 20),
+        margin: EdgeInsets.only(top: _screenHeight * 0.03),
         child: Column(children: [
           CarouselSlider(
             items: imageSliders,
@@ -192,8 +194,8 @@ class _MainScreenState extends State<MainScreen> {
                 alignment: Alignment.center,
                 child: Image.asset(
                   assetPath,
-                  height: 130,
-                  width: 100,
+                  height: _screenHeight * 0.23,
+                  width: _screenWidth * 0.3,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -240,7 +242,7 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-  void _openPriceScreen(){
+  void _openPriceScreen() {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (c) => PriceScreen()));
   }
@@ -257,9 +259,9 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _registrationToInstructorButton() {
     return Container(
-      width: 300.0,
-      height: 60,
-      margin: EdgeInsets.only(top: 45),
+      width: _screenWidth * 0.9,
+      height: _screenHeight * 0.1,
+      margin: EdgeInsets.only(top: _screenHeight*0.05),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
         color: Colors.lightBlue,

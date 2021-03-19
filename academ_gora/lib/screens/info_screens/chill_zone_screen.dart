@@ -46,11 +46,11 @@ class _ChillZoneScreenState extends State<ChillZoneScreen> {
   }
   Widget _title() {
     return Container(
-        margin: EdgeInsets.only(top: screenHeight * 0.14),
+        margin: EdgeInsets.only(top: screenHeight * 0.07),
         child: Text(
           "ЗОНА ОТДЫХА И ДЕТСКОГО ДОСУГА",
           style: TextStyle(
-              fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: screenHeight * 0.024, fontWeight: FontWeight.bold, color: Colors.white),
         ));
   }
 
@@ -108,7 +108,7 @@ class _ChillZoneScreenState extends State<ChillZoneScreen> {
 
   Widget _description() {
     return Container(
-        height: screenHeight * 0.3,
+        height: screenHeight * 0.42,
         width: screenWidth * 0.8,
         child: SingleChildScrollView(
             child: Flex(

@@ -25,31 +25,34 @@ class _RegimeScreenState extends State<RegimeScreen> {
     screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         body: Container(
-          height: screenHeight,
-          width: screenWidth,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/info_screens/about_us/bg.png"),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Column(
-            children: [
-              _title(),
-              _slider(),
-              _description(),
-              _button(context, "НА ГЛАВНУЮ")
-            ],
-          ),
-        ));
+      height: screenHeight,
+      width: screenWidth,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/info_screens/about_us/bg.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Column(
+        children: [
+          _title(),
+          _slider(),
+          _description(),
+          _button(context, "НА ГЛАВНУЮ")
+        ],
+      ),
+    ));
   }
+
   Widget _title() {
     return Container(
-        margin: EdgeInsets.only(top: screenHeight * 0.14),
+        margin: EdgeInsets.only(top: screenHeight * 0.07),
         child: Text(
           "РЕЖИМ РАБОТЫ И СХЕМА ПРОЕЗДА",
           style: TextStyle(
-              fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: screenHeight * 0.024,
+              fontWeight: FontWeight.bold,
+              color: Colors.white),
         ));
   }
 
@@ -94,31 +97,31 @@ class _RegimeScreenState extends State<RegimeScreen> {
     return imgList
         .map(
           (item) => Container(
-        child: Container(
-          margin: EdgeInsets.all(5.0),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: Image.asset(item),
-        ),
-      ),
-    )
+            child: Container(
+              margin: EdgeInsets.all(5.0),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              child: Image.asset(item),
+            ),
+          ),
+        )
         .toList();
   }
 
   Widget _description() {
     return Container(
-        height: screenHeight * 0.3,
+        height: screenHeight * 0.42,
         width: screenWidth * 0.8,
         child: SingleChildScrollView(
             child: Flex(
-              direction: Axis.vertical,
-              children: [
-                Text(
-                  AboutUs.regime(),
-                  style: TextStyle(fontSize: 12),
-                )
-              ],
-            )));
+          direction: Axis.vertical,
+          children: [
+            Text(
+              AboutUs.regime(),
+              style: TextStyle(fontSize: 12),
+            )
+          ],
+        )));
   }
 
   Widget _button(BuildContext context, String text) {
@@ -154,5 +157,4 @@ class _RegimeScreenState extends State<RegimeScreen> {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (c) => MainScreen()), (route) => false);
   }
-
 }

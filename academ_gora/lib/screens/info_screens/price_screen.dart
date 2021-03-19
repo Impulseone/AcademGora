@@ -87,21 +87,21 @@ class _PriceScreenState extends State<PriceScreen> {
       {Color color = Colors.transparent, double leftPadding = 0}) {
     return Container(
         alignment: alignment,
-        padding: EdgeInsets.only(left: leftPadding, top: 5, bottom: 5),
         color: color,
-        child: Text(text, style: TextStyle(fontWeight: FontWeight.bold)));
+        padding: EdgeInsets.only(left: leftPadding, top: 5, bottom: 5),
+        child: Text(text, style: TextStyle(fontWeight: FontWeight.bold,fontSize: screenHeight*0.02)));
   }
 
   Widget _info() {
     return Container(
-      height: screenHeight * 0.29,
+      height: screenHeight * 0.25,
       width: screenWidth * 0.9,
       margin: EdgeInsets.only(top: 10),
       child: SingleChildScrollView(
         child: Text(
           PriceInfo.getPriceInfo(),
           textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenHeight*0.02),
         ),
       ),
     );
