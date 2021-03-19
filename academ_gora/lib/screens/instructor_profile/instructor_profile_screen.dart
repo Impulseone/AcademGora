@@ -1,5 +1,6 @@
 import 'package:academ_gora/screens/instructor_profile/instructor_info.dart';
 import 'package:academ_gora/screens/main_screen.dart';
+import 'package:expand_tap_area/expand_tap_area.dart';
 import 'package:flutter/material.dart';
 
 class InstructorProfileScreen extends StatelessWidget {
@@ -41,7 +42,7 @@ class InstructorProfileScreen extends StatelessWidget {
 
   Widget _instructorPhoto() {
     return Container(
-      margin: EdgeInsets.only(top: screenHeight * 0.1),
+      margin: EdgeInsets.only(top: screenHeight * 0.07),
       width: screenWidth * 0.65,
       height: screenHeight * 0.25,
       child: Image.asset("assets/instructor_profile/1.png"),
@@ -114,7 +115,8 @@ class InstructorProfileScreen extends StatelessWidget {
   }
 
   Widget _backButton(BuildContext context) {
-    return GestureDetector(
+    return ExpandTapWidget(
+      tapPadding: EdgeInsets.all(50),
         onTap: () {
           Navigator.of(context).pop();
         },

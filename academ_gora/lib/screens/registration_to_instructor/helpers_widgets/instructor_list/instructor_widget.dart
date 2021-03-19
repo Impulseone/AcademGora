@@ -20,6 +20,9 @@ class InstructorWidgetState extends State<InstructorWidget> {
   RegToInstructorData regToInstructorData;
   String instructorName;
 
+  double _screenWidth;
+  double _screenHeight;
+
   @override
   void initState() {
     super.initState();
@@ -28,6 +31,8 @@ class InstructorWidgetState extends State<InstructorWidget> {
 
   @override
   Widget build(BuildContext context) {
+    _screenHeight = MediaQuery.of(context).size.height;
+    _screenWidth = MediaQuery.of(context).size.width;
     regToInstructorData = widget.instructorsListScreenState.regToInstructorData;
     return ExpandablePanel(
       header: _header(widget.instructorName),
@@ -72,6 +77,7 @@ class InstructorWidgetState extends State<InstructorWidget> {
 
   Widget _openProfileButton() {
     return GestureDetector(
+      onTap: _openProfile,
       child: Container(
         alignment: Alignment.center,
         margin: EdgeInsets.only(bottom: 10),
@@ -91,6 +97,12 @@ class InstructorWidgetState extends State<InstructorWidget> {
         ),
       ),
     );
+  }
+
+  void _openProfile() {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (c) => InstructorProfileScreen(instructorName,
+            screenWidth: _screenWidth, screenHeight: _screenHeight)));
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:academ_gora/screens/instructor_profile/instructor_profile_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
+import 'package:expand_tap_area/expand_tap_area.dart';
 import 'package:flutter/material.dart';
 
 class AllInstructorsScreen extends StatefulWidget {
@@ -50,9 +51,7 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // _arrowButton("assets/all_instructors/5.png", 4, 0, 0),
-            _centerWidget(),
-            // _arrowButton("assets/all_instructors/4.png", 0, 4, 1),
+            _instructorsList(),
           ],
         ),
       ),
@@ -65,28 +64,7 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
     });
   }
 
-  // Widget _arrowButton(
-  //     String imagePath, double marginLeft, double marginRight, int value) {
-  //   return (_selectedKindOfSport == 0 && value == 0 ||
-  //           _selectedKindOfSport == 1 && value == 1)
-  //       ? Container(
-  //           height: 35,
-  //           width: 35,
-  //           margin: EdgeInsets.only(left: marginLeft, right: marginRight),
-  //         )
-  //       : GestureDetector(
-  //           onTap: () {
-  //             _checkoutKindOfSport(value);
-  //           },
-  //           child: Container(
-  //             height: 35,
-  //             width: 35,
-  //             margin: EdgeInsets.only(left: marginLeft, right: marginRight),
-  //             child: Image.asset(imagePath),
-  //           ));
-  // }
-
-  Widget _centerWidget() {
+  Widget _instructorsList() {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -124,7 +102,9 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
             name,
             style: TextStyle(
                 color: _checkKindOfSport(name) ? Colors.white : Colors.blue,
-                fontSize: _checkKindOfSport(name) ? 22 : 20),
+                fontSize: _checkKindOfSport(name)
+                    ? _screenHeight * 0.034
+                    : _screenHeight * 0.03),
           ),
         ));
   }
@@ -169,8 +149,8 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
       child: Column(
         children: [
           Container(
-            width: _screenWidth * 0.3,
-            height: _screenHeight * 0.11,
+            width: _screenWidth * 0.28,
+            height: _screenHeight * 0.1,
             child: Image.asset("assets/all_instructors/2.png"),
           ),
           Text(
@@ -178,7 +158,9 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
           ),
-          GestureDetector(
+          ExpandTapWidget(
+            tapPadding: EdgeInsets.all(50),
+            onTap: () => _openInstructorProfileScreen(instructors[which]),
             child: Container(
               width: _screenWidth * 0.3,
               height: _screenHeight * 0.03,
@@ -191,13 +173,11 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
                   fit: BoxFit.cover,
                 ),
               ),
-              child: GestureDetector(
-                  onTap: () => _openInstructorProfileScreen(instructors[which]),
-                  child: Text(
-                    "ОТКРЫТЬ ПРОФИЛЬ",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 10, color: Colors.blue),
-                  )),
+              child: Text(
+                "ОТКРЫТЬ ПРОФИЛЬ",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 8, color: Colors.blue),
+              ),
             ),
           )
         ],
