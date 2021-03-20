@@ -27,7 +27,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
         ),
       ),
       child: Column(
-        children: [_topAccountInfo(), _lessonsTitle(), _lessonsList()],
+        children: [_topAccountInfo(), _lessonsTitle(), _lessonsList(), _backToMainScreenButton()],
       ),
     ));
   }
@@ -36,7 +36,11 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
     return Container(
         margin: EdgeInsets.only(top: _screenHeight * 0.07, right: 10),
         child: Column(
-          children: [_accountTextWidget(), _phoneTextWidget(), _exitAndMainButtons()],
+          children: [
+            _accountTextWidget(),
+            _phoneTextWidget(),
+            _exitAndMainButtons()
+          ],
         ));
   }
 
@@ -63,15 +67,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
   }
 
   Widget _exitAndMainButtons() {
-    return Row(
-      children: [
-        _backToMainScreenButton(),
-        Padding(
-            padding: EdgeInsets.only(
-                right: _screenWidth * 0.17, left: _screenWidth * 0.17)),
-        _exitButton()
-      ],
-    );
+    return _exitButton();
   }
 
   Widget _exitButton() {
@@ -99,25 +95,16 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
     return GestureDetector(
         onTap: _openMainScreen,
         child: Container(
-            margin: EdgeInsets.only(top: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                    margin: EdgeInsets.only(left: 5),
-                    height: 20,
-                    width: 20,
-                    child: Icon(
-                      Icons.arrow_back_ios_outlined,
-                      color: Colors.blue,
-                      size: 16,
-                    )),
-                Text(
-                  "НА ГЛАВНУЮ",
-                  style: TextStyle(color: Colors.blue),
-                ),
-              ],
-            )));
+          alignment: Alignment.center,
+          width: _screenWidth * 0.5,
+          height: _screenHeight * 0.07,
+          margin: EdgeInsets.only(top: _screenHeight*0.01),
+          decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.all(Radius.circular(26))),
+          child: Text(
+            "НА ГЛАВНУЮ",
+            style: TextStyle(color: Colors.white, fontSize: _screenHeight*0.03, fontWeight: FontWeight.bold),
+          ),
+        ));
   }
 
   void _openAuthScreen() {
