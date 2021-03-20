@@ -71,7 +71,7 @@ class _HumanInfoWidgetState extends State<HumanInfoWidget> {
         controller: maxLength == 3
             ? widget.textEditingControllers[widget.which - 1].right
             : widget.textEditingControllers[widget.which - 1].left,
-        style: TextStyle(fontSize: _screenHeight*0.025),
+        style: TextStyle(fontSize: _screenHeight * 0.025),
         decoration: new InputDecoration(
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
@@ -79,8 +79,7 @@ class _HumanInfoWidgetState extends State<HumanInfoWidget> {
           errorBorder: InputBorder.none,
           disabledBorder: InputBorder.none,
           isDense: true,
-          contentPadding:
-              EdgeInsets.only(left: 5, bottom: 2, top: 2, right: 5),
+          contentPadding: EdgeInsets.only(left: 5, bottom: 2, top: 2, right: 5),
         ),
       ),
       decoration: BoxDecoration(

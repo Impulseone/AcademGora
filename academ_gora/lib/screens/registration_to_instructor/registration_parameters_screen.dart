@@ -173,7 +173,7 @@ class RegistrationParametersScreenState
             ),
             Container(
               width: 170,
-              height: _screenHeight*0.06,
+              height: _screenHeight * 0.06,
               child: Material(
                 borderRadius: BorderRadius.all(Radius.circular(35)),
                 color: _continueButtonBackgroundColor(),
@@ -232,9 +232,9 @@ class RegistrationParametersScreenState
   bool _checkTextControllers() {
     if (textEditingControllers.isNotEmpty) {
       List<bool> conditions = [];
-      for (var textControllersPair in textEditingControllers) {
-        conditions.add(textControllersPair.left.text.isNotEmpty &&
-            textControllersPair.right.text.isNotEmpty);
+      for (var i = 0; i < selectedPeopleCount; ++i) {
+        conditions.add(textEditingControllers[i].left.text.isNotEmpty &&
+            textEditingControllers[i].right.text.isNotEmpty);
       }
       if (conditions.contains(false))
         return false;

@@ -71,8 +71,8 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
                 image: AssetImage(_createBackgroundOfCountButton(which)),
                 fit: BoxFit.fill),
           ),
-          height: _screenHeight*0.045,
-          width:_screenHeight*0.045,
+          height: _screenHeight * 0.045,
+          width: _screenHeight * 0.045,
           alignment: Alignment.center,
           child: Text(
             which.toString(),
@@ -91,10 +91,19 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
     widget.registrationParametersScreenState.setState(() {
       widget.registrationParametersScreenState.selectedPeopleCount =
           _selectedCount;
-      widget.registrationParametersScreenState.textEditingControllers = [];
-      for (var i = 0; i < which; ++i) {
-        widget.registrationParametersScreenState.textEditingControllers
-            .add(Pair(TextEditingController(), TextEditingController()));
+      if (widget
+          .registrationParametersScreenState.textEditingControllers.isEmpty) {
+        widget.registrationParametersScreenState.textEditingControllers = [];
+        for (var i = 0; i < which; ++i) {
+          widget.registrationParametersScreenState.textEditingControllers
+              .add(Pair(TextEditingController(), TextEditingController()));
+        }
+      }
+      else{
+        for (var i = widget.registrationParametersScreenState.textEditingControllers.length; i < which; ++i) {
+          widget.registrationParametersScreenState.textEditingControllers
+              .add(Pair(TextEditingController(), TextEditingController()));
+        }
       }
     });
     setState(() {});
