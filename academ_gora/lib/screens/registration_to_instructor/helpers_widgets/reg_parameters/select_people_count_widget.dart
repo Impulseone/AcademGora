@@ -71,8 +71,8 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
                 image: AssetImage(_createBackgroundOfCountButton(which)),
                 fit: BoxFit.fill),
           ),
-          height: 30,
-          width: 30,
+          height: _screenHeight*0.045,
+          width:_screenHeight*0.045,
           alignment: Alignment.center,
           child: Text(
             which.toString(),

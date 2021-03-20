@@ -29,9 +29,9 @@ class _HumanInfoWidgetState extends State<HumanInfoWidget> {
       children: [
         _numberOfPersonWidget(),
         _titleWidget("Имя"),
-        _textFieldWidget(_screenWidth * 0.3, 50, TextInputType.name),
+        _textFieldWidget(_screenWidth * 0.35, 50, TextInputType.name),
         _titleWidget("Возраст"),
-        _textFieldWidget(50, 3, TextInputType.number)
+        _textFieldWidget(_screenWidth * 0.14, 3, TextInputType.number)
       ],
     );
   }
@@ -59,7 +59,7 @@ class _HumanInfoWidgetState extends State<HumanInfoWidget> {
       double width, int maxLength, TextInputType textInputType) {
     return Container(
       margin: EdgeInsets.only(bottom: 3, left: 10),
-      height: 30,
+      height: _screenHeight * 0.04,
       width: width,
       child: TextField(
         onSubmitted: (s) =>
@@ -71,14 +71,16 @@ class _HumanInfoWidgetState extends State<HumanInfoWidget> {
         controller: maxLength == 3
             ? widget.textEditingControllers[widget.which - 1].right
             : widget.textEditingControllers[widget.which - 1].left,
+        style: TextStyle(fontSize: _screenHeight*0.025),
         decoration: new InputDecoration(
           border: InputBorder.none,
           focusedBorder: InputBorder.none,
           enabledBorder: InputBorder.none,
           errorBorder: InputBorder.none,
           disabledBorder: InputBorder.none,
+          isDense: true,
           contentPadding:
-              EdgeInsets.only(left: 5, bottom: 11, top: 11, right: 5),
+              EdgeInsets.only(left: 5, bottom: 2, top: 2, right: 5),
         ),
       ),
       decoration: BoxDecoration(

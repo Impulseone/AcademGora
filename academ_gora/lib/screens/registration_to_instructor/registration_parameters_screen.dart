@@ -46,18 +46,21 @@ class RegistrationParametersScreenState
                         margin: EdgeInsets.only(top: 12, left: 5),
                         child:
                             SelectPeopleCountWidget(selectedPeopleCount, this)),
-                    horizontalDivider(10, 10, 10, 10),
+                    horizontalDivider(
+                        10, 10, _screenHeight * 0.015, _screenHeight * 0.015),
                     Container(
                         margin: EdgeInsets.only(left: 5),
                         child: SelectDurationWidget(selectedDuration, this)),
-                    horizontalDivider(10, 10, 10, 10),
+                    horizontalDivider(
+                        10, 10, _screenHeight * 0.015, _screenHeight * 0.015),
                     Container(
                         margin: EdgeInsets.only(left: 5),
                         child: SelectLevelOfSkatingWidget(
                             selectedLevelOfSkating, this)),
-                    horizontalDivider(10, 10, 10, 10),
+                    horizontalDivider(
+                        10, 10, _screenHeight * 0.015, _screenHeight * 0.015),
                     Container(
-                        height: _screenHeight*0.15,
+                        height: _screenHeight * 0.19,
                         child: ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             padding: const EdgeInsets.all(3),
@@ -79,9 +82,9 @@ class RegistrationParametersScreenState
 
   Widget _infoWidget() {
     return Container(
-        margin: EdgeInsets.only(top: 15),
-        width: _screenWidth*0.9,
-        height: _screenHeight*0.25,
+        margin: EdgeInsets.only(top: _screenHeight * 0.05),
+        width: _screenWidth * 0.9,
+        height: _screenHeight * 0.25,
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -94,29 +97,31 @@ class RegistrationParametersScreenState
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
                     height: 30,
                     width: 30,
-                    margin: EdgeInsets.only(right: 15),
+                    margin: EdgeInsets.only(right: _screenWidth * 0.16),
                     child:
                         Image.asset("assets/registration_parameters/e_2.png")),
-                Text(
+                Container(
+                    child: Text(
                   InfoText.getLevelText(),
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: _screenHeight*0.017),
-                )
+                  style: TextStyle(fontSize: _screenHeight * 0.018),
+                ))
               ],
             ),
             Text(
               InfoText.getText(),
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: _screenHeight*0.017),
+              style: TextStyle(fontSize: _screenHeight * 0.018),
             ),
             Text(
               InfoText.getAge(),
               textAlign: TextAlign.left,
-              style: TextStyle(fontSize: _screenHeight*0.017),
+              style: TextStyle(fontSize: _screenHeight * 0.018),
             ),
           ],
         ));
@@ -132,8 +137,8 @@ class RegistrationParametersScreenState
               width: 20,
               child: Image.asset("assets/registration_parameters/e12.png")),
           Container(
-            width: _screenWidth*0.85,
-            height: 30,
+            width: _screenWidth * 0.85,
+            height: _screenHeight * 0.05,
             margin: EdgeInsets.only(left: 5),
             child: TextField(
               maxLines: 10,
@@ -168,7 +173,7 @@ class RegistrationParametersScreenState
             ),
             Container(
               width: 170,
-              height: 38,
+              height: _screenHeight*0.06,
               child: Material(
                 borderRadius: BorderRadius.all(Radius.circular(35)),
                 color: _continueButtonBackgroundColor(),

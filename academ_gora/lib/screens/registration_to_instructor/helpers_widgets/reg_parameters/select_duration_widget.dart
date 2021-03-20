@@ -69,8 +69,8 @@ class _SelectDurationWidgetState extends State<SelectDurationWidget> {
                 image: AssetImage(_createBackgroundOfCountButton(which)),
                 fit: BoxFit.fill),
           ),
-          height: 30,
-          width: _screenWidth*0.3,
+          height:  _screenHeight*0.045,
+          width: _screenWidth*0.29,
           padding: EdgeInsets.only(right: 12),
           alignment: Alignment.centerRight,
           child: Text(

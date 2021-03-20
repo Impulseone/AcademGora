@@ -33,7 +33,8 @@ class _SelectLevelOfSkatingWidgetState
       children: [
         _title(),
         _levelButtons(),
-        _levelButton(2, _screenWidth*0.92, "Умею с любой горы, улучшение техники")
+        _levelButton(
+            2, _screenWidth * 0.9, "Умею с любой горы, улучшение техники",rightMargin:_screenWidth * 0.03 )
       ],
     );
   }
@@ -62,9 +63,9 @@ class _SelectLevelOfSkatingWidgetState
   }
 
   Widget _levelButton(int which, double width, String text,
-      {double leftMargin = 0}) {
+      {double leftMargin = 0, double rightMargin = 0}) {
     return Container(
-      margin: EdgeInsets.only(left: leftMargin),
+      margin: EdgeInsets.only(left: leftMargin, right: rightMargin),
       child: GestureDetector(
         onTap: () => _selectCount(which),
         child: Container(
@@ -75,9 +76,9 @@ class _SelectLevelOfSkatingWidgetState
                     AssetImage(_createBackgroundOfLevelOfSkatingButton(which)),
                 fit: BoxFit.fill),
           ),
-          height: 33,
+          height: _screenHeight * 0.045,
           width: width,
-          padding: EdgeInsets.only(right: 12),
+          padding: EdgeInsets.only(right: 8),
           alignment: Alignment.center,
           child: Text(
             text,
