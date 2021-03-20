@@ -55,11 +55,11 @@ class InstructorWidgetState extends State<InstructorWidget> {
                           screenHeight: MediaQuery.of(context).size.height)));
                 },
                 child: Container(
-                    height: _screenHeight*0.08,
-                    width: _screenHeight*0.08,
+                    height: _screenHeight * 0.08,
+                    width: _screenHeight * 0.08,
                     child: Image.asset("assets/instructors_list/e_3.png"))),
             Container(
-                width: _screenWidth*0.58,
+                width: _screenWidth * 0.58,
                 margin: EdgeInsets.only(left: 12),
                 child: Text(
                   instructorName,

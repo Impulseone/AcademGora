@@ -145,44 +145,24 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
   }
 
   Widget _profileWidget(int which, List<String> instructors) {
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            width: _screenWidth * 0.28,
-            height: _screenHeight * 0.1,
-            child: Image.asset("assets/all_instructors/2.png"),
-          ),
-          Text(
-            instructors[which],
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-          ),
-          ExpandTapWidget(
-            tapPadding: EdgeInsets.all(50),
-            onTap: () => _openInstructorProfileScreen(instructors[which]),
-            child: Container(
-              width: _screenWidth * 0.3,
-              height: _screenHeight * 0.03,
-              margin: EdgeInsets.only(top: 4),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                image: DecorationImage(
-                  image: AssetImage("assets/all_instructors/1.png"),
-                  fit: BoxFit.cover,
-                ),
+    return GestureDetector(
+        onTap: () => _openInstructorProfileScreen(instructors[which]),
+        child: Container(
+          child: Column(
+            children: [
+              Container(
+                width: _screenWidth * 0.3,
+                height: _screenHeight * 0.13,
+                child: Image.asset("assets/all_instructors/2.png"),
               ),
-              child: Text(
-                "ОТКРЫТЬ ПРОФИЛЬ",
+              Text(
+                instructors[which],
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 8, color: Colors.blue),
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               ),
-            ),
-          )
-        ],
-      ),
-    );
+            ],
+          ),
+        ));
   }
 
   void _openInstructorProfileScreen(String instructorName) {

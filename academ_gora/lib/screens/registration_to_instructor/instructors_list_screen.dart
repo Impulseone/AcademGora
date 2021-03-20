@@ -36,7 +36,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
           ),
           child: Column(children: [
             Container(
-              height: _screenHeight*0.72,
+              height: _screenHeight * 0.72,
               margin: EdgeInsets.only(top: 50, left: 15, right: 15),
               child: ListView.builder(
                 itemCount: items.length,
