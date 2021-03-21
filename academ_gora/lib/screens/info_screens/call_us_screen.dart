@@ -62,7 +62,9 @@ class _CallUsScreenState extends State<CallUsScreen> {
       child: Text(
         "89025101513",
         style: TextStyle(
-            fontSize: _screenHeight*0.04, color: Colors.white, fontWeight: FontWeight.bold),
+            fontSize: _screenHeight * 0.04,
+            color: Colors.white,
+            fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -84,7 +86,9 @@ class _CallUsScreenState extends State<CallUsScreen> {
       child: Text(
         "НАПИСАТЬ",
         style: TextStyle(
-            fontSize: _screenHeight*0.04, color: Colors.white, fontWeight: FontWeight.bold),
+            fontSize: _screenHeight * 0.04,
+            color: Colors.white,
+            fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -106,14 +110,16 @@ class _CallUsScreenState extends State<CallUsScreen> {
       child: Text(
         "Progress077@yandex.ru",
         style: TextStyle(
-            fontSize: _screenHeight*0.028, color: Colors.white, fontWeight: FontWeight.bold),
+            fontSize: _screenHeight * 0.025,
+            color: Colors.white,
+            fontWeight: FontWeight.bold),
       ),
     );
   }
 
   Widget _logo() {
     return Container(
-      margin: EdgeInsets.only(top: _screenHeight*0.06),
+      margin: EdgeInsets.only(top: _screenHeight * 0.06),
       height: _screenHeight * 0.25,
       width: _screenWidth * 0.35,
       child: Image.asset("assets/info_screens/call_us/4.png"),

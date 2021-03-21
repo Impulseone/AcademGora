@@ -234,7 +234,8 @@ class RegistrationParametersScreenState
       List<bool> conditions = [];
       for (var i = 0; i < selectedPeopleCount; ++i) {
         conditions.add(textEditingControllers[i].left.text.isNotEmpty &&
-            textEditingControllers[i].right.text.isNotEmpty);
+            textEditingControllers[i].right.text.isNotEmpty &&
+            isNumericUsing_tryParse(textEditingControllers[i].right.text));
       }
       if (conditions.contains(false))
         return false;
@@ -247,6 +248,19 @@ class RegistrationParametersScreenState
   void _onBackPressed() {
     Navigator.of(context).pop();
   }
+}
+
+bool isNumericUsing_tryParse(String string) {
+  // Null or empty string is not a number
+  if (string == null || string.isEmpty) {
+    return false;
+  }
+  final number = num.tryParse(string);
+
+  if (number == null) {
+    return false;
+  }
+  return true;
 }
 
 class Pair {
