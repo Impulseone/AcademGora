@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "888183445557",
+    "project_id": "academgora-6be92",
+    "storage_bucket": "academgora-6be92.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888183445557:android:14b983da64e3c3dd69b97c",
+        "android_client_info": {
+          "package_name": "com.skynet.academ_gora"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "888183445557-vf2crm6d74vbnaane6f7d8ohp79i4l1r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIeIwz_NCSO7LNPB_DwOqBEbwIwgjrmDA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "888183445557-vf2crm6d74vbnaane6f7d8ohp79i4l1r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
