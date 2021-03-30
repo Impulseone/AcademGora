@@ -29,6 +29,13 @@
             {
               "client_id": "888183445557-vf2crm6d74vbnaane6f7d8ohp79i4l1r.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "888183445557-cjeojt6omlrh1htfnqourobdegesugjk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.skynet.academGora"
+              }
             }
           ]
         }
