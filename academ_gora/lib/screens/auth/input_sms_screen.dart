@@ -1,5 +1,5 @@
 import 'package:academ_gora/bloc/auth_bloc.dart';
-import 'package:academ_gora/screens/auth/helpers/password_widget.dart';
+import 'package:academ_gora/screens/auth/helpers/sms_code_widget.dart';
 import 'package:academ_gora/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +30,7 @@ class InputSmsCodeScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 20,
                             ))),
-                    PasswordWidget(() {
+                    SMSCodeWidget(() {
                       _openMainScreen(context);
                     }, () {
                       _onBackPressed(context);

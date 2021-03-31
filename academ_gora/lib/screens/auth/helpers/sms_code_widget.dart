@@ -1,26 +1,29 @@
+import 'dart:async';
+
 import 'package:academ_gora/bloc/auth_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:pin_input_text_field/pin_input_text_field.dart';
+import 'package:quiver/async.dart';
 
-class PasswordWidget extends StatefulWidget {
+class SMSCodeWidget extends StatefulWidget {
   final Function _openMainScreen;
   final Function _back;
   final String _number;
   final AuthBloc authBloc;
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-  PasswordWidget(this._openMainScreen, this._back, this._number, this.authBloc,
+  SMSCodeWidget(this._openMainScreen, this._back, this._number, this.authBloc,
       this.scaffoldKey);
 
   @override
-  _PasswordWidgetState createState() =>
-      _PasswordWidgetState(_openMainScreen, _back, _number);
+  _SMSCodeWidgetState createState() =>
+      _SMSCodeWidgetState(_openMainScreen, _back, _number);
 }
 
-class _PasswordWidgetState extends State<PasswordWidget> {
+class _SMSCodeWidgetState extends State<SMSCodeWidget> {
   final Function _getCode;
   final Function _back;
   final String _number;
@@ -31,7 +34,17 @@ class _PasswordWidgetState extends State<PasswordWidget> {
 
   String _verificationId;
 
-  _PasswordWidgetState(this._getCode, this._back, this._number);
+  Timer _timer;
+  int _currentTimerValue = 30;
+  bool _timerWorking;
+
+  _SMSCodeWidgetState(this._getCode, this._back, this._number);
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +61,8 @@ class _PasswordWidgetState extends State<PasswordWidget> {
           _topText(),
           _buildPinInputTextFieldExample(),
           _textNumberHint(),
-          _getCodeButton(),
-          _backAndResendButton()
+          _applyCodeButton(),
+          _backAndResendButtons()
         ],
       ),
     );
@@ -81,7 +94,7 @@ class _PasswordWidgetState extends State<PasswordWidget> {
         ));
   }
 
-  Widget _getCodeButton() {
+  Widget _applyCodeButton() {
     return GestureDetector(
         onTap: _signInWithSmsCode,
         child: Container(
@@ -100,7 +113,7 @@ class _PasswordWidgetState extends State<PasswordWidget> {
         ));
   }
 
-  Widget _backAndResendButton() {
+  Widget _backAndResendButtons() {
     return Container(
         margin: EdgeInsets.only(top: 15),
         width: 200,
@@ -114,11 +127,11 @@ class _PasswordWidgetState extends State<PasswordWidget> {
                   height: 15,
                 )),
             GestureDetector(
-              onTap: _resendCode,
+                onTap: _resendCode,
                 child: Container(
-                    margin: EdgeInsets.only(left: 60),
+                    margin: EdgeInsets.only(left: 40),
                     child: Text(
-                      "Отправить снова",
+                      "Отправить снова($_currentTimerValue)",
                       style: TextStyle(fontSize: 14, color: Colors.blue),
                     )))
           ],
@@ -183,13 +196,43 @@ class _PasswordWidgetState extends State<PasswordWidget> {
     });
   }
 
-  void _resendCode(){
-    widget.authBloc.verifyPhone(_number);
-    widget.scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        behavior: SnackBarBehavior.fixed,
-        content: Text('Код выслан повторно'),
-      ),
+  void _resendCode() {
+    if (!_timerWorking) {
+      _startTimer();
+      widget.authBloc.verifyPhone(_number);
+      widget.scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.fixed,
+          content: Text('Код выслан повторно'),
+        ),
+      );
+    }
+  }
+
+  void _startTimer() {
+    _currentTimerValue = 30;
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (_currentTimerValue == 0) {
+          _timerWorking = false;
+          setState(() {
+            timer.cancel();
+          });
+        } else {
+          _timerWorking = true;
+          setState(() {
+            _currentTimerValue--;
+          });
+        }
+      },
     );
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 }
