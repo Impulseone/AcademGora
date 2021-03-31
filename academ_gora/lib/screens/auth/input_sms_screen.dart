@@ -6,12 +6,14 @@ import 'package:flutter/material.dart';
 class InputSmsCodeScreen extends StatelessWidget {
   final String number;
   final AuthBloc authBloc;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   InputSmsCodeScreen(this.number, this.authBloc);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _scaffoldKey,
         body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -32,7 +34,7 @@ class InputSmsCodeScreen extends StatelessWidget {
                       _openMainScreen(context);
                     }, () {
                       _onBackPressed(context);
-                    }, number, authBloc),
+                    }, number, authBloc, _scaffoldKey),
                     Container(
                       height: 150,
                     )

@@ -10,8 +10,9 @@ class PasswordWidget extends StatefulWidget {
   final Function _back;
   final String _number;
   final AuthBloc authBloc;
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
-  PasswordWidget(this._openMainScreen, this._back, this._number, this.authBloc);
+  PasswordWidget(this._openMainScreen, this._back, this._number, this.authBloc, this.scaffoldKey);
 
   @override
   _PasswordWidgetState createState() =>
@@ -164,6 +165,12 @@ class _PasswordWidgetState extends State<PasswordWidget> {
       _getCode();
     } catch (e) {
       print("Failed to sign in: " + e.toString());
+      widget.scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.fixed,
+          content: Text('Ошибка авторизации, попробуйте позднее.'),
+        ),
+      );
     }
   }
 

@@ -14,7 +14,7 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  
+
   AuthBloc _authBloc = AuthBloc();
 
   final TextEditingController _controller = TextEditingController();
@@ -29,6 +29,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
         body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -58,9 +59,18 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void _getCode(BuildContext context) {
-    print(_controller.text.toString());
-    _authBloc.verifyPhone(_controller.text.toString());
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (c) => InputSmsCodeScreen(_controller.text.toString(),_authBloc)));
+    if (_controller.text.length < 12) {
+        _scaffoldKey.currentState.showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.fixed,
+            content: Text('Введенный номер телефона недействителен'),
+          ),
+        );
+    } else {
+      _authBloc.verifyPhone(_controller.text.toString());
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (c) =>
+              InputSmsCodeScreen(_controller.text.toString(), _authBloc)));
+    }
   }
 }
