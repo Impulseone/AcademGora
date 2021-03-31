@@ -1,12 +1,13 @@
+import 'package:academ_gora/bloc/auth_bloc.dart';
 import 'package:academ_gora/screens/auth/helpers/password_widget.dart';
 import 'package:academ_gora/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
-class InputPasswordScreen extends StatelessWidget {
-
+class InputSmsCodeScreen extends StatelessWidget {
   final String number;
+  final AuthBloc authBloc;
 
-  InputPasswordScreen(this.number);
+  InputSmsCodeScreen(this.number, this.authBloc);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class InputPasswordScreen extends StatelessWidget {
                       _openMainScreen(context);
                     }, () {
                       _onBackPressed(context);
-                    }, number),
+                    }, number, authBloc),
                     Container(
                       height: 150,
                     )
@@ -42,8 +43,8 @@ class InputPasswordScreen extends StatelessWidget {
   }
 
   void _openMainScreen(BuildContext context) {
-    // Navigator.of(context).push(MaterialPageRoute(builder: (c) => MainScreen()));
-    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (c)=>MainScreen()), (route) => false);
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (c) => MainScreen()), (route) => false);
   }
 
   void _onBackPressed(BuildContext context) {
