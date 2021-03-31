@@ -29,7 +29,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
+        key: _scaffoldKey,
         body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -59,13 +59,20 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void _getCode(BuildContext context) {
-    if (_controller.text.length < 12) {
-        _scaffoldKey.currentState.showSnackBar(
-          SnackBar(
-            behavior: SnackBarBehavior.fixed,
-            content: Text('Введенный номер телефона недействителен'),
-          ),
-        );
+    if (_controller.text.length ==0) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.fixed,
+          content: Text('Введите номер телефона'),
+        ),
+      );
+    } else if (_controller.text.length < 12) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.fixed,
+          content: Text('Введенный номер телефона недействителен'),
+        ),
+      );
     } else {
       _authBloc.verifyPhone(_controller.text.toString());
       Navigator.of(context).push(MaterialPageRoute(

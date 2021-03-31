@@ -12,7 +12,8 @@ class PasswordWidget extends StatefulWidget {
   final AuthBloc authBloc;
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-  PasswordWidget(this._openMainScreen, this._back, this._number, this.authBloc, this.scaffoldKey);
+  PasswordWidget(this._openMainScreen, this._back, this._number, this.authBloc,
+      this.scaffoldKey);
 
   @override
   _PasswordWidgetState createState() =>
@@ -112,12 +113,14 @@ class _PasswordWidgetState extends State<PasswordWidget> {
                   width: 15,
                   height: 15,
                 )),
-            Container(
-                margin: EdgeInsets.only(left: 60),
-                child: Text(
-                  "Отправить снова",
-                  style: TextStyle(fontSize: 14, color: Colors.blue),
-                ))
+            GestureDetector(
+              onTap: _resendCode,
+                child: Container(
+                    margin: EdgeInsets.only(left: 60),
+                    child: Text(
+                      "Отправить снова",
+                      style: TextStyle(fontSize: 14, color: Colors.blue),
+                    )))
           ],
         ));
   }
@@ -178,5 +181,15 @@ class _PasswordWidgetState extends State<PasswordWidget> {
     widget.authBloc.verificationIdController.stream.listen((event) {
       if (event != null) _verificationId = event;
     });
+  }
+
+  void _resendCode(){
+    widget.authBloc.verifyPhone(_number);
+    widget.scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.fixed,
+        content: Text('Код выслан повторно'),
+      ),
+    );
   }
 }
