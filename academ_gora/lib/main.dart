@@ -26,13 +26,43 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: StreamBuilder<bool>(
-            stream: authBloc.isUserLoggedIn,
-            builder: (context, AsyncSnapshot<bool> snapshot) {
-              if (snapshot.hasData && snapshot.data) {
-                return MainScreen();
-              }
-              return AuthScreen();
-            }));
+        home: SplashScreen(authBloc)
+    );
+  }
+}
+
+class SplashScreen extends StatelessWidget {
+  final AuthBloc authBloc;
+
+  SplashScreen(this.authBloc);
+
+  @override
+  Widget build(BuildContext context) {
+    _listenLoginInfo(context);
+    return Scaffold(
+        body: Container(
+            decoration: BoxDecoration(
+      image: DecorationImage(
+        image: AssetImage("assets/account/0_bg.png"),
+        fit: BoxFit.cover,
+      ),
+    )));
+  }
+
+  void _listenLoginInfo(BuildContext context) {
+    authBloc.isUserLoggedIn.listen((event) {
+      if (event) _openMainScreen(context);
+      else _openAuthScreen(context);
+    });
+  }
+
+  void _openMainScreen(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (c) => MainScreen()), (route) => false);
+  }
+
+  void _openAuthScreen(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (c) => AuthScreen()), (route) => false);
   }
 }

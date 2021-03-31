@@ -28,7 +28,12 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
         ),
       ),
       child: Column(
-        children: [_topAccountInfo(), _lessonsTitle(), _lessonsList(), _backToMainScreenButton()],
+        children: [
+          _topAccountInfo(),
+          _lessonsTitle(),
+          _lessonsList(),
+          _backToMainScreenButton()
+        ],
       ),
     ));
   }
@@ -103,11 +108,16 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
           alignment: Alignment.center,
           width: _screenWidth * 0.5,
           height: _screenHeight * 0.07,
-          margin: EdgeInsets.only(top: _screenHeight*0.01),
-          decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.all(Radius.circular(26))),
+          margin: EdgeInsets.only(top: _screenHeight * 0.01),
+          decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.all(Radius.circular(26))),
           child: Text(
             "НА ГЛАВНУЮ",
-            style: TextStyle(color: Colors.white, fontSize: _screenHeight*0.03, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: _screenHeight * 0.03,
+                fontWeight: FontWeight.bold),
           ),
         ));
   }
