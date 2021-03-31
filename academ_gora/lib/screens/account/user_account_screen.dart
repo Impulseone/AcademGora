@@ -62,7 +62,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
         margin: EdgeInsets.only(top: 6),
         alignment: Alignment.topRight,
         child: Text(
-          "+7 999 333 38 42",
+          FirebaseAuth.instance.currentUser.phoneNumber,
           style: TextStyle(color: Colors.white, fontSize: 18),
         ));
   }
