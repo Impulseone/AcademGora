@@ -1,6 +1,7 @@
 import 'package:academ_gora/screens/account/helpers_widgets/lesson_widget.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class UserAccountScreen extends StatefulWidget {
@@ -67,10 +68,10 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
   }
 
   Widget _exitAndMainButtons() {
-    return _exitButton();
+    return _logoutButton();
   }
 
-  Widget _exitButton() {
+  Widget _logoutButton() {
     return GestureDetector(
         onTap: _openAuthScreen,
         child: Container(
@@ -91,6 +92,10 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
             )));
   }
 
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
   Widget _backToMainScreenButton() {
     return GestureDetector(
         onTap: _openMainScreen,
@@ -108,6 +113,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
   }
 
   void _openAuthScreen() {
+    _signOut();
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (c) => AuthScreen()), (route) => false);
   }

@@ -1,8 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AuthBloc {
   PublishSubject<String> verificationIdController = PublishSubject<String>();
+  BehaviorSubject<bool> loggedInController = BehaviorSubject<bool>();
+
+  ValueObservable<bool> get isUserLoggedIn {
+    _checkUserLoggedIn();
+    return loggedInController.stream;
+  }
+
+  void _checkUserLoggedIn() async {
+    await Firebase.initializeApp();
+    if (FirebaseAuth.instance.currentUser != null) {
+      loggedInController.sink.add(true);
+    } else {
+      loggedInController.sink.add(false);
+    }
+  }
 
   Future<void> verifyPhone(phoneNumber) async {
     await FirebaseAuth.instance.verifyPhoneNumber(
@@ -16,7 +32,7 @@ class AuthBloc {
 
   void _verificationCompleted(AuthCredential authResult) async {
     UserCredential firebaseResult =
-    await FirebaseAuth.instance.signInWithCredential(authResult);
+        await FirebaseAuth.instance.signInWithCredential(authResult);
     if (firebaseResult.additionalUserInfo.isNewUser) {
       print("---------------------------");
       print(firebaseResult.additionalUserInfo.isNewUser);
@@ -61,7 +77,8 @@ class AuthBloc {
     verificationIdController.sink.add(verId);
   }
 
-  void dispose(){
+  void dispose() {
     verificationIdController.close();
+    loggedInController.close();
   }
 }

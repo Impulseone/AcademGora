@@ -23,7 +23,6 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   void initState() {
     super.initState();
-    Firebase.initializeApp();
   }
 
   @override
