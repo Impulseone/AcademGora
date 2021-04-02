@@ -35,7 +35,7 @@ class _SMSCodeWidgetState extends State<SMSCodeWidget> {
   String _verificationId;
 
   Timer _timer;
-  int _currentTimerValue = 30;
+  int _currentTimerValue = 60;
   bool _timerWorking;
 
   _SMSCodeWidgetState(this._getCode, this._back, this._number);
@@ -210,7 +210,7 @@ class _SMSCodeWidgetState extends State<SMSCodeWidget> {
   }
 
   void _startTimer() {
-    _currentTimerValue = 30;
+    _currentTimerValue = 60;
     const oneSec = const Duration(seconds: 1);
     _timer = new Timer.periodic(
       oneSec,

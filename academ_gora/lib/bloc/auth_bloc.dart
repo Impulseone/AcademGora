@@ -25,27 +25,21 @@ class AuthBloc {
     await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: _verificationCompleted,
-        timeout: const Duration(seconds: 15),
+        timeout: Duration(seconds: 60),
         verificationFailed: _verificationFailed,
         codeSent: _smsSent,
         codeAutoRetrievalTimeout: _autoRetrievalTimeout);
   }
 
   void _verificationCompleted(AuthCredential authResult) async {
-    UserCredential firebaseResult =
-        await FirebaseAuth.instance.signInWithCredential(authResult);
-    if (firebaseResult.additionalUserInfo.isNewUser) {
-      print("---------------------------");
-      print(firebaseResult.additionalUserInfo.isNewUser);
-      print("true");
-      print("---------------------------");
-      // RegisterUser();
-    } else {
-      // AuthService().signIn(authResult);
-      print("---------------------------");
-      print(firebaseResult.additionalUserInfo.isNewUser);
-      print("---------------------------");
-    }
+    await FirebaseAuth.instance.signInWithCredential(authResult).then((value) {
+      if (value.user != null)
+        loggedInController.sink.add(true);
+      else
+        errorController.sink.add("User is null");
+    }).catchError((e) {
+      errorController.sink.add(e);
+    });
   }
 
   void _verificationFailed(FirebaseAuthException authException) {
