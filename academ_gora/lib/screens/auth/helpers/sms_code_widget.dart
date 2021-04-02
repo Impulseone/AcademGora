@@ -184,7 +184,7 @@ class _SMSCodeWidgetState extends State<SMSCodeWidget> {
       widget.scaffoldKey.currentState.showSnackBar(
         SnackBar(
           behavior: SnackBarBehavior.fixed,
-          content: Text('Ошибка авторизации, попробуйте позднее.'),
+          content: Text('Ошибка авторизации(${e.toString()}), попробуйте позднее.'),
         ),
       );
     }

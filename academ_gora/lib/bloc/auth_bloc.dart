@@ -5,6 +5,7 @@ import 'package:rxdart/rxdart.dart';
 class AuthBloc {
   PublishSubject<String> verificationIdController = PublishSubject<String>();
   BehaviorSubject<bool> loggedInController = BehaviorSubject<bool>();
+  PublishSubject<String> errorController = PublishSubject();
 
   ValueObservable<bool> get isUserLoggedIn {
     _checkUserLoggedIn();
@@ -48,25 +49,8 @@ class AuthBloc {
   }
 
   void _verificationFailed(FirebaseAuthException authException) {
-    print(authException);
-    // if (authException.code == 'network-request-failed') {
-    //   _scaffoldKey.currentState.showSnackBar(
-    //     SnackBar(
-    //       behavior: SnackBarBehavior.fixed,
-    //       backgroundColor: Color.fromRGBO(244, 67, 54, 1),
-    //       content: Text('Предоставленный номер телефона недействителен'),
-    //     ),
-    //   );
-    // } else if (authException.code == 'too-many-requests') {
-    //   _scaffoldKey.currentState.showSnackBar(
-    //     SnackBar(
-    //       behavior: SnackBarBehavior.fixed,
-    //       backgroundColor: Color.fromRGBO(244, 67, 54, 1),
-    //       content: Text(
-    //           'Мы заблокировали все запросы с этого устройства из-за необычной активности. Попробуйте позже.'),
-    //     ),
-    //   );
-    // }
+    print(authException.message);
+    errorController.sink.add(authException.message);
   }
 
   void _smsSent(String verId, [int forceResend]) {
@@ -80,5 +64,6 @@ class AuthBloc {
   void dispose() {
     verificationIdController.close();
     loggedInController.close();
+    errorController.close();
   }
 }

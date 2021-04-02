@@ -58,7 +58,7 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void _getCode(BuildContext context) {
-    if (_controller.text.length ==0) {
+    if (_controller.text.length == 0) {
       _scaffoldKey.currentState.showSnackBar(
         SnackBar(
           behavior: SnackBarBehavior.fixed,

@@ -12,6 +12,7 @@ class InputSmsCodeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _listenErrors();
     return Scaffold(
         key: _scaffoldKey,
         body: Container(
@@ -51,5 +52,17 @@ class InputSmsCodeScreen extends StatelessWidget {
 
   void _onBackPressed(BuildContext context) {
     Navigator.of(context).pop();
+  }
+
+  void _listenErrors() {
+    authBloc.errorController.stream.listen((event) {
+      if (event != null)
+        _scaffoldKey.currentState.showSnackBar(
+          SnackBar(
+            behavior: SnackBarBehavior.fixed,
+            content: Text(event),
+          ),
+        );
+    });
   }
 }
