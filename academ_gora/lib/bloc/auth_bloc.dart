@@ -1,8 +1,13 @@
+import 'package:academ_gora/model/user_role.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthBloc {
+  final dbRef = FirebaseDatabase.instance.reference();
+
   PublishSubject<String> verificationIdController = PublishSubject<String>();
   BehaviorSubject<bool> loggedInController = BehaviorSubject<bool>();
   PublishSubject<String> errorController = PublishSubject();
@@ -15,10 +20,22 @@ class AuthBloc {
   void _checkUserLoggedIn() async {
     await Firebase.initializeApp();
     if (FirebaseAuth.instance.currentUser != null) {
+      saveUserRole(FirebaseAuth.instance.currentUser.phoneNumber);
       loggedInController.sink.add(true);
     } else {
       loggedInController.sink.add(false);
     }
+  }
+
+  void authorizeWithSMSCode(String verificationId, String smsCode) async {
+    final AuthCredential credential = PhoneAuthProvider.credential(
+      verificationId: verificationId,
+      smsCode: smsCode,
+    );
+    final User user =
+        (await FirebaseAuth.instance.signInWithCredential(credential)).user;
+    print("Successfully signed in UID: ${user.uid}");
+    saveUserRole(user.phoneNumber);
   }
 
   Future<void> verifyPhone(phoneNumber) async {
@@ -33,8 +50,10 @@ class AuthBloc {
 
   void _verificationCompleted(AuthCredential authResult) async {
     await FirebaseAuth.instance.signInWithCredential(authResult).then((value) {
-      if (value.user != null)
+      if (value.user != null) {
+        saveUserRole(value.user.phoneNumber);
         loggedInController.sink.add(true);
+      }
       else
         errorController.sink.add("User is null");
     }).catchError((e) {
@@ -53,6 +72,27 @@ class AuthBloc {
 
   void _autoRetrievalTimeout(String verId) {
     verificationIdController.sink.add(verId);
+  }
+
+  void saveUserRole(String phoneNumber) async {
+    String userRole = UserRole.user;
+    dbRef.child("Телефоны инструкторов").once().then((value) async {
+      (value.value as Map<dynamic, dynamic>).entries.forEach((element) {
+        if (element.value == phoneNumber) {
+          userRole = UserRole.instructor;
+        }
+      });
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("userRole", userRole);
+      print("UserRole: $userRole");
+    });
+  }
+
+  bool checkIsInstructor(Map<String, dynamic> phones, String phoneNumber) {
+    phones.entries.forEach((element) {
+      if (element.value == phoneNumber) return true;
+    });
+    return false;
   }
 
   void dispose() {

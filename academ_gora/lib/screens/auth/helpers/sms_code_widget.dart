@@ -24,7 +24,7 @@ class SMSCodeWidget extends StatefulWidget {
 }
 
 class _SMSCodeWidgetState extends State<SMSCodeWidget> {
-  final Function _getCode;
+  final Function _openMainScreen;
   final Function _back;
   final String _number;
 
@@ -38,7 +38,7 @@ class _SMSCodeWidgetState extends State<SMSCodeWidget> {
   int _currentTimerValue = 60;
   bool _timerWorking;
 
-  _SMSCodeWidgetState(this._getCode, this._back, this._number);
+  _SMSCodeWidgetState(this._openMainScreen, this._back, this._number);
 
   @override
   void initState() {
@@ -171,20 +171,16 @@ class _SMSCodeWidgetState extends State<SMSCodeWidget> {
 
   void _signInWithSmsCode() async {
     try {
-      final AuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: _verificationId,
-        smsCode: _pinEditingController.text,
-      );
-      final User user =
-          (await FirebaseAuth.instance.signInWithCredential(credential)).user;
-      print("Successfully signed in UID: ${user.uid}");
-      _getCode();
+      widget.authBloc
+          .authorizeWithSMSCode(_verificationId, _pinEditingController.text);
+      _openMainScreen();
     } catch (e) {
       print("Failed to sign in: " + e.toString());
       widget.scaffoldKey.currentState.showSnackBar(
         SnackBar(
           behavior: SnackBarBehavior.fixed,
-          content: Text('Ошибка авторизации(${e.toString()}), попробуйте позднее.'),
+          content:
+              Text('Ошибка авторизации(${e.toString()}), попробуйте позднее.'),
         ),
       );
     }

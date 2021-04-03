@@ -1,4 +1,5 @@
 import 'package:academ_gora/screens/registration_to_instructor/reg_final_screen.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import 'helpers_widgets/horizontal_divider.dart';
@@ -16,6 +17,9 @@ class RegistrationParametersScreen extends StatefulWidget {
 
 class RegistrationParametersScreenState
     extends State<RegistrationParametersScreen> {
+
+  final dbRef = FirebaseDatabase.instance.reference();
+
   List<Pair> textEditingControllers = [];
   int selectedPeopleCount = 0;
   int selectedDuration;
@@ -205,6 +209,7 @@ class RegistrationParametersScreenState
   }
 
   void _openRegFinalScreen() {
+
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (c) => RegistrationFinalScreen()));
   }
@@ -251,7 +256,6 @@ class RegistrationParametersScreenState
 }
 
 bool isNumericUsing_tryParse(String string) {
-  // Null or empty string is not a number
   if (string == null || string.isEmpty) {
     return false;
   }
