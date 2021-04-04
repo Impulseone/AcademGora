@@ -53,8 +53,7 @@ class AuthBloc {
       if (value.user != null) {
         saveUserRole(value.user.phoneNumber);
         loggedInController.sink.add(true);
-      }
-      else
+      } else
         errorController.sink.add("User is null");
     }).catchError((e) {
       errorController.sink.add(e);
@@ -85,6 +84,38 @@ class AuthBloc {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("userRole", userRole);
       print("UserRole: $userRole");
+      _saveUserInDb(userRole);
+    });
+  }
+
+  void _saveUserInDb(String userRole) {
+    String child = "";
+    switch (userRole) {
+      case UserRole.user:
+        {
+          child = "Пользователи";
+        }
+        return;
+      case UserRole.instructor:
+        {
+          child = "Инструкторы";
+        }
+        return;
+      case UserRole.administrator:
+        {
+          child = "Администраторы";
+        }
+        return;
+    }
+    dbRef
+        .child("$child/${FirebaseAuth.instance.currentUser.uid}")
+        .once()
+        .then((value) {
+      if (value == null) {
+        dbRef
+            .child("$child")
+            .set("${FirebaseAuth.instance.currentUser.uid}");
+      }
     });
   }
 

@@ -1,5 +1,5 @@
 class UserRole{
-  static String user = "user";
-  static String instructor = "instructor";
-  static String administrator = "administrator";
+  static const String user = "user";
+  static const String instructor = "instructor";
+  static const String administrator = "administrator";
 }
