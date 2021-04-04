@@ -2,6 +2,7 @@ import 'package:academ_gora/screens/account/helpers_widgets/lesson_widget.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class UserAccountScreen extends StatefulWidget {
@@ -15,10 +16,13 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
   double _screenHeight;
   double _screenWidth;
 
+  final dbRef = FirebaseDatabase.instance.reference();
+
   @override
   Widget build(BuildContext context) {
     _screenWidth = MediaQuery.of(context).size.width;
     _screenHeight = MediaQuery.of(context).size.height;
+    _getAllWorkouts();
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(
@@ -147,7 +151,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
     return Container(
       height: _screenHeight * 0.6,
       child: ListView.builder(
-          itemCount: 2,
+          itemCount: itemCount,
           itemBuilder: (BuildContext context, int index) {
             return Container(
                 child: Column(
@@ -165,5 +169,20 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
             ));
           }),
     );
+  }
+
+  void _getAllWorkouts() {
+    dbRef
+        .child("Пользователи/${FirebaseAuth.instance.currentUser.uid}/Занятия")
+        .once()
+        .then((value) {
+      if (value != null) {
+        int workoutCount = (value.value as Map<dynamic, dynamic>).keys.length;
+        if (itemCount != workoutCount)
+          setState(() {
+            itemCount = workoutCount;
+          });
+      }
+    });
   }
 }
