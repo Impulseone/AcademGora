@@ -3,11 +3,11 @@ import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
-import '../../registration_to_instructor_screen.dart';
+import '../../registration_first_screen.dart';
 
 class DateWidget extends StatefulWidget {
   final DateTime _selectedDate;
-  final RegistrationToInstructorScreenState registrationToInstructorScreenState;
+  final RegistrationFirstScreenState registrationToInstructorScreenState;
 
   DateWidget(this.registrationToInstructorScreenState, this._selectedDate);
 

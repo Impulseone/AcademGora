@@ -96,7 +96,7 @@ class _SelectLevelOfSkatingWidgetState
   void _selectCount(int which) {
     _selectedLevelOfSkating = which;
     widget.registrationParametersScreenState.setState(() {
-      widget.registrationParametersScreenState.selectedLevelOfSkating =
+      widget.registrationParametersScreenState.levelOfSkating =
           _selectedLevelOfSkating;
     });
     setState(() {});

@@ -89,7 +89,7 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
   void _selectCount(int which) {
     _selectedCount = which;
     widget.registrationParametersScreenState.setState(() {
-      widget.registrationParametersScreenState.selectedPeopleCount =
+      widget.registrationParametersScreenState.peopleCount =
           _selectedCount;
       if (widget
           .registrationParametersScreenState.textEditingControllers.isEmpty) {

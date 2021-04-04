@@ -1,28 +1,26 @@
 import 'package:flutter/material.dart';
 
 class TimeWidget extends StatefulWidget {
-  final String _firstCurrentlySelected;
-  final String _secondCurrentlySelected;
+  final String _fromTime;
+  final String _toTime;
 
-  TimeWidget(this._firstCurrentlySelected, this._secondCurrentlySelected);
+  TimeWidget(this._fromTime, this._toTime);
 
   @override
   _TimeWidgetState createState() =>
-      _TimeWidgetState(_firstCurrentlySelected, _secondCurrentlySelected);
+      _TimeWidgetState(_fromTime, _toTime);
 }
 
 class _TimeWidgetState extends State<TimeWidget> {
   String _firstCurrentlySelected;
   String _secondCurrentlySelected;
 
-  double _screenHeight;
   double _screenWidth;
 
   _TimeWidgetState(this._firstCurrentlySelected, this._secondCurrentlySelected);
 
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
     _screenWidth = MediaQuery.of(context).size.width;
     return _timeWidget();
   }

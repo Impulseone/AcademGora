@@ -166,7 +166,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   void _selectTime(int time) {
     RegToInstructorData regToInstructorData = RegToInstructorData(
-        widget.instructorWidgetState.instructorName, _selectedDate, time);
+        widget.instructorWidgetState.instructorName, _selectedDate, time.toString());
 
     if (widget.instructorWidgetState.regToInstructorData == null)
       _updateRegToInstructorData(regToInstructorData);
@@ -196,7 +196,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
         widget.instructorWidgetState.regToInstructorData.instructorName ==
             _regToInstructorDataCurrent.instructorName &&
         _regToInstructorDataCurrent.date == _selectedDate &&
-        _regToInstructorDataCurrent.time == time) {
+        _regToInstructorDataCurrent.time == time.toString()) {
       return Colors.blue;
     } else
       return Colors.white;
@@ -208,7 +208,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
         widget.instructorWidgetState.regToInstructorData.instructorName ==
             _regToInstructorDataCurrent.instructorName &&
         _regToInstructorDataCurrent.date == _selectedDate &&
-        _regToInstructorDataCurrent.time == time)
+        _regToInstructorDataCurrent.time == time.toString())
       return Colors.white;
     else
       return Colors.black;

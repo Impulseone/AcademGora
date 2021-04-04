@@ -1,4 +1,5 @@
 import 'package:academ_gora/model/reg_to_instructor_data.dart';
+import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/registration_to_instructor/registration_parameters_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -126,6 +127,9 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
   }
 
   void _openRegParametersScreen() {
+    WorkoutSingleton workoutSingleton = WorkoutSingleton();
+    workoutSingleton.instructorName = regToInstructorData.instructorName;
+    workoutSingleton.from = regToInstructorData.time;
     Navigator.of(context).push(
         MaterialPageRoute(builder: (c) => RegistrationParametersScreen()));
   }

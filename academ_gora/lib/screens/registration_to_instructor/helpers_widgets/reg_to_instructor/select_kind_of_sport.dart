@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../registration_to_instructor_screen.dart';
+import '../../registration_first_screen.dart';
 
 class SelectKindOfSportWidget extends StatefulWidget {
   final int kindOfSportSelected;
-  final RegistrationToInstructorScreenState registrationToInstructorScreenState;
+  final RegistrationFirstScreenState registrationToInstructorScreenState;
 
   const SelectKindOfSportWidget(
       this.registrationToInstructorScreenState, this.kindOfSportSelected,

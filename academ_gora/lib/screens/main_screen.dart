@@ -4,7 +4,7 @@ import 'package:academ_gora/screens/info_screens/chill_zone_screen.dart';
 import 'package:academ_gora/screens/info_screens/about_us_screen.dart';
 import 'package:academ_gora/screens/info_screens/price_screen.dart';
 import 'package:academ_gora/screens/info_screens/regime_screen.dart';
-import 'package:academ_gora/screens/registration_to_instructor/registration_to_instructor_screen.dart';
+import 'package:academ_gora/screens/registration_to_instructor/registration_first_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -292,7 +292,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void _openRegistrationToInstructorScreen() {
     Navigator.of(context).push(
-        MaterialPageRoute(builder: (c) => RegistrationToInstructorScreen()));
+        MaterialPageRoute(builder: (c) => RegistrationFirstScreen()));
   }
 
   Widget _infoButtons() {

@@ -1,4 +1,6 @@
+import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/registration_to_instructor/reg_final_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -17,13 +19,12 @@ class RegistrationParametersScreen extends StatefulWidget {
 
 class RegistrationParametersScreenState
     extends State<RegistrationParametersScreen> {
-
   final dbRef = FirebaseDatabase.instance.reference();
 
   List<Pair> textEditingControllers = [];
-  int selectedPeopleCount = 0;
-  int selectedDuration;
-  int selectedLevelOfSkating;
+  int peopleCount = 0;
+  int duration;
+  int levelOfSkating;
   double _screenHeight;
   double _screenWidth;
 
@@ -48,19 +49,18 @@ class RegistrationParametersScreenState
                     _infoWidget(),
                     Container(
                         margin: EdgeInsets.only(top: 12, left: 5),
+                        child: SelectPeopleCountWidget(peopleCount, this)),
+                    horizontalDivider(
+                        10, 10, _screenHeight * 0.015, _screenHeight * 0.015),
+                    Container(
+                        margin: EdgeInsets.only(left: 5),
+                        child: SelectDurationWidget(duration, this)),
+                    horizontalDivider(
+                        10, 10, _screenHeight * 0.015, _screenHeight * 0.015),
+                    Container(
+                        margin: EdgeInsets.only(left: 5),
                         child:
-                            SelectPeopleCountWidget(selectedPeopleCount, this)),
-                    horizontalDivider(
-                        10, 10, _screenHeight * 0.015, _screenHeight * 0.015),
-                    Container(
-                        margin: EdgeInsets.only(left: 5),
-                        child: SelectDurationWidget(selectedDuration, this)),
-                    horizontalDivider(
-                        10, 10, _screenHeight * 0.015, _screenHeight * 0.015),
-                    Container(
-                        margin: EdgeInsets.only(left: 5),
-                        child: SelectLevelOfSkatingWidget(
-                            selectedLevelOfSkating, this)),
+                            SelectLevelOfSkatingWidget(levelOfSkating, this)),
                     horizontalDivider(
                         10, 10, _screenHeight * 0.015, _screenHeight * 0.015),
                     Container(
@@ -68,7 +68,7 @@ class RegistrationParametersScreenState
                         child: ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             padding: const EdgeInsets.all(3),
-                            itemCount: selectedPeopleCount,
+                            itemCount: peopleCount,
                             itemBuilder: (BuildContext context, int index) {
                               return Container(
                                 margin: EdgeInsets.only(left: 25),
@@ -182,9 +182,9 @@ class RegistrationParametersScreenState
                 borderRadius: BorderRadius.all(Radius.circular(35)),
                 color: _continueButtonBackgroundColor(),
                 child: InkWell(
-                    onTap: selectedPeopleCount != null &&
-                            selectedLevelOfSkating != null &&
-                            selectedDuration != null &&
+                    onTap: peopleCount != null &&
+                            levelOfSkating != null &&
+                            duration != null &&
                             _checkTextControllers()
                         ? _openRegFinalScreen
                         : null,
@@ -209,15 +209,41 @@ class RegistrationParametersScreenState
   }
 
   void _openRegFinalScreen() {
-
+    WorkoutSingleton workoutSingleton = WorkoutSingleton();
+    workoutSingleton.peopleCount = peopleCount;
+    workoutSingleton.workoutDuration = duration;
+    workoutSingleton.levelOfSkating = _checkLevelOfSkating();
+    FirebaseDatabase.instance
+        .reference()
+        .child(
+            "Пользователи/${FirebaseAuth.instance.currentUser.uid}/Занятия/${workoutSingleton.id}")
+        .set({
+      "Время": workoutSingleton.from,
+      "Дата": workoutSingleton.date,
+      "Инструктор": workoutSingleton.instructorName,
+      "Количество человек": workoutSingleton.peopleCount,
+    });
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (c) => RegistrationFinalScreen()));
   }
 
+  String _checkLevelOfSkating() {
+    switch (levelOfSkating) {
+      case 0:
+        return "С нуля";
+      case 1:
+        return "Немного умею";
+      case 2:
+        return "Умею с любой горы, улучшение техники";
+      default:
+        return null;
+    }
+  }
+
   Color _continueButtonBackgroundColor() {
-    if (selectedPeopleCount != null &&
-        selectedLevelOfSkating != null &&
-        selectedDuration != null &&
+    if (peopleCount != null &&
+        levelOfSkating != null &&
+        duration != null &&
         _checkTextControllers())
       return Colors.blue;
     else
@@ -225,9 +251,9 @@ class RegistrationParametersScreenState
   }
 
   Color _continueButtonTextColor() {
-    if (selectedPeopleCount != null &&
-        selectedLevelOfSkating != null &&
-        selectedDuration != null &&
+    if (peopleCount != null &&
+        levelOfSkating != null &&
+        duration != null &&
         _checkTextControllers())
       return Colors.white;
     else
@@ -237,7 +263,7 @@ class RegistrationParametersScreenState
   bool _checkTextControllers() {
     if (textEditingControllers.isNotEmpty) {
       List<bool> conditions = [];
-      for (var i = 0; i < selectedPeopleCount; ++i) {
+      for (var i = 0; i < peopleCount; ++i) {
         conditions.add(textEditingControllers[i].left.text.isNotEmpty &&
             textEditingControllers[i].right.text.isNotEmpty &&
             isNumericUsing_tryParse(textEditingControllers[i].right.text));

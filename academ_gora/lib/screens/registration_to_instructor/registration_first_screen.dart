@@ -1,3 +1,4 @@
+import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/registration_to_instructor/registration_parameters_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -8,18 +9,16 @@ import 'helpers_widgets/reg_to_instructor/select_kind_of_sport.dart';
 import 'helpers_widgets/reg_to_instructor/time_widget.dart';
 import 'instructors_list_screen.dart';
 
-class RegistrationToInstructorScreen extends StatefulWidget {
+class RegistrationFirstScreen extends StatefulWidget {
   @override
-  RegistrationToInstructorScreenState createState() =>
-      RegistrationToInstructorScreenState();
+  RegistrationFirstScreenState createState() => RegistrationFirstScreenState();
 }
 
-class RegistrationToInstructorScreenState
-    extends State<RegistrationToInstructorScreen> {
+class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
   int selectedKindOfSport = -1;
   DateTime selectedDate;
-  String _firstCurrentlySelected;
-  String _secondCurrentlySelected;
+  String _fromTime;
+  String _toTime;
   double _screenHeight;
   double _screenWidth;
 
@@ -41,7 +40,7 @@ class RegistrationToInstructorScreenState
           horizontalDivider(20, 20, 20, 20),
           DateWidget(this, selectedDate),
           horizontalDivider(20, 20, 20, 20),
-          TimeWidget(_firstCurrentlySelected, _secondCurrentlySelected),
+          TimeWidget(_fromTime, _toTime),
           _warningText(),
           _continueButton(),
           Container(
@@ -59,7 +58,7 @@ class RegistrationToInstructorScreenState
 
   Widget _warningText() {
     return Container(
-        margin: EdgeInsets.only(top: _screenHeight*0.02, left: 10, right: 10),
+        margin: EdgeInsets.only(top: _screenHeight * 0.02, left: 10, right: 10),
         child: Text(
           "Укажите конкретное время или желаемый интервал для начала занятия",
           textAlign: TextAlign.center,
@@ -69,8 +68,8 @@ class RegistrationToInstructorScreenState
 
   Widget _continueButton() {
     return Container(
-      width: _screenWidth*0.75,
-      height: _screenHeight*0.08,
+      width: _screenWidth * 0.75,
+      height: _screenHeight * 0.08,
       margin: EdgeInsets.only(top: 18),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
@@ -98,6 +97,12 @@ class RegistrationToInstructorScreenState
   }
 
   void _openRegParametersScreen() {
+    WorkoutSingleton workoutSingleton = WorkoutSingleton();
+    workoutSingleton.clear();
+    workoutSingleton.sportType =
+        selectedKindOfSport == 0 ? SportType.skiing : SportType.snowboard;
+    workoutSingleton.date = "${selectedDate.day}.${selectedDate.month}.${selectedDate.year}";
+    workoutSingleton.id = selectedDate.millisecondsSinceEpoch.toString();
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (c) => InstructorsListScreen()));
   }
@@ -118,8 +123,8 @@ class RegistrationToInstructorScreenState
 
   Widget _selectCoachButton() {
     return Container(
-      width: _screenWidth*0.75,
-      height: _screenHeight*0.08,
+      width: _screenWidth * 0.75,
+      height: _screenHeight * 0.08,
       margin: EdgeInsets.only(top: 15),
       decoration: BoxDecoration(
           border: Border.all(color: _selectCoachButtonColor()),

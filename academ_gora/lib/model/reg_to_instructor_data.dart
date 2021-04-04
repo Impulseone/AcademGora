@@ -1,7 +1,7 @@
 class RegToInstructorData{
   String instructorName;
   DateTime date;
-  int time;
+  String time;
 
 
   RegToInstructorData(this.instructorName, this.date, this.time);
