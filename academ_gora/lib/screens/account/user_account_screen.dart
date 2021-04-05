@@ -1,3 +1,4 @@
+import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/screens/account/helpers_widgets/lesson_widget.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
@@ -171,18 +172,21 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
     );
   }
 
-  void _getAllWorkouts() {
-    dbRef
-        .child("Пользователи/${FirebaseAuth.instance.currentUser.uid}/Занятия")
-        .once()
-        .then((value) {
-      if (value.value != null) {
-        int workoutCount = (value.value as Map<dynamic, dynamic>).keys.length;
-        if (itemCount != workoutCount)
-          setState(() {
-            itemCount = workoutCount;
-          });
-      }
-    });
+  void _getAllWorkouts() async {
+    await UserRole.getUserRole().then((value) => {
+          dbRef
+              .child("$value/${FirebaseAuth.instance.currentUser.uid}/Занятия")
+              .once()
+              .then((value) {
+            if (value.value != null) {
+              int workoutCount =
+                  (value.value as Map<dynamic, dynamic>).keys.length;
+              if (itemCount != workoutCount)
+                setState(() {
+                  itemCount = workoutCount;
+                });
+            }
+          })
+        });
   }
 }

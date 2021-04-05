@@ -1,5 +1,13 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 class UserRole{
-  static const String user = "user";
-  static const String instructor = "instructor";
-  static const String administrator = "administrator";
+  static const String user = "Пользователи";
+  static const String instructor = "Инструкторы";
+  static const String administrator = "Администраторы";
+
+  static Future<String> getUserRole()async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("userRole");
+  }
 }
+

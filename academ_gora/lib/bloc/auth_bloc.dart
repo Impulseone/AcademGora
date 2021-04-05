@@ -89,32 +89,14 @@ class AuthBloc {
   }
 
   void _saveUserInDb(String userRole) {
-    String child = "";
-    switch (userRole) {
-      case UserRole.user:
-        {
-          child = "Пользователи";
-        }
-        break;
-      case UserRole.instructor:
-        {
-          child = "Инструкторы";
-        }
-        break;
-      case UserRole.administrator:
-        {
-          child = "Администраторы";
-        }
-        break;
-    }
-    dbRef.child("$child").once().then((value) {
+    dbRef.child("$userRole").once().then((value) {
       bool userExists = false;
       for (var userId in (value.value as Map<dynamic, dynamic>).keys) {
         if (userId == FirebaseAuth.instance.currentUser.uid) userExists = true;
       }
       if (!userExists)
         dbRef
-            .child("$child/${FirebaseAuth.instance.currentUser.uid}")
+            .child("$userRole/${FirebaseAuth.instance.currentUser.uid}")
             .set({"Телефон": FirebaseAuth.instance.currentUser.phoneNumber});
     });
   }
