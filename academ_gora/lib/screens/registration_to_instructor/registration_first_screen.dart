@@ -9,18 +9,28 @@ import 'helpers_widgets/reg_to_instructor/select_kind_of_sport.dart';
 import 'helpers_widgets/reg_to_instructor/time_widget.dart';
 import 'instructors_list_screen.dart';
 
+import 'package:intl/intl.dart';
+
 class RegistrationFirstScreen extends StatefulWidget {
   @override
   RegistrationFirstScreenState createState() => RegistrationFirstScreenState();
 }
 
 class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
-  int selectedKindOfSport = -1;
+  int kindOfSport = -1;
   DateTime selectedDate;
   String _fromTime;
   String _toTime;
   double _screenHeight;
   double _screenWidth;
+
+  WorkoutSingleton workoutSingleton = WorkoutSingleton();
+
+  @override
+  void initState() {
+    super.initState();
+    workoutSingleton.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +46,7 @@ class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
       ),
       child: Column(
         children: [
-          SelectKindOfSportWidget(this, selectedKindOfSport),
+          SelectKindOfSportWidget(this, kindOfSport),
           horizontalDivider(20, 20, 20, 20),
           DateWidget(this, selectedDate),
           horizontalDivider(20, 20, 20, 20),
@@ -75,8 +85,8 @@ class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
         borderRadius: BorderRadius.all(Radius.circular(35)),
         color: _continueButtonBackgroundColor(),
         child: InkWell(
-            onTap: (selectedKindOfSport != -1 && selectedDate != null)
-                ? _openRegParametersScreen
+            onTap: (kindOfSport != -1 && selectedDate != null)
+                ? _openNextScreen
                 : null,
             child: Center(
               child: Column(
@@ -96,26 +106,29 @@ class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
     );
   }
 
-  void _openRegParametersScreen() {
-    WorkoutSingleton workoutSingleton = WorkoutSingleton();
-    workoutSingleton.clear();
-    workoutSingleton.sportType =
-        selectedKindOfSport == 0 ? SportType.skiing : SportType.snowboard;
-    workoutSingleton.date = "${selectedDate.day}.${selectedDate.month}.${selectedDate.year}";
+  void _openNextScreen() {
+    final DateTime now = selectedDate;
+    final DateFormat formatter = DateFormat('dd.MM.yyyy');
+    final String formattedDate = formatter.format(now);
+    if (workoutSingleton.date == null) workoutSingleton.date = formattedDate;
+
     workoutSingleton.id = selectedDate.millisecondsSinceEpoch.toString();
+
+    String sportType = kindOfSport == 0 ? SportType.skiing : SportType.snowboard;
+    workoutSingleton.sportType = sportType;
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (c) => InstructorsListScreen()));
   }
 
   Color _continueButtonBackgroundColor() {
-    if (selectedKindOfSport != -1 && selectedDate != null) {
+    if (kindOfSport != -1 && selectedDate != null) {
       return Colors.blue;
     } else
       return Colors.white;
   }
 
   Color _continueButtonTextColor() {
-    if (selectedKindOfSport != -1 && selectedDate != null) {
+    if (kindOfSport != -1 && selectedDate != null) {
       return Colors.white;
     } else
       return Colors.grey;
@@ -133,7 +146,7 @@ class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
         borderRadius: BorderRadius.all(Radius.circular(35)),
         color: Colors.transparent,
         child: InkWell(
-            onTap: (selectedKindOfSport != -1 && selectedDate == null)
+            onTap: (kindOfSport != -1 && selectedDate == null)
                 ? _openInstructorsListScreen
                 : null,
             child: Center(
@@ -149,6 +162,7 @@ class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
   }
 
   void _openInstructorsListScreen() {
+    workoutSingleton.sportType = kindOfSport == 0 ? SportType.skiing : SportType.snowboard;
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (c) => InstructorsListScreen()));
   }
@@ -165,7 +179,7 @@ class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
   }
 
   Color _selectCoachButtonColor() {
-    if (selectedKindOfSport == -1)
+    if (kindOfSport == -1)
       return Colors.grey;
     else
       return selectedDate == null ? Colors.blue : Colors.grey;

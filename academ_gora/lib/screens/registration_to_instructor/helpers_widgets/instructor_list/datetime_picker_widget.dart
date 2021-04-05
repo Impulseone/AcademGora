@@ -119,25 +119,25 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
         children: [
           Row(
             children: [
-              _pickTimeButtonWidget(0),
-              _pickTimeButtonWidget(1),
-              _pickTimeButtonWidget(2),
-              _pickTimeButtonWidget(3),
+              _pickTimeButtonWidget("9:00"),
+              _pickTimeButtonWidget("10:00"),
+              _pickTimeButtonWidget("11:00"),
+              _pickTimeButtonWidget("12:00"),
             ],
           ),
           Row(
             children: [
-              _pickTimeButtonWidget(4),
-              _pickTimeButtonWidget(5),
-              _pickTimeButtonWidget(6),
-              _pickTimeButtonWidget(7),
+              _pickTimeButtonWidget("13:00"),
+              _pickTimeButtonWidget("14:00"),
+              _pickTimeButtonWidget("15:00"),
+              _pickTimeButtonWidget("16:00"),
             ],
           ),
           Row(
             children: [
-              _pickTimeButtonWidget(8),
-              _pickTimeButtonWidget(9),
-              _pickTimeButtonWidget(10),
+              _pickTimeButtonWidget("17:00"),
+              _pickTimeButtonWidget("18:00"),
+              _pickTimeButtonWidget("19:00"),
             ],
           ),
         ],
@@ -145,7 +145,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
     );
   }
 
-  Widget _pickTimeButtonWidget(int time) {
+  Widget _pickTimeButtonWidget(String time) {
     return GestureDetector(
         onTap: () => _selectTime(time),
         child: Container(
@@ -158,15 +158,18 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
               border: Border.all(color: Colors.grey, width: 0.5),
               borderRadius: BorderRadius.all(Radius.circular(3))),
           child: Text(
-            "10:00",
+            time,
             style: TextStyle(color: _getTimeTextColor(time)),
           ),
         ));
   }
 
-  void _selectTime(int time) {
+  void _selectTime(String time) {
     RegToInstructorData regToInstructorData = RegToInstructorData(
-        widget.instructorWidgetState.instructorName, _selectedDate, time.toString());
+        widget.instructorWidgetState.instructor.name,
+        widget.instructorWidgetState.instructor.phone,
+        _selectedDate,
+        time);
 
     if (widget.instructorWidgetState.regToInstructorData == null)
       _updateRegToInstructorData(regToInstructorData);
@@ -190,25 +193,25 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
     });
   }
 
-  Color _getTimeButtonColor(int time) {
+  Color _getTimeButtonColor(String time) {
     if (widget.instructorWidgetState.regToInstructorData != null &&
         _regToInstructorDataCurrent != null &&
         widget.instructorWidgetState.regToInstructorData.instructorName ==
             _regToInstructorDataCurrent.instructorName &&
         _regToInstructorDataCurrent.date == _selectedDate &&
-        _regToInstructorDataCurrent.time == time.toString()) {
+        _regToInstructorDataCurrent.time == time) {
       return Colors.blue;
     } else
       return Colors.white;
   }
 
-  Color _getTimeTextColor(int time) {
+  Color _getTimeTextColor(String time) {
     if (widget.instructorWidgetState.regToInstructorData != null &&
         _regToInstructorDataCurrent != null &&
         widget.instructorWidgetState.regToInstructorData.instructorName ==
             _regToInstructorDataCurrent.instructorName &&
         _regToInstructorDataCurrent.date == _selectedDate &&
-        _regToInstructorDataCurrent.time == time.toString())
+        _regToInstructorDataCurrent.time == time)
       return Colors.white;
     else
       return Colors.black;

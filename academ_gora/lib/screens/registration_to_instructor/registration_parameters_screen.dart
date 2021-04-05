@@ -218,6 +218,8 @@ class RegistrationParametersScreenState
         .child(
             "Пользователи/${FirebaseAuth.instance.currentUser.uid}/Занятия/${workoutSingleton.id}")
         .set({
+      "Телефон инструктора": workoutSingleton.instructorPhoneNumber,
+      "Вид спорта": workoutSingleton.sportType,
       "Время": workoutSingleton.from,
       "Дата": workoutSingleton.date,
       "Инструктор": workoutSingleton.instructorName,

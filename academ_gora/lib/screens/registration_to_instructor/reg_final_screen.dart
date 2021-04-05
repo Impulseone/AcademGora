@@ -1,3 +1,4 @@
+import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/account/user_account_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,8 @@ class RegistrationFinalScreen extends StatefulWidget {
 class _RegistrationFinalScreenState extends State<RegistrationFinalScreen> {
   double _screenHeight;
   double _screenWidth;
+
+  WorkoutSingleton workoutSingleton = WorkoutSingleton();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,7 @@ class _RegistrationFinalScreenState extends State<RegistrationFinalScreen> {
                 children: [
                   _textWidget("Запись оформлена\n"),
                   _textWidget(
-                      "Ждем вас на занятии\n22.02.2021 в 15:30\nв СК \"Академический\"\n"),
+                      "Ждем вас на занятии\n${workoutSingleton.date} в ${workoutSingleton.from}\nв СК \"Академический\"\n"),
                   _textWidget(
                       "Информация о занятии\nдоступна в личном\nкабинете"),
                   _buttonWidget("В личный кабинет", _screenHeight * 0.3),

@@ -1,6 +1,6 @@
 class SportType {
-  static String snowboard;
-  static String skiing;
+  static const String snowboard = "Сноуборд";
+  static const String skiing = "Горные лыжи";
 }
 
 class Workout {

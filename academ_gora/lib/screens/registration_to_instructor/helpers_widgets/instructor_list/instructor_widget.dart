@@ -1,3 +1,4 @@
+import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/reg_to_instructor_data.dart';
 import 'package:academ_gora/screens/instructor_profile/instructor_profile_screen.dart';
 import 'package:expandable/expandable.dart';
@@ -7,27 +8,22 @@ import '../../instructors_list_screen.dart';
 import 'datetime_picker_widget.dart';
 
 class InstructorWidget extends StatefulWidget {
-  final String instructorName;
+  final Instructor instructor;
   final InstructorsListScreenState instructorsListScreenState;
 
-  InstructorWidget(this.instructorName, this.instructorsListScreenState);
+  InstructorWidget(this.instructor, this.instructorsListScreenState);
 
   @override
-  InstructorWidgetState createState() => InstructorWidgetState();
+  InstructorWidgetState createState() => InstructorWidgetState(instructor);
 }
 
 class InstructorWidgetState extends State<InstructorWidget> {
   RegToInstructorData regToInstructorData;
-  String instructorName;
-
+  Instructor instructor;
   double _screenWidth;
   double _screenHeight;
 
-  @override
-  void initState() {
-    super.initState();
-    instructorName = widget.instructorName;
-  }
+  InstructorWidgetState(this.instructor);
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +31,14 @@ class InstructorWidgetState extends State<InstructorWidget> {
     _screenWidth = MediaQuery.of(context).size.width;
     regToInstructorData = widget.instructorsListScreenState.regToInstructorData;
     return ExpandablePanel(
-      header: _header(widget.instructorName),
+      header: _header(),
       expanded: _body(),
       tapHeaderToExpand: false,
       hasIcon: true,
     );
   }
 
-  Widget _header(String instructorName) {
+  Widget _header() {
     return Container(
         height: 65,
         child: Row(
@@ -50,7 +46,7 @@ class InstructorWidgetState extends State<InstructorWidget> {
             GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (c) => InstructorProfileScreen(instructorName,
+                      builder: (c) => InstructorProfileScreen(instructor.name,
                           screenWidth: MediaQuery.of(context).size.width,
                           screenHeight: MediaQuery.of(context).size.height)));
                 },
@@ -62,7 +58,7 @@ class InstructorWidgetState extends State<InstructorWidget> {
                 width: _screenWidth * 0.58,
                 margin: EdgeInsets.only(left: 12),
                 child: Text(
-                  instructorName,
+                  instructor.name,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 )),
           ],
@@ -101,7 +97,7 @@ class InstructorWidgetState extends State<InstructorWidget> {
 
   void _openProfile() {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (c) => InstructorProfileScreen(instructorName,
+        builder: (c) => InstructorProfileScreen(instructor.name,
             screenWidth: _screenWidth, screenHeight: _screenHeight)));
   }
 

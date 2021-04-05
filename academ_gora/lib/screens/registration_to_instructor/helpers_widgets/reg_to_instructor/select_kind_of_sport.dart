@@ -1,28 +1,29 @@
+import 'package:academ_gora/model/workout.dart';
 import 'package:flutter/material.dart';
 
 import '../../registration_first_screen.dart';
 
 class SelectKindOfSportWidget extends StatefulWidget {
-  final int kindOfSportSelected;
+  final int kindOfSport;
   final RegistrationFirstScreenState registrationToInstructorScreenState;
 
   const SelectKindOfSportWidget(
-      this.registrationToInstructorScreenState, this.kindOfSportSelected,
+      this.registrationToInstructorScreenState, this.kindOfSport,
       {Key key})
       : super(key: key);
 
   @override
   _SelectKindOfSportWidgetState createState() =>
-      _SelectKindOfSportWidgetState(kindOfSportSelected);
+      _SelectKindOfSportWidgetState(kindOfSport);
 }
 
 class _SelectKindOfSportWidgetState extends State<SelectKindOfSportWidget> {
-  int _kindOfSportSelected;
+  int _kindOfSport;
 
   double _screenHeight;
   double _screenWidth;
 
-  _SelectKindOfSportWidgetState(this._kindOfSportSelected);
+  _SelectKindOfSportWidgetState(this._kindOfSport);
 
   @override
   Widget build(BuildContext context) {
@@ -86,9 +87,7 @@ class _SelectKindOfSportWidgetState extends State<SelectKindOfSportWidget> {
             which == 0 ? "ГОРНЫЕ ЛЫЖИ" : "СНОУБОРД",
             style: TextStyle(
                 fontSize: 11,
-                color: which == _kindOfSportSelected
-                    ? Colors.white
-                    : Colors.black),
+                color: which == _kindOfSport ? Colors.white : Colors.black),
           ),
         ),
       ),
@@ -96,16 +95,15 @@ class _SelectKindOfSportWidgetState extends State<SelectKindOfSportWidget> {
   }
 
   void _selectKindOfSport(int which) {
-    _kindOfSportSelected = which;
+    _kindOfSport = which;
     widget.registrationToInstructorScreenState.setState(() {
-      widget.registrationToInstructorScreenState.selectedKindOfSport =
-          _kindOfSportSelected;
+      widget.registrationToInstructorScreenState.kindOfSport = _kindOfSport;
     });
     setState(() {});
   }
 
   String _createBackgroundOfKindOfSportButton(int which) {
-    return which == _kindOfSportSelected
+    return which == _kindOfSport
         ? "assets/registration_to_instructor/3_e2.png"
         : "assets/registration_to_instructor/3_e1.png";
   }

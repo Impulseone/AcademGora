@@ -5,6 +5,8 @@ import 'package:academ_gora/screens/registration_to_instructor/registration_para
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import 'package:intl/intl.dart';
+
 import 'helpers_widgets/instructor_list/instructor_widget.dart';
 
 class InstructorsListScreen extends StatefulWidget {
@@ -39,7 +41,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
               child: ListView.builder(
                 itemCount: instructors.length,
                 itemBuilder: (context, index) {
-                  return _instructorWidget('${instructors[index].name}', index);
+                  return _instructorWidget(instructors[index], index);
                 },
               ),
             ),
@@ -48,7 +50,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
     );
   }
 
-  Widget _instructorWidget(String instructorName, int index) {
+  Widget _instructorWidget(Instructor instructor, int index) {
     return Container(
         decoration: BoxDecoration(
           border: Border(
@@ -58,7 +60,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
                 : BorderSide(color: Colors.transparent),
           ),
         ),
-        child: Container(child: InstructorWidget(instructorName, this)));
+        child: Container(child: InstructorWidget(instructor, this)));
   }
 
   Widget _buttons() {
@@ -127,6 +129,14 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
     WorkoutSingleton workoutSingleton = WorkoutSingleton();
     workoutSingleton.instructorName = regToInstructorData.instructorName;
     workoutSingleton.from = regToInstructorData.time;
+    final DateTime now = regToInstructorData.date;
+    final DateFormat formatter = DateFormat('dd.MM.yyyy');
+    final String formattedDate = formatter.format(now);
+    if (workoutSingleton.date == null) workoutSingleton.date = formattedDate;
+    if (workoutSingleton.id == null)
+      workoutSingleton.id =
+          regToInstructorData.date.millisecondsSinceEpoch.toString();
+    workoutSingleton.instructorPhoneNumber = regToInstructorData.phoneNumber;
     Navigator.of(context).push(
         MaterialPageRoute(builder: (c) => RegistrationParametersScreen()));
   }
