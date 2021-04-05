@@ -3,7 +3,7 @@ import 'package:academ_gora/model/workout.dart';
 class Instructor{
   String id;
   String phone;
-  String fio;
+  String name;
   String photoUrl;
   List<Workout> workouts;
   WorkoutsSchedule workoutsSchedule;

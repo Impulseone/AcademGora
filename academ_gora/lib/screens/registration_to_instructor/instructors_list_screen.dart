@@ -1,6 +1,8 @@
+import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/reg_to_instructor_data.dart';
 import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/registration_to_instructor/registration_parameters_screen.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import 'helpers_widgets/instructor_list/instructor_widget.dart';
@@ -11,22 +13,17 @@ class InstructorsListScreen extends StatefulWidget {
 }
 
 class InstructorsListScreenState extends State<InstructorsListScreen> {
-  final items = [
-    "Ярославский Александр",
-    "Крюкова Ольга",
-    "Карманова Евгения",
-    "Трофимов Павел"
-  ];
+  List<Instructor> instructors = [];
+  final dbRef = FirebaseDatabase.instance.reference();
 
   RegToInstructorData regToInstructorData;
 
   double _screenHeight;
-  double _screenWidth;
 
   @override
   Widget build(BuildContext context) {
+    _getAllInstructors();
     _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
           decoration: BoxDecoration(
@@ -40,9 +37,9 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
               height: _screenHeight * 0.72,
               margin: EdgeInsets.only(top: 50, left: 15, right: 15),
               child: ListView.builder(
-                itemCount: items.length,
+                itemCount: instructors.length,
                 itemBuilder: (context, index) {
-                  return _instructorWidget('${items[index]}', index);
+                  return _instructorWidget('${instructors[index].name}', index);
                 },
               ),
             ),
@@ -51,7 +48,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
     );
   }
 
-  Widget _instructorWidget(String text, int index) {
+  Widget _instructorWidget(String instructorName, int index) {
     return Container(
         decoration: BoxDecoration(
           border: Border(
@@ -61,7 +58,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
                 : BorderSide(color: Colors.transparent),
           ),
         ),
-        child: Container(child: InstructorWidget(text, this)));
+        child: Container(child: InstructorWidget(instructorName, this)));
   }
 
   Widget _buttons() {
@@ -132,5 +129,26 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
     workoutSingleton.from = regToInstructorData.time;
     Navigator.of(context).push(
         MaterialPageRoute(builder: (c) => RegistrationParametersScreen()));
+  }
+
+  void _getAllInstructors() async {
+    dbRef.child("Инструкторы").once().then((value) {
+      if (value.value != null) {
+        Map<dynamic, dynamic> instructorDataMap =
+            value.value as Map<dynamic, dynamic>;
+        List<Instructor> instructorsFromDb = [];
+        for (Map<dynamic, dynamic> instructorData in instructorDataMap.values) {
+          Instructor instructor = Instructor();
+          instructor.name = instructorData["ФИО"];
+          instructor.phone = instructorData["Телефон"];
+          instructorsFromDb.add(instructor);
+        }
+        if (instructors != instructorsFromDb) {
+          setState(() {
+            instructors = instructorsFromDb;
+          });
+        }
+      }
+    });
   }
 }
