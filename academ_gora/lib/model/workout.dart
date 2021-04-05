@@ -16,6 +16,7 @@ class Workout {
   String comment;
   String fio;
   int age;
+  String instructorPhoneNumber;
 }
 
 class WorkoutSingleton {
@@ -26,13 +27,14 @@ class WorkoutSingleton {
   String date;
   String from;
   String to;
-  String instructorName;
   int peopleCount;
   int workoutDuration;
   String levelOfSkating;
   String comment;
   String fio;
   int age;
+  String instructorName;
+  String instructorPhoneNumber;
 
   factory WorkoutSingleton() {
     return _singleton;
@@ -46,12 +48,13 @@ class WorkoutSingleton {
     date = null;
     from = null;
     to = null;
-    instructorName = null;
     peopleCount = null;
     workoutDuration = null;
     levelOfSkating = null;
     comment = null;
     fio = null;
     age = 0;
+    instructorName = null;
+    instructorPhoneNumber = null;
   }
 }

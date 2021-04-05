@@ -1,4 +1,5 @@
 import 'package:academ_gora/model/user_role.dart';
+import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/account/helpers_widgets/lesson_widget.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
@@ -12,7 +13,7 @@ class UserAccountScreen extends StatefulWidget {
 }
 
 class _UserAccountScreenState extends State<UserAccountScreen> {
-  int itemCount = 0;
+  List<Workout> workouts = [];
 
   double _screenHeight;
   double _screenWidth;
@@ -36,7 +37,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
         children: [
           _topAccountInfo(),
           _lessonsTitle(),
-          _lessonsList(),
+          _workoutsList(),
           _backToMainScreenButton()
         ],
       ),
@@ -148,18 +149,18 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
         ));
   }
 
-  Widget _lessonsList() {
+  Widget _workoutsList() {
     return Container(
       height: _screenHeight * 0.6,
       child: ListView.builder(
-          itemCount: itemCount,
+          itemCount: workouts.length,
           itemBuilder: (BuildContext context, int index) {
             return Container(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                LessonWidget(),
-                index != itemCount - 1
+                LessonWidget(workout: workouts[index]),
+                index != workouts.length - 1
                     ? Container(
                         height: 30,
                         width: 30,
@@ -179,12 +180,25 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
               .once()
               .then((value) {
             if (value.value != null) {
-              int workoutCount =
-                  (value.value as Map<dynamic, dynamic>).keys.length;
-              if (itemCount != workoutCount)
+              Map<dynamic, dynamic> workoutDataMap =
+                  value.value as Map<dynamic, dynamic>;
+              List<Workout> workoutsFromDb = [];
+              for (Map<dynamic, dynamic> workoutData in workoutDataMap.values) {
+                Workout workout = Workout();
+                workout.date = workoutData["Дата"];
+                workout.from = workoutData["Время"];
+                workout.instructorName = workoutData["Инструктор"];
+                workout.instructorPhoneNumber =
+                    workoutData["Телефон инструктора"];
+                workout.peopleCount = workoutData["Количество человек"];
+                workout.sportType = workoutData["Вид спорта"];
+                workoutsFromDb.add(workout);
+              }
+              if (workouts != workoutsFromDb) {
                 setState(() {
-                  itemCount = workoutCount;
+                  workouts = workoutsFromDb;
                 });
+              }
             }
           })
         });

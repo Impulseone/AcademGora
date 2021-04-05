@@ -1,7 +1,13 @@
+import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/account/helpers_widgets/lesson_info.dart';
 import 'package:flutter/material.dart';
 
 class LessonWidget extends StatefulWidget {
+
+  final Workout workout;
+
+  const LessonWidget({Key key, @required this.workout}) : super(key: key);
+
   @override
   _LessonWidgetState createState() => _LessonWidgetState();
 }
@@ -42,12 +48,12 @@ class _LessonWidgetState extends State<LessonWidget> {
             Container(
                 margin: EdgeInsets.only(left: 20),
                 child: Text(
-                  "11.02.21",
+                 widget.workout.date,
                   style: TextStyle(color: Colors.white, fontSize: 22),
                 )),
             Container(
                 margin: EdgeInsets.only(left: width / 7),
-                child: Text("11:30-12:30",
+                child: Text(widget.workout.from,
                     style: TextStyle(color: Colors.white, fontSize: 22)))
           ],
         ));
@@ -66,7 +72,7 @@ class _LessonWidgetState extends State<LessonWidget> {
                 )),
             Container(
               margin: EdgeInsets.only(left: width / 6),
-              child: Text("2", style: TextStyle(fontSize: 18)),
+              child: Text(widget.workout.peopleCount.toString(), style: TextStyle(fontSize: 18)),
             ),
           ],
         ));
@@ -129,14 +135,14 @@ class _LessonWidgetState extends State<LessonWidget> {
         child: Row(
           children: [
             Text(
-              "Инструктор:\n(Горные лыжи)",
+              "Инструктор:\n(${widget.workout.sportType})",
               style: TextStyle(fontSize: 14),
             ),
             Container(
                 width: width * 0.4,
                 margin: EdgeInsets.only(left: 45),
                 child: Text(
-                  "Ярославский Александр",
+                  widget.workout.instructorName,
                   style: TextStyle(fontSize: 14),
                 )),
           ],
@@ -162,7 +168,7 @@ class _LessonWidgetState extends State<LessonWidget> {
           ),
         ),
         child: Text(
-          "+79999999999",
+          widget.workout.instructorPhoneNumber,
           style: TextStyle(color: Colors.white, fontSize: 12),
         ));
   }
