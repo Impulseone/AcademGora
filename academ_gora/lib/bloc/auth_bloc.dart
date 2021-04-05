@@ -95,27 +95,27 @@ class AuthBloc {
         {
           child = "Пользователи";
         }
-        return;
+        break;
       case UserRole.instructor:
         {
           child = "Инструкторы";
         }
-        return;
+        break;
       case UserRole.administrator:
         {
           child = "Администраторы";
         }
-        return;
+        break;
     }
-    dbRef
-        .child("$child/${FirebaseAuth.instance.currentUser.uid}")
-        .once()
-        .then((value) {
-      if (value == null) {
-        dbRef
-            .child("$child")
-            .set("${FirebaseAuth.instance.currentUser.uid}");
+    dbRef.child("$child").once().then((value) {
+      bool userExists = false;
+      for (var userId in (value.value as Map<dynamic, dynamic>).keys) {
+        if (userId == FirebaseAuth.instance.currentUser.uid) userExists = true;
       }
+      if (!userExists)
+        dbRef
+            .child("$child/${FirebaseAuth.instance.currentUser.uid}")
+            .set({"Телефон": FirebaseAuth.instance.currentUser.phoneNumber});
     });
   }
 

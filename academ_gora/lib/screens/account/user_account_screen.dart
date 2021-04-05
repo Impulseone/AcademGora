@@ -11,7 +11,7 @@ class UserAccountScreen extends StatefulWidget {
 }
 
 class _UserAccountScreenState extends State<UserAccountScreen> {
-  int itemCount = 2;
+  int itemCount = 0;
 
   double _screenHeight;
   double _screenWidth;
@@ -176,7 +176,7 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
         .child("Пользователи/${FirebaseAuth.instance.currentUser.uid}/Занятия")
         .once()
         .then((value) {
-      if (value != null) {
+      if (value.value != null) {
         int workoutCount = (value.value as Map<dynamic, dynamic>).keys.length;
         if (itemCount != workoutCount)
           setState(() {
