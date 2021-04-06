@@ -93,7 +93,7 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
         child: Row(
           children: [
             _button("РЕДАКТИРОВАТЬ", 10, () {}),
-            _button("ОТМЕНИТЬ", width / 8, _cancelWorkout),
+            _button("ОТМЕНИТЬ", width / 8, _showCancelWorkoutDialog),
           ],
         ));
   }
@@ -114,6 +114,39 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
           style: TextStyle(color: Colors.white),
         ),
       ),
+    );
+  }
+
+  void _showCancelWorkoutDialog() {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text(
+            "Отменить занятие?",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 18),
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                'Да',
+                style: TextStyle(fontSize: 18),
+              ),
+              onPressed: () {
+                _cancelWorkout();
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Нет', style: TextStyle(fontSize: 18)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
