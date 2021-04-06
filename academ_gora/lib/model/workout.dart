@@ -17,6 +17,14 @@ class Workout {
   String fio;
   int age;
   String instructorPhoneNumber;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Workout && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
 
 class WorkoutSingleton {

@@ -1,20 +1,28 @@
+import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
-import 'package:academ_gora/screens/account/helpers_widgets/lesson_info.dart';
+import 'package:academ_gora/screens/account/helpers_widgets/workout_info.dart';
+import 'package:academ_gora/screens/account/user_account_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-class LessonWidget extends StatefulWidget {
-
+class WorkoutWidget extends StatefulWidget {
   final Workout workout;
+  final UserAccountScreenState userAccountScreenState;
 
-  const LessonWidget({Key key, @required this.workout}) : super(key: key);
+  const WorkoutWidget(
+      {Key key, @required this.workout, @required this.userAccountScreenState})
+      : super(key: key);
 
   @override
-  _LessonWidgetState createState() => _LessonWidgetState();
+  _WorkoutWidgetState createState() => _WorkoutWidgetState();
 }
 
-class _LessonWidgetState extends State<LessonWidget> {
+class _WorkoutWidgetState extends State<WorkoutWidget> {
   double height;
   double width;
+
+  final dbRef = FirebaseDatabase.instance.reference();
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +56,7 @@ class _LessonWidgetState extends State<LessonWidget> {
             Container(
                 margin: EdgeInsets.only(left: 20),
                 child: Text(
-                 widget.workout.date,
+                  widget.workout.date,
                   style: TextStyle(color: Colors.white, fontSize: 22),
                 )),
             Container(
@@ -72,7 +80,8 @@ class _LessonWidgetState extends State<LessonWidget> {
                 )),
             Container(
               margin: EdgeInsets.only(left: width / 6),
-              child: Text(widget.workout.peopleCount.toString(), style: TextStyle(fontSize: 18)),
+              child: Text(widget.workout.peopleCount.toString(),
+                  style: TextStyle(fontSize: 18)),
             ),
           ],
         ));
@@ -83,28 +92,23 @@ class _LessonWidgetState extends State<LessonWidget> {
         margin: EdgeInsets.only(top: 10),
         child: Row(
           children: [
-            _button("РЕДАКТИРОВАТЬ", 10),
-            _button("ОТМЕНИТЬ", width / 8),
+            _button("РЕДАКТИРОВАТЬ", 10, () {}),
+            _button("ОТМЕНИТЬ", width / 8, _cancelWorkout),
           ],
         ));
   }
 
-  Widget _button(
-    String text,
-    double leftMargin,
-  ) {
+  Widget _button(String text, double leftMargin, Function function) {
     return GestureDetector(
+      onTap: () {
+        function.call();
+      },
       child: Container(
         alignment: Alignment.center,
         height: 30,
         padding: EdgeInsets.all(5),
         margin: EdgeInsets.only(left: leftMargin),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/account/e4.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
+        decoration: BoxDecoration(color: Colors.blue),
         child: Text(
           text,
           style: TextStyle(color: Colors.white),
@@ -113,10 +117,24 @@ class _LessonWidgetState extends State<LessonWidget> {
     );
   }
 
+  void _cancelWorkout() async {
+    await UserRole.getUserRole().then((userRole) {
+      if (userRole == UserRole.user) {
+        String userId = FirebaseAuth.instance.currentUser.uid;
+        dbRef
+            .child("$userRole/$userId/Занятия/${widget.workout.id}")
+            .remove()
+            .then((value) {
+          widget.userAccountScreenState.setState(() {});
+        });
+      }
+    });
+  }
+
   Widget _infoTextColumn() {
     return Container(
         margin: EdgeInsets.only(top: 8, left: 10),
-        child: _infoText(LessonInfo.getLessonInfo()));
+        child: _infoText(WorkoutInfo.getWorkoutInfo()));
   }
 
   Widget _infoText(String text) {

@@ -1,18 +1,19 @@
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
-import 'package:academ_gora/screens/account/helpers_widgets/lesson_widget.dart';
+import 'package:academ_gora/screens/account/helpers_widgets/workout_widget.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class UserAccountScreen extends StatefulWidget {
   @override
-  _UserAccountScreenState createState() => _UserAccountScreenState();
+  UserAccountScreenState createState() => UserAccountScreenState();
 }
 
-class _UserAccountScreenState extends State<UserAccountScreen> {
+class UserAccountScreenState extends State<UserAccountScreen> {
   List<Workout> workouts = [];
 
   double _screenHeight;
@@ -159,7 +160,8 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                LessonWidget(workout: workouts[index]),
+                WorkoutWidget(
+                    workout: workouts[index], userAccountScreenState: this),
                 index != workouts.length - 1
                     ? Container(
                         height: 30,
@@ -179,12 +181,18 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
               .child("$value/${FirebaseAuth.instance.currentUser.uid}/Занятия")
               .once()
               .then((value) {
+            if (value.value == null && workouts.length != 0) {
+              setState(() {
+                workouts = [];
+              });
+            }
             if (value.value != null) {
               Map<dynamic, dynamic> workoutDataMap =
                   value.value as Map<dynamic, dynamic>;
               List<Workout> workoutsFromDb = [];
               for (Map<dynamic, dynamic> workoutData in workoutDataMap.values) {
                 Workout workout = Workout();
+                workout.id = workoutData["id"];
                 workout.date = workoutData["Дата"];
                 workout.from = workoutData["Время"];
                 workout.instructorName = workoutData["Инструктор"];
@@ -194,7 +202,8 @@ class _UserAccountScreenState extends State<UserAccountScreen> {
                 workout.sportType = workoutData["Вид спорта"];
                 workoutsFromDb.add(workout);
               }
-              if (workouts != workoutsFromDb) {
+              Function eq = const ListEquality().equals;
+              if (!eq(workouts, workoutsFromDb)) {
                 setState(() {
                   workouts = workoutsFromDb;
                 });

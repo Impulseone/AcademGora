@@ -1,3 +1,4 @@
+import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/registration_to_instructor/reg_final_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -208,23 +209,26 @@ class RegistrationParametersScreenState
         ));
   }
 
-  void _openRegFinalScreen() {
+  void _openRegFinalScreen() async {
     WorkoutSingleton workoutSingleton = WorkoutSingleton();
     workoutSingleton.peopleCount = peopleCount;
     workoutSingleton.workoutDuration = duration;
     workoutSingleton.levelOfSkating = _checkLevelOfSkating();
-    FirebaseDatabase.instance
-        .reference()
-        .child(
-            "Пользователи/${FirebaseAuth.instance.currentUser.uid}/Занятия/${workoutSingleton.id}")
-        .set({
-      "Телефон инструктора": workoutSingleton.instructorPhoneNumber,
-      "Вид спорта": workoutSingleton.sportType,
-      "Время": workoutSingleton.from,
-      "Дата": workoutSingleton.date,
-      "Инструктор": workoutSingleton.instructorName,
-      "Количество человек": workoutSingleton.peopleCount,
-    });
+    await UserRole.getUserRole().then((userRole) => {
+          FirebaseDatabase.instance
+              .reference()
+              .child(
+                  "$userRole/${FirebaseAuth.instance.currentUser.uid}/Занятия/${workoutSingleton.id}")
+              .set({
+            "id":workoutSingleton.id,
+            "Телефон инструктора": workoutSingleton.instructorPhoneNumber,
+            "Вид спорта": workoutSingleton.sportType,
+            "Время": workoutSingleton.from,
+            "Дата": workoutSingleton.date,
+            "Инструктор": workoutSingleton.instructorName,
+            "Количество человек": workoutSingleton.peopleCount,
+          })
+        });
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (c) => RegistrationFinalScreen()));
   }
