@@ -1,6 +1,7 @@
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/account/helpers_widgets/workout_info.dart';
+import 'package:academ_gora/screens/account/update_workout_screen.dart';
 import 'package:academ_gora/screens/account/user_account_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -92,10 +93,15 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
         margin: EdgeInsets.only(top: 10),
         child: Row(
           children: [
-            _button("РЕДАКТИРОВАТЬ", 10, () {}),
+            _button("РЕДАКТИРОВАТЬ", 10, _openUpdateWorkoutScreen),
             _button("ОТМЕНИТЬ", width / 8, _showCancelWorkoutDialog),
           ],
         ));
+  }
+
+  void _openUpdateWorkoutScreen() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (c) => UpdateWorkoutScreen()));
   }
 
   Widget _button(String text, double leftMargin, Function function) {
