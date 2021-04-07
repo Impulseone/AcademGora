@@ -24,6 +24,7 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
   final dbRef = FirebaseDatabase.instance.reference();
 
   List<Pair> textEditingControllers = [];
+  List<Visitor> visitors = [];
   int peopleCount = 0;
   int levelOfSkating;
   double _screenHeight;
@@ -227,13 +228,33 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
                   "$userRole/${FirebaseAuth.instance.currentUser.uid}/Занятия/${widget.workout.id}")
               .update({
             "Количество человек": peopleCount,
-            "Уровень катания":levelOfSkating,
-            "Комментарий": _commentEditingController.text
+            "Уровень катания": levelOfSkating,
+            "Комментарий": _commentEditingController.text,
+            "Посетители": _humansMap(),
           })
         });
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (c) => UserAccountScreen()),
         (route) => false);
+  }
+
+  Map<String, dynamic> _humansMap() {
+    _checkTextControllers(addHumans: _addVisitors);
+    Map<String, dynamic> map = {};
+    for (var i = 0; i < visitors.length; ++i) {
+      var human = visitors[i];
+      map.putIfAbsent(
+          "${i + 1}",
+          () => {
+                "Имя": human.name,
+                "Возраст": human.age,
+              });
+    }
+    return map;
+  }
+
+  void _addVisitors(String name, int age) {
+    visitors.add(Visitor(name, age));
   }
 
   Color _continueButtonBackgroundColor() {
@@ -254,13 +275,18 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
       return Colors.grey;
   }
 
-  bool _checkTextControllers() {
+  bool _checkTextControllers({Function addHumans}) {
     if (textEditingControllers.isNotEmpty) {
       List<bool> conditions = [];
       for (var i = 0; i < peopleCount; ++i) {
-        conditions.add(textEditingControllers[i].left.text.isNotEmpty &&
+        bool condition = textEditingControllers[i].left.text.isNotEmpty &&
             textEditingControllers[i].right.text.isNotEmpty &&
-            isNumericUsing_tryParse(textEditingControllers[i].right.text));
+            isNumericUsing_tryParse(textEditingControllers[i].right.text);
+        conditions.add(condition);
+        if (addHumans != null && condition) {
+          addHumans.call(textEditingControllers[i].left.text,
+              int.parse(textEditingControllers[i].right.text));
+        }
       }
       if (conditions.contains(false))
         return false;
