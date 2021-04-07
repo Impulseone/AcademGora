@@ -101,7 +101,7 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
 
   void _openUpdateWorkoutScreen() {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (c) => UpdateWorkoutScreen()));
+        .push(MaterialPageRoute(builder: (c) => UpdateWorkoutScreen(widget.workout)));
   }
 
   Widget _button(String text, double leftMargin, Function function) {

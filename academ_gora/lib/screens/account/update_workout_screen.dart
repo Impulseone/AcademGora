@@ -12,6 +12,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class UpdateWorkoutScreen extends StatefulWidget {
+  final Workout workout;
+
+  UpdateWorkoutScreen(this.workout);
+
   @override
   UpdateWorkoutScreenState createState() => UpdateWorkoutScreenState();
 }
@@ -21,10 +25,24 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
 
   List<Pair> textEditingControllers = [];
   int peopleCount = 0;
-  int duration;
   int levelOfSkating;
   double _screenHeight;
   double _screenWidth;
+  TextEditingController _commentEditingController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    peopleCount = widget.workout.peopleCount;
+    for (var i = 0; i < peopleCount; ++i) {
+      TextEditingController nameController =
+          TextEditingController(text: widget.workout.visitors[i].name);
+      TextEditingController ageController = TextEditingController(
+          text: widget.workout.visitors[i].age.toString());
+      textEditingControllers.add(Pair(nameController, ageController));
+      levelOfSkating = widget.workout.levelOfSkating;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,6 +156,7 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
             height: _screenHeight * 0.05,
             margin: EdgeInsets.only(left: 5),
             child: TextField(
+              controller: _commentEditingController,
               maxLines: 10,
               style: TextStyle(fontSize: 12),
               decoration: InputDecoration(
@@ -177,7 +196,6 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
                 child: InkWell(
                     onTap: peopleCount != null &&
                             levelOfSkating != null &&
-                            duration != null &&
                             _checkTextControllers()
                         ? _saveChanges
                         : null,
@@ -186,7 +204,7 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "ПРОДОЛЖИТЬ",
+                              "Сохранить",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: _continueButtonTextColor(),
@@ -202,23 +220,15 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
   }
 
   void _saveChanges() async {
-    WorkoutSingleton workoutSingleton = WorkoutSingleton();
-    workoutSingleton.peopleCount = peopleCount;
-    workoutSingleton.workoutDuration = duration;
-    workoutSingleton.levelOfSkating = _checkLevelOfSkating();
     await UserRole.getUserRole().then((userRole) => {
           FirebaseDatabase.instance
               .reference()
               .child(
-                  "$userRole/${FirebaseAuth.instance.currentUser.uid}/Занятия/${workoutSingleton.id}")
-              .set({
-            "id": workoutSingleton.id,
-            "Телефон инструктора": workoutSingleton.instructorPhoneNumber,
-            "Вид спорта": workoutSingleton.sportType,
-            "Время": workoutSingleton.from,
-            "Дата": workoutSingleton.date,
-            "Инструктор": workoutSingleton.instructorName,
-            "Количество человек": workoutSingleton.peopleCount,
+                  "$userRole/${FirebaseAuth.instance.currentUser.uid}/Занятия/${widget.workout.id}")
+              .update({
+            "Количество человек": peopleCount,
+            "Уровень катания":levelOfSkating,
+            "Комментарий": _commentEditingController.text
           })
         });
     Navigator.of(context).pushAndRemoveUntil(
@@ -226,23 +236,9 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
         (route) => false);
   }
 
-  String _checkLevelOfSkating() {
-    switch (levelOfSkating) {
-      case 0:
-        return "С нуля";
-      case 1:
-        return "Немного умею";
-      case 2:
-        return "Умею с любой горы, улучшение техники";
-      default:
-        return null;
-    }
-  }
-
   Color _continueButtonBackgroundColor() {
     if (peopleCount != null &&
         levelOfSkating != null &&
-        duration != null &&
         _checkTextControllers())
       return Colors.blue;
     else
@@ -252,7 +248,6 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
   Color _continueButtonTextColor() {
     if (peopleCount != null &&
         levelOfSkating != null &&
-        duration != null &&
         _checkTextControllers())
       return Colors.white;
     else

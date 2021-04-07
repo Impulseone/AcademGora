@@ -30,6 +30,8 @@ class RegistrationParametersScreenState
   double _screenHeight;
   double _screenWidth;
 
+  TextEditingController _commentController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     _screenHeight = MediaQuery.of(context).size.height;
@@ -147,6 +149,7 @@ class RegistrationParametersScreenState
             height: _screenHeight * 0.05,
             margin: EdgeInsets.only(left: 5),
             child: TextField(
+              controller: _commentController,
               maxLines: 10,
               style: TextStyle(fontSize: 12),
               decoration: InputDecoration(
@@ -214,7 +217,7 @@ class RegistrationParametersScreenState
     WorkoutSingleton workoutSingleton = WorkoutSingleton();
     workoutSingleton.peopleCount = peopleCount;
     workoutSingleton.workoutDuration = duration;
-    workoutSingleton.levelOfSkating = _checkLevelOfSkating();
+    workoutSingleton.levelOfSkating = levelOfSkating;
     await UserRole.getUserRole().then((userRole) => {
           FirebaseDatabase.instance
               .reference()
@@ -228,7 +231,9 @@ class RegistrationParametersScreenState
             "Дата": workoutSingleton.date,
             "Инструктор": workoutSingleton.instructorName,
             "Количество человек": workoutSingleton.peopleCount,
-            "Посетители": _humansMap()
+            "Посетители": _humansMap(),
+            "Уровень катания": levelOfSkating,
+            "Комментарий": _commentController.text
           })
         });
     Navigator.of(context)
@@ -248,19 +253,6 @@ class RegistrationParametersScreenState
               });
     }
     return map;
-  }
-
-  String _checkLevelOfSkating() {
-    switch (levelOfSkating) {
-      case 0:
-        return "С нуля";
-      case 1:
-        return "Немного умею";
-      case 2:
-        return "Умею с любой горы, улучшение техники";
-      default:
-        return null;
-    }
   }
 
   Color _continueButtonBackgroundColor() {

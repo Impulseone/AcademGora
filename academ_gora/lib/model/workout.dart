@@ -12,7 +12,7 @@ class Workout {
   String instructorName;
   int peopleCount;
   int workoutDuration;
-  String levelOfSkating;
+  int levelOfSkating;
   String comment;
   String instructorPhoneNumber;
   List<Visitor> visitors = [];
@@ -36,7 +36,7 @@ class WorkoutSingleton {
   String to;
   int peopleCount;
   int workoutDuration;
-  String levelOfSkating;
+  int levelOfSkating;
   String comment;
   String fio;
   int age;
