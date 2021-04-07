@@ -200,6 +200,12 @@ class UserAccountScreenState extends State<UserAccountScreen> {
                     workoutData["Телефон инструктора"];
                 workout.peopleCount = workoutData["Количество человек"];
                 workout.sportType = workoutData["Вид спорта"];
+                List<Visitor> visitors = [];
+                for (var visitorMap in (workoutData["Посетители"])) {
+                  if (visitorMap != null)
+                    visitors.add(Visitor(visitorMap["Имя"], visitorMap["Возраст"]));
+                }
+                workout.visitors = visitors;
                 workoutsFromDb.add(workout);
               }
               Function eq = const ListEquality().equals;

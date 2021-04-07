@@ -15,7 +15,7 @@ class Workout {
   String levelOfSkating;
   String comment;
   String instructorPhoneNumber;
-  List<Visitor> visitors=[];
+  List<Visitor> visitors = [];
 
   @override
   bool operator ==(Object other) =>
@@ -42,7 +42,7 @@ class WorkoutSingleton {
   int age;
   String instructorName;
   String instructorPhoneNumber;
-  List<Visitor> visitors=[];
+  List<Visitor> visitors = [];
 
   factory WorkoutSingleton() {
     return _singleton;
@@ -68,7 +68,7 @@ class WorkoutSingleton {
   }
 }
 
-class Visitor{
+class Visitor {
   String name;
   int age;
 
