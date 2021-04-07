@@ -23,6 +23,7 @@ class RegistrationParametersScreenState
   final dbRef = FirebaseDatabase.instance.reference();
 
   List<Pair> textEditingControllers = [];
+  List<Visitor> visitors = [];
   int peopleCount = 0;
   int duration;
   int levelOfSkating;
@@ -220,17 +221,33 @@ class RegistrationParametersScreenState
               .child(
                   "$userRole/${FirebaseAuth.instance.currentUser.uid}/Занятия/${workoutSingleton.id}")
               .set({
-            "id":workoutSingleton.id,
+            "id": workoutSingleton.id,
             "Телефон инструктора": workoutSingleton.instructorPhoneNumber,
             "Вид спорта": workoutSingleton.sportType,
             "Время": workoutSingleton.from,
             "Дата": workoutSingleton.date,
             "Инструктор": workoutSingleton.instructorName,
             "Количество человек": workoutSingleton.peopleCount,
+            "Посетители": _humansMap()
           })
         });
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (c) => RegistrationFinalScreen()));
+  }
+
+  Map<String, dynamic> _humansMap() {
+    _checkTextControllers(addHumans: _addVisitors);
+    Map<String, dynamic> map = {};
+    for (var i = 0; i < visitors.length; ++i) {
+      var human = visitors[i];
+      map.putIfAbsent(
+          "${i + 1}",
+          () => {
+                "Имя": human.name,
+                "Возраст": human.age,
+              });
+    }
+    return map;
   }
 
   String _checkLevelOfSkating() {
@@ -266,13 +283,18 @@ class RegistrationParametersScreenState
       return Colors.grey;
   }
 
-  bool _checkTextControllers() {
+  bool _checkTextControllers({Function addHumans}) {
     if (textEditingControllers.isNotEmpty) {
       List<bool> conditions = [];
       for (var i = 0; i < peopleCount; ++i) {
-        conditions.add(textEditingControllers[i].left.text.isNotEmpty &&
+        bool condition = textEditingControllers[i].left.text.isNotEmpty &&
             textEditingControllers[i].right.text.isNotEmpty &&
-            isNumericUsing_tryParse(textEditingControllers[i].right.text));
+            isNumericUsing_tryParse(textEditingControllers[i].right.text);
+        conditions.add(condition);
+        if (addHumans != null && condition) {
+          addHumans.call(textEditingControllers[i].left.text,
+              int.parse(textEditingControllers[i].right.text));
+        }
       }
       if (conditions.contains(false))
         return false;
@@ -280,6 +302,10 @@ class RegistrationParametersScreenState
         return true;
     } else
       return false;
+  }
+
+  void _addVisitors(String name, int age) {
+    visitors.add(Visitor(name, age));
   }
 
   void _onBackPressed() {
@@ -299,6 +325,7 @@ bool isNumericUsing_tryParse(String string) {
   return true;
 }
 
+//TODO: refactor move in other file
 class Pair {
   Pair(this.left, this.right);
 
