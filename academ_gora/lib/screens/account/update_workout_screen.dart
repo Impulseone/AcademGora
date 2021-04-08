@@ -29,12 +29,13 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
   int levelOfSkating;
   double _screenHeight;
   double _screenWidth;
-  TextEditingController _commentEditingController = TextEditingController();
+  TextEditingController _commentEditingController;
 
   @override
   void initState() {
     super.initState();
     peopleCount = widget.workout.peopleCount;
+   _commentEditingController = TextEditingController(text: widget.workout.comment);
     for (var i = 0; i < peopleCount; ++i) {
       TextEditingController nameController =
           TextEditingController(text: widget.workout.visitors[i].name);
@@ -89,7 +90,7 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
                               );
                             })),
                     _commentFieldWidget(),
-                    _continueButton()
+                    _saveButton()
                   ],
                 ),
               ))),
@@ -154,7 +155,7 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
               child: Image.asset("assets/registration_parameters/e12.png")),
           Container(
             width: _screenWidth * 0.85,
-            height: _screenHeight * 0.05,
+            height: _screenHeight * 0.06,
             margin: EdgeInsets.only(left: 5),
             child: TextField(
               controller: _commentEditingController,
@@ -172,9 +173,9 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
     );
   }
 
-  Widget _continueButton() {
+  Widget _saveButton() {
     return Container(
-        margin: EdgeInsets.only(top: 10),
+        margin: EdgeInsets.only(top: 50),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

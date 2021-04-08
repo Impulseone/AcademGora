@@ -191,22 +191,7 @@ class UserAccountScreenState extends State<UserAccountScreen> {
                   value.value as Map<dynamic, dynamic>;
               List<Workout> workoutsFromDb = [];
               for (Map<dynamic, dynamic> workoutData in workoutDataMap.values) {
-                Workout workout = Workout();
-                workout.id = workoutData["id"];
-                workout.date = workoutData["Дата"];
-                workout.from = workoutData["Время"];
-                workout.instructorName = workoutData["Инструктор"];
-                workout.instructorPhoneNumber =
-                    workoutData["Телефон инструктора"];
-                workout.peopleCount = workoutData["Количество человек"];
-                workout.sportType = workoutData["Вид спорта"];
-                List<Visitor> visitors = [];
-                for (var visitorMap in (workoutData["Посетители"])) {
-                  if (visitorMap != null)
-                    visitors.add(Visitor(visitorMap["Имя"], visitorMap["Возраст"]));
-                }
-                workout.visitors = visitors;
-                workoutsFromDb.add(workout);
+                workoutsFromDb.add(Workout.fromJson(workoutData));
               }
               Function eq = const ListEquality().equals;
               if (!eq(workouts, workoutsFromDb)) {
