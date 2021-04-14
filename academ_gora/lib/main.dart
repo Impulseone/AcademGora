@@ -1,4 +1,5 @@
 import 'package:academ_gora/bloc/auth_bloc.dart';
+import 'package:academ_gora/screens/account/instructor_account/set_workout_time_screen.dart';
 import 'package:academ_gora/screens/all_instructors/all_instructors_screen.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
 import 'package:academ_gora/screens/info_screens/about_us_screen.dart';
@@ -26,7 +27,8 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: SplashScreen(authBloc)
+        // home: SplashScreen(authBloc)
+        home: SetWorkoutTimeScreen()
     );
   }
 }
