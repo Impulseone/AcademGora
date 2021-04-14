@@ -39,11 +39,12 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
       child: Column(
         children: [
           _instructorName(),
-          horizontalDivider(_screenWidth * 0.1, _screenWidth * 0.1, 15, 15),
+          horizontalDivider(_screenWidth * 0.1, _screenWidth * 0.1, 10, 10),
           _calendar(),
           _indicatorsRow(),
           horizontalDivider(_screenWidth * 0.1, _screenWidth * 0.1, 15, 15),
-          _dateTimePickerWidget()
+          _dateTimePickerWidget(),
+          _changeStatusButtons()
         ],
       ),
     ));
@@ -51,7 +52,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
 
   Widget _instructorName() {
     return Container(
-        margin: EdgeInsets.only(top: _screenHeight * 0.1),
+        margin: EdgeInsets.only(top: _screenHeight * 0.07),
         child: Text(
           "Ярославский Александр",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
@@ -61,12 +62,13 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   Widget _calendar() {
     return CalendarCarousel<Event>(
       selectedDayButtonColor: Colors.blue,
+      headerMargin: EdgeInsets.all(0),
       headerTextStyle:
           TextStyle(fontSize: _screenHeight * 0.023, color: Colors.blue),
       weekdayTextStyle: TextStyle(color: Colors.black),
       locale: "ru",
       width: 300,
-      height: 320,
+      height: 290,
       todayBorderColor: Colors.transparent,
       todayButtonColor: Colors.transparent,
       todayTextStyle: TextStyle(color: Colors.black),
@@ -123,41 +125,44 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   Widget _dateTimePickerWidget() {
     return Container(
         child: Column(
-          children: [_dateSliderWidget(), _timeWidget()],
-        ));
+      children: [_dateSliderWidget(), _timeWidget()],
+    ));
   }
 
   Widget _dateSliderWidget() {
     return Container(
-        margin: EdgeInsets.only(left: _screenWidth * 0.08),
         child: Row(
-          children: [
-            GestureDetector(
-              onTap: _decreaseDate,
-              child: Container(
-                height: _screenWidth * 0.09,
-                width: _screenWidth * 0.09,
-                child: Image.asset("assets/instructors_list/e_6.png"),
-              ),
-            ),
-            Container(
-                width: _screenWidth * 0.38,
-                alignment: Alignment.center,
-                child: Text(_getSelectedDate())),
-            GestureDetector(
-              onTap: _increaseDate,
-              child: Container(
-                height: _screenWidth * 0.09,
-                width: _screenWidth * 0.09,
-                child: Image.asset("assets/instructors_list/e_7.png"),
-              ),
-            ),
-          ],
-        ));
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        GestureDetector(
+          onTap: _decreaseDate,
+          child: Container(
+            height: _screenWidth * 0.09,
+            width: _screenWidth * 0.09,
+            child: Image.asset("assets/instructors_list/e_6.png"),
+          ),
+        ),
+        Container(
+            width: _screenWidth * 0.38,
+            alignment: Alignment.center,
+            child: Text(
+              _getSelectedDate(),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            )),
+        GestureDetector(
+          onTap: _increaseDate,
+          child: Container(
+            height: _screenWidth * 0.09,
+            width: _screenWidth * 0.09,
+            child: Image.asset("assets/instructors_list/e_7.png"),
+          ),
+        ),
+      ],
+    ));
   }
 
   String _getSelectedDate() {
-    return "${_selectedDate.day}";
+    return "${_selectedDate.day} ${months[_selectedDate.month - 1]}";
   }
 
   void _increaseDate() {
@@ -178,31 +183,60 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
 
   Widget _timeWidget() {
     return Container(
-      margin: EdgeInsets.only(left: _screenWidth * 0.1, top: 10),
+      margin: EdgeInsets.only(top: 10),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _pickTimeButtonWidget("9:00"),
+              _pickTimeButtonWidget("9:30"),
               _pickTimeButtonWidget("10:00"),
-              _pickTimeButtonWidget("11:00"),
-              _pickTimeButtonWidget("12:00"),
+              _pickTimeButtonWidget("10:30"),
             ],
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _pickTimeButtonWidget("11:00"),
+              _pickTimeButtonWidget("11:30"),
+              _pickTimeButtonWidget("12:00"),
+              _pickTimeButtonWidget("12:30"),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _pickTimeButtonWidget("13:00"),
+              _pickTimeButtonWidget("13:30"),
               _pickTimeButtonWidget("14:00"),
-              _pickTimeButtonWidget("15:00"),
-              _pickTimeButtonWidget("16:00"),
+              _pickTimeButtonWidget("14:30"),
             ],
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _pickTimeButtonWidget("15:00"),
+              _pickTimeButtonWidget("15:30"),
+              _pickTimeButtonWidget("16:00"),
+              _pickTimeButtonWidget("16:30"),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _pickTimeButtonWidget("17:00"),
+              _pickTimeButtonWidget("17:30"),
               _pickTimeButtonWidget("18:00"),
+              _pickTimeButtonWidget("18:30"),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               _pickTimeButtonWidget("19:00"),
+              _pickTimeButtonWidget("19:30"),
+              _pickTimeButtonWidget("20:00"),
             ],
           ),
         ],
@@ -214,57 +248,67 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     return GestureDetector(
         onTap: () => _selectTime(time),
         child: Container(
-          height: _screenHeight * 0.05,
-          width: _screenWidth * 0.13,
+          height: _screenHeight * 0.033,
+          width: _screenWidth * 0.15,
           alignment: Alignment.center,
-          margin: EdgeInsets.all(3),
+          margin: EdgeInsets.all(5),
           decoration: BoxDecoration(
               color: _getTimeButtonColor(time),
               border: Border.all(color: Colors.grey, width: 0.5),
               borderRadius: BorderRadius.all(Radius.circular(3))),
           child: Text(
             time,
-            style: TextStyle(color: _getTimeTextColor(time)),
+            style: TextStyle(color: _getTimeTextColor(time), fontSize: 12),
           ),
         ));
   }
 
-  void _selectTime(String time) {
-    // RegToInstructorData regToInstructorData = RegToInstructorData(
-    //     widget.instructorWidgetState.instructor.name,
-    //     widget.instructorWidgetState.instructor.phone,
-    //     _selectedDate,
-    //     time);
-    //
-    // if (widget.instructorWidgetState.regToInstructorData == null)
-    //   _updateRegToInstructorData(regToInstructorData);
-    // else if (widget.instructorWidgetState.regToInstructorData.instructorName ==
-    //     regToInstructorData.instructorName) {
-    //   _updateRegToInstructorData(regToInstructorData);
-    // } else
-    //   _updateRegToInstructorData(regToInstructorData);
-  }
+  void _selectTime(String time) {}
+
   Color _getTimeButtonColor(String time) {
-    // if (widget.instructorWidgetState.regToInstructorData != null &&
-    //     _regToInstructorDataCurrent != null &&
-    //     widget.instructorWidgetState.regToInstructorData.instructorName ==
-    //         _regToInstructorDataCurrent.instructorName &&
-    //     _regToInstructorDataCurrent.date == _selectedDate &&
-    //     _regToInstructorDataCurrent.time == time) {
-    //   return Colors.blue;
-    // } else
-      return Colors.white;
+    return Colors.white;
   }
 
   Color _getTimeTextColor(String time) {
-    // if (widget.instructorWidgetState.regToInstructorData != null &&
-    //     _regToInstructorDataCurrent != null &&
-    //     widget.instructorWidgetState.regToInstructorData.instructorName ==
-    //         _regToInstructorDataCurrent.instructorName &&
-    //     _regToInstructorDataCurrent.date == _selectedDate &&
-    //     _regToInstructorDataCurrent.time == time)
-    //   return Colors.white;
-    // else
-      return Colors.black;
+    return Colors.black;
+  }
+
+  Widget _changeStatusButtons() {
+    return Container(
+        child: Column(
+      children: [
+        _changeStatusButton("открыта предварительная запись", "assets/instructor_set_time/e5.png"),
+        _changeStatusButton("запись недоступна(занято,перерыв)", "assets/instructor_set_time/e4.png"),
+        _changeStatusButton("предварительная запись не открыта", "assets/instructor_set_time/e15.png"),
+      ],
+    ));
+  }
+
+  Widget _changeStatusButton(String text, String iconPath) {
+    return Container(
+      height: _screenHeight*0.033,
+      margin: EdgeInsets.only(left: _screenWidth*0.2),
+        child: GestureDetector(
+      onTap: null,
+      child: Row(
+        children: [
+          Container(
+            height: 8,
+            width: 8,
+            margin: EdgeInsets.only(right: 5),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(iconPath),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Text(
+            text,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+          )
+        ],
+      ),
+    ));
   }
 }
