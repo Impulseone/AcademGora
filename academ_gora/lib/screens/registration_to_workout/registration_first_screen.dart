@@ -1,5 +1,4 @@
 import 'package:academ_gora/model/workout.dart';
-import 'package:academ_gora/screens/registration_to_instructor/registration_parameters_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 

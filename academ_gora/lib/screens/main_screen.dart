@@ -4,9 +4,10 @@ import 'package:academ_gora/screens/info_screens/chill_zone_screen.dart';
 import 'package:academ_gora/screens/info_screens/about_us_screen.dart';
 import 'package:academ_gora/screens/info_screens/price_screen.dart';
 import 'package:academ_gora/screens/info_screens/regime_screen.dart';
-import 'package:academ_gora/screens/registration_to_instructor/registration_first_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+
+import 'registration_to_workout/registration_first_screen.dart';
 
 final List<String> imgList = [
   "assets/main/10_pic1.png",

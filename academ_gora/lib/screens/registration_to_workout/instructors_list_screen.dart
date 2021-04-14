@@ -1,13 +1,13 @@
 import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/reg_to_instructor_data.dart';
 import 'package:academ_gora/model/workout.dart';
-import 'package:academ_gora/screens/registration_to_instructor/registration_parameters_screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 
 import 'helpers_widgets/instructor_list/instructor_widget.dart';
+import 'registration_parameters_screen.dart';
 
 class InstructorsListScreen extends StatefulWidget {
   @override

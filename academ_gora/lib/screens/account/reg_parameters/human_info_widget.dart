@@ -1,5 +1,5 @@
 import 'package:academ_gora/screens/account/update_workout_screen.dart';
-import 'package:academ_gora/screens/registration_to_instructor/registration_parameters_screen.dart';
+import 'package:academ_gora/screens/registration_to_workout/registration_parameters_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

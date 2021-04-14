@@ -4,9 +4,9 @@ import 'package:academ_gora/screens/account/reg_parameters/human_info_widget.dar
 import 'package:academ_gora/screens/account/reg_parameters/select_level_of_skating_widget.dart';
 import 'package:academ_gora/screens/account/reg_parameters/select_people_count_widget.dart';
 import 'package:academ_gora/screens/account/user_account_screen.dart';
-import 'package:academ_gora/screens/registration_to_instructor/helpers_widgets/horizontal_divider.dart';
-import 'package:academ_gora/screens/registration_to_instructor/helpers_widgets/reg_parameters/info_text.dart';
-import 'package:academ_gora/screens/registration_to_instructor/registration_parameters_screen.dart';
+import 'package:academ_gora/screens/registration_to_workout/helpers_widgets/horizontal_divider.dart';
+import 'package:academ_gora/screens/registration_to_workout/helpers_widgets/reg_parameters/info_text.dart';
+import 'package:academ_gora/screens/registration_to_workout/registration_parameters_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';

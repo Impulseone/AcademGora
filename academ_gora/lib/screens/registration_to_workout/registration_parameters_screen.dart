@@ -1,6 +1,5 @@
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
-import 'package:academ_gora/screens/registration_to_instructor/reg_final_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ import 'helpers_widgets/reg_parameters/info_text.dart';
 import 'helpers_widgets/reg_parameters/select_duration_widget.dart';
 import 'helpers_widgets/reg_parameters/select_level_of_skating_widget.dart';
 import 'helpers_widgets/reg_parameters/select_people_count_widget.dart';
+import 'reg_final_screen.dart';
 
 class RegistrationParametersScreen extends StatefulWidget {
   @override
