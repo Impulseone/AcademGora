@@ -1,7 +1,10 @@
+import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/screens/registration_to_workout/helpers_widgets/horizontal_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
+
+enum TimeStatus { OPENED, CLOSED, NOT_AVAILABLE }
 
 class SetWorkoutTimeScreen extends StatefulWidget {
   @override
@@ -28,6 +31,12 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     'Ноября',
     'Декабря'
   ];
+
+  List<String> openedTimesPerDay = ["10:00", "12:00"];
+  List<String> closedTimesPerDay = ["15:00", "17:00"];
+  List<String> notAvailableTimesPerDay = ["9:00", "9:30"];
+
+  TimeStatus selectedTimeStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -168,6 +177,9 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   void _increaseDate() {
     setState(() {
       _selectedDate = _selectedDate.add(Duration(days: 1));
+      openedTimesPerDay = [];
+      closedTimesPerDay = [];
+      notAvailableTimesPerDay = [];
     });
   }
 
@@ -178,6 +190,9 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     else
       setState(() {
         _selectedDate = _selectedDate.subtract(Duration(days: 1));
+        openedTimesPerDay = [];
+        closedTimesPerDay = [];
+        notAvailableTimesPerDay = [];
       });
   }
 
@@ -254,7 +269,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
           margin: EdgeInsets.all(5),
           decoration: BoxDecoration(
               color: _getTimeButtonColor(time),
-              border: Border.all(color: Colors.grey, width: 0.5),
+              border: Border.all(color: _getTimeTextColor(time), width: 0.5),
               borderRadius: BorderRadius.all(Radius.circular(3))),
           child: Text(
             time,
@@ -263,52 +278,85 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
         ));
   }
 
-  void _selectTime(String time) {}
+  void _selectTime(String time) {
+    if (selectedTimeStatus != null) {
+      setState(() {
+        if (selectedTimeStatus == TimeStatus.OPENED) {
+          openedTimesPerDay.add(time);
+          closedTimesPerDay.remove(time);
+          notAvailableTimesPerDay.remove(time);
+        } else if (selectedTimeStatus == TimeStatus.CLOSED) {
+          closedTimesPerDay.add(time);
+          openedTimesPerDay.remove(time);
+          notAvailableTimesPerDay.remove(time);
+        } else if (selectedTimeStatus == TimeStatus.NOT_AVAILABLE) {
+          notAvailableTimesPerDay.add(time);
+          openedTimesPerDay.remove(time);
+          closedTimesPerDay.remove(time);
+        }
+      });
+    }
+  }
 
   Color _getTimeButtonColor(String time) {
     return Colors.white;
   }
 
   Color _getTimeTextColor(String time) {
-    return Colors.black;
+    if (openedTimesPerDay.contains(time))
+      return Colors.blue;
+    else if (closedTimesPerDay.contains(time))
+      return Colors.red;
+    else
+      return Colors.grey;
   }
 
   Widget _changeStatusButtons() {
     return Container(
         child: Column(
       children: [
-        _changeStatusButton("открыта предварительная запись", "assets/instructor_set_time/e5.png"),
-        _changeStatusButton("запись недоступна(занято,перерыв)", "assets/instructor_set_time/e4.png"),
-        _changeStatusButton("предварительная запись не открыта", "assets/instructor_set_time/e15.png"),
+        _changeStatusButton(TimeStatus.OPENED, "открыта предварительная запись",
+            "assets/instructor_set_time/e5.png"),
+        _changeStatusButton(
+            TimeStatus.CLOSED,
+            "запись недоступна(занято,перерыв)",
+            "assets/instructor_set_time/e4.png"),
+        _changeStatusButton(
+            TimeStatus.NOT_AVAILABLE,
+            "предварительная запись не открыта",
+            "assets/instructor_set_time/e15.png"),
       ],
     ));
   }
 
-  Widget _changeStatusButton(String text, String iconPath) {
+  Widget _changeStatusButton(
+      TimeStatus timeStatus, String text, String iconPath) {
     return Container(
-      height: _screenHeight*0.033,
-      margin: EdgeInsets.only(left: _screenWidth*0.2),
+        height: _screenHeight * 0.033,
+        margin: EdgeInsets.only(left: _screenWidth * 0.2),
         child: GestureDetector(
-      onTap: null,
-      child: Row(
-        children: [
-          Container(
-            height: 8,
-            width: 8,
-            margin: EdgeInsets.only(right: 5),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(iconPath),
-                fit: BoxFit.cover,
+          onTap: () {
+            selectedTimeStatus = timeStatus;
+          },
+          child: Row(
+            children: [
+              Container(
+                height: 8,
+                width: 8,
+                margin: EdgeInsets.only(right: 5),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(iconPath),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
-            ),
+              Text(
+                text,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+              )
+            ],
           ),
-          Text(
-            text,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-          )
-        ],
-      ),
-    ));
+        ));
   }
 }
