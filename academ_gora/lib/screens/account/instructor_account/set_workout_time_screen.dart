@@ -1,8 +1,13 @@
+import 'package:academ_gora/controller/firebase_controller.dart';
 import 'package:academ_gora/model/instructor.dart';
+import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/screens/registration_to_workout/helpers_widgets/horizontal_divider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
+import 'package:intl/intl.dart';
 
 enum TimeStatus { OPENED, CLOSED, NOT_AVAILABLE }
 
@@ -37,6 +42,12 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   List<String> notAvailableTimesPerDay = ["9:00", "9:30"];
 
   TimeStatus selectedTimeStatus;
+
+  @override
+  void initState() {
+    super.initState();
+    Firebase.initializeApp();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -278,7 +289,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
         ));
   }
 
-  void _selectTime(String time) {
+  void _selectTime(String time) async {
     if (selectedTimeStatus != null) {
       setState(() {
         if (selectedTimeStatus == TimeStatus.OPENED) {
@@ -293,6 +304,26 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
           notAvailableTimesPerDay.add(time);
           openedTimesPerDay.remove(time);
           closedTimesPerDay.remove(time);
+        }
+      });
+      UserRole.getUserRole().then((userRole) {
+        print(userRole);
+        if (userRole == UserRole.instructor) {
+          String userId = FirebaseAuth.instance.currentUser.uid;
+          String dateString = DateFormat('ddMMyyyy').format(_selectedDate);
+
+          var timesMap = {};
+          openedTimesPerDay.forEach((time) {
+            timesMap.putIfAbsent(time, () => "открыто");
+          });
+          closedTimesPerDay.forEach((time) {
+            timesMap.putIfAbsent(time, () => "недоступно");
+          });
+          notAvailableTimesPerDay.forEach((time) {
+            timesMap.putIfAbsent(time, () => "не открыто");
+          });
+          FirebaseController()
+              .create("$userRole/$userId/График работы/$dateString", timesMap);
         }
       });
     }
