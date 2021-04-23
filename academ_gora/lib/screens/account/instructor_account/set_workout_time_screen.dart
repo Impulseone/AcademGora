@@ -37,16 +37,20 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     'Декабря'
   ];
 
-  List<String> openedTimesPerDay = ["10:00", "12:00"];
-  List<String> closedTimesPerDay = ["15:00", "17:00"];
-  List<String> notAvailableTimesPerDay = ["9:00", "9:30"];
+  List<String> openedTimesPerDay = [];
+  List<String> closedTimesPerDay = [];
+  List<String> notAvailableTimesPerDay = [];
 
   TimeStatus selectedTimeStatus;
+
+  FirebaseController _firebaseController = FirebaseController();
 
   @override
   void initState() {
     super.initState();
-    Firebase.initializeApp();
+    Firebase.initializeApp().then((value) {
+      _getOpenedTimesPerDay();
+    });
   }
 
   @override
@@ -188,10 +192,8 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   void _increaseDate() {
     setState(() {
       _selectedDate = _selectedDate.add(Duration(days: 1));
-      openedTimesPerDay = [];
-      closedTimesPerDay = [];
-      notAvailableTimesPerDay = [];
     });
+    _getOpenedTimesPerDay();
   }
 
   void _decreaseDate() {
@@ -205,6 +207,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
         closedTimesPerDay = [];
         notAvailableTimesPerDay = [];
       });
+    _getOpenedTimesPerDay();
   }
 
   Widget _timeWidget() {
@@ -291,42 +294,59 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
 
   void _selectTime(String time) async {
     if (selectedTimeStatus != null) {
-      setState(() {
-        if (selectedTimeStatus == TimeStatus.OPENED) {
-          openedTimesPerDay.add(time);
-          closedTimesPerDay.remove(time);
-          notAvailableTimesPerDay.remove(time);
-        } else if (selectedTimeStatus == TimeStatus.CLOSED) {
-          closedTimesPerDay.add(time);
-          openedTimesPerDay.remove(time);
-          notAvailableTimesPerDay.remove(time);
-        } else if (selectedTimeStatus == TimeStatus.NOT_AVAILABLE) {
-          notAvailableTimesPerDay.add(time);
-          openedTimesPerDay.remove(time);
-          closedTimesPerDay.remove(time);
-        }
-      });
-      UserRole.getUserRole().then((userRole) {
-        print(userRole);
-        if (userRole == UserRole.instructor) {
-          String userId = FirebaseAuth.instance.currentUser.uid;
-          String dateString = DateFormat('ddMMyyyy').format(_selectedDate);
-
-          var timesMap = {};
-          openedTimesPerDay.forEach((time) {
-            timesMap.putIfAbsent(time, () => "открыто");
-          });
-          closedTimesPerDay.forEach((time) {
-            timesMap.putIfAbsent(time, () => "недоступно");
-          });
-          notAvailableTimesPerDay.forEach((time) {
-            timesMap.putIfAbsent(time, () => "не открыто");
-          });
-          FirebaseController()
-              .create("$userRole/$userId/График работы/$dateString", timesMap);
-        }
-      });
+      _setSelectedView(time);
     }
+  }
+
+  void _setSelectedView(String time) {
+    setState(() {
+      if (selectedTimeStatus == TimeStatus.OPENED) {
+        _sendOnce(time, "открыто");
+      } else if (selectedTimeStatus == TimeStatus.CLOSED) {
+        _sendOnce(time, "недоступно");
+      } else if (selectedTimeStatus == TimeStatus.NOT_AVAILABLE) {
+        _sendOnce(time, "не открыто");
+      }
+    });
+  }
+
+  void _sendOnce(String time, String status) {
+    UserRole.getUserRole().then((userRole) {
+      if (userRole == UserRole.instructor) {
+        String userId = FirebaseAuth.instance.currentUser.uid;
+        String dateString = DateFormat('ddMMyyyy').format(_selectedDate);
+        _firebaseController.update(
+            "$userRole/$userId/График работы/$dateString", {time: status});
+      }
+    });
+    _getOpenedTimesPerDay();
+  }
+
+  void _getOpenedTimesPerDay() {
+    openedTimesPerDay = [];
+    notAvailableTimesPerDay = [];
+    closedTimesPerDay = [];
+    UserRole.getUserRole().then((userRole) async {
+      if (userRole == UserRole.instructor) {
+        String userId = FirebaseAuth.instance.currentUser.uid;
+        String dateString = DateFormat('ddMMyyyy').format(_selectedDate);
+        Map<dynamic, dynamic> timesMap = await _firebaseController
+            .get("$userRole/$userId/График работы/$dateString");
+        if(timesMap!=null)
+        timesMap.forEach((key, value) {
+          if (value == 'открыто') {
+            openedTimesPerDay.add(key);
+          }
+          else if (value == 'не открыто') {
+            notAvailableTimesPerDay.add(key);
+          }
+          else if (value == 'недоступно') {
+            closedTimesPerDay.add(key);
+          }
+        });
+        setState(() {});
+      }
+    });
   }
 
   Color _getTimeButtonColor(String time) {
