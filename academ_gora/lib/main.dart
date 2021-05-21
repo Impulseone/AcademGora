@@ -27,8 +27,8 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        // home: SplashScreen(authBloc)
-        home: SetWorkoutTimeScreen()
+        home: SplashScreen(authBloc)
+        // home: SetWorkoutTimeScreen()
     );
   }
 }
