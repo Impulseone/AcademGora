@@ -44,23 +44,10 @@ class _AuthScreenState extends State<AuthScreen> {
           child: FutureBuilder(
             future: _checkLoginState(),
             builder: (context, snapshot) {
-              if (snapshot.hasError)
-                return _loginForm();
-              else {
-                var user = snapshot.data as FirebaseAuth.User;
-                return snapshot.hasData
-                    ? Text("Logged in succesfully")
-                    : _loginForm();
-              }
+              return _loginForm();
             },
           ),
         ));
-  }
-
-  Widget _successfulLogin() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (ctx) => MainScreen()));
-    return CircularProgressIndicator();
   }
 
   Widget _loginForm() {
@@ -84,29 +71,6 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  void _getCode(BuildContext context) {
-    // if (_controller.text.length == 0) {
-    //   _scaffoldKey.currentState.showSnackBar(
-    //     SnackBar(
-    //       behavior: SnackBarBehavior.fixed,
-    //       content: Text('Введите номер телефона'),
-    //     ),
-    //   );
-    // } else if (_controller.text.length < 12) {
-    //   _scaffoldKey.currentState.showSnackBar(
-    //     SnackBar(
-    //       behavior: SnackBarBehavior.fixed,
-    //       content: Text('Введенный номер телефона недействителен'),
-    //     ),
-    //   );
-    // } else {
-    //   _authBloc.verifyPhone(_controller.text.toString());
-    //   Navigator.of(context).push(MaterialPageRoute(
-    //       builder: (c) =>
-    //           InputSmsCodeScreen(_controller.text.toString(), _authBloc)));
-    // }
-  }
-
   Future<FirebaseAuth.User> _checkLoginState() async {
     await Firebase.initializeApp();
     return FirebaseAuth.FirebaseAuth.instance.currentUser;
@@ -117,9 +81,8 @@ class _AuthScreenState extends State<AuthScreen> {
     if (user == null) {
       FirebaseAuthUi.instance()
           .launchAuth([AuthProvider.phone()]).then((fbUser) {
-        setState(() {
-          error = "";
-        });
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (c) => MainScreen()), (route) => false);
       }).catchError((e) {
         if (error is PlatformException) {
           setState(() {

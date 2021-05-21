@@ -19,8 +19,8 @@ class LoginFormWidget extends StatelessWidget {
       child: Column(
         children: [
           _topText(),
-          _inputNumberWidget(),
-          _textNumberHint(),
+          //_inputNumberWidget(),
+          //_textNumberHint(),
           _getCodeButton()
         ],
       ),
