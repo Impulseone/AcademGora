@@ -1,9 +1,5 @@
-import 'package:academ_gora/bloc/auth_bloc.dart';
-import 'package:academ_gora/screens/account/instructor_account/set_workout_time_screen.dart';
-import 'package:academ_gora/screens/all_instructors/all_instructors_screen.dart';
+import 'package:academ_gora/controller/auth_controller.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
-import 'package:academ_gora/screens/info_screens/about_us_screen.dart';
-import 'package:academ_gora/screens/instructor_profile/instructor_profile_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -19,7 +15,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  AuthBloc authBloc = AuthBloc();
+  AuthController authBloc = AuthController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,20 +28,26 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: SplashScreen(authBloc)
-        // home: SetWorkoutTimeScreen()
-    );
+        home: FutureBuilder(
+          future: initApp(),
+          builder: (context, snap) {
+            return snap.data == true ? MainScreen() : AuthScreen();
+          },
+        ));
+  }
+
+  Future<bool> initApp() async {
+    bool isUserAuthorized = false;
+    await Firebase.initializeApp().then((value) {
+      if (FirebaseAuth.instance.currentUser != null) isUserAuthorized = true;
+    });
+    return isUserAuthorized;
   }
 }
 
 class SplashScreen extends StatelessWidget {
-  final AuthBloc authBloc;
-
-  SplashScreen(this.authBloc);
-
   @override
   Widget build(BuildContext context) {
-    _listenLoginInfo(context);
     return Scaffold(
         body: Container(
             decoration: BoxDecoration(
@@ -49,22 +56,5 @@ class SplashScreen extends StatelessWidget {
         fit: BoxFit.cover,
       ),
     )));
-  }
-
-  void _listenLoginInfo(BuildContext context) {
-    authBloc.isUserLoggedIn.listen((event) {
-      if (event) _openMainScreen(context);
-      else _openAuthScreen(context);
-    });
-  }
-
-  void _openMainScreen(BuildContext context) {
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (c) => MainScreen()), (route) => false);
-  }
-
-  void _openAuthScreen(BuildContext context) {
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (c) => AuthScreen()), (route) => false);
   }
 }

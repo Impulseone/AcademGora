@@ -1,4 +1,4 @@
-import 'package:academ_gora/bloc/auth_bloc.dart';
+import 'package:academ_gora/controller/auth_controller.dart';
 import 'package:academ_gora/screens/auth/helpers/login_form_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -16,14 +16,8 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
-  AuthBloc _authBloc = AuthBloc();
-
-  final TextEditingController _controller = TextEditingController();
-  String verificationID;
-
   String error;
+  AuthController _authController = AuthController();
 
   @override
   void initState() {
@@ -33,42 +27,56 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
         body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/auth/1_background.png"),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: FutureBuilder(
-            future: _checkLoginState(),
-            builder: (context, snapshot) {
-              return _loginForm();
-            },
-          ),
-        ));
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/auth/1_background.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: FutureBuilder(
+        future: _checkLoginState(),
+        builder: (context, snapshot) {
+          return _loginForm();
+        },
+      ),
+    ));
   }
 
   Widget _loginForm() {
-    return Center(
-      child: SingleChildScrollView(
-          child: Column(
-        children: [
-          Container(
-              child: Text("СК \"АКАДЕМИЧЕСКИЙ\"",
-                  style: TextStyle(
-                    fontSize: 20,
-                  ))),
-          LoginFormWidget(_controller, () {
-            _processLogin();
-          }),
-          Container(
-            height: 150,
-          )
-        ],
-      )),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+            child: Text("СК \"АКАДЕМИЧЕСКИЙ\"",
+                style: TextStyle(
+                  fontSize: 20,
+                ))),
+        _getCodeButton(),
+        Container(
+          height: 150,
+        )
+      ],
     );
+  }
+
+  Widget _getCodeButton() {
+    return GestureDetector(
+        onTap: _processLogin,
+        child: Container(
+          margin: EdgeInsets.only(top: 12),
+          width: 200,
+          height: 45,
+          decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.all(Radius.circular(10.0))),
+          child: Center(
+              child: Text(
+            "Вход",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white, fontSize: 24),
+          )),
+        ));
   }
 
   Future<FirebaseAuth.User> _checkLoginState() async {
@@ -77,26 +85,20 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void _processLogin() async {
-    var user = FirebaseAuth.FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      FirebaseAuthUi.instance()
-          .launchAuth([AuthProvider.phone()]).then((fbUser) {
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (c) => MainScreen()), (route) => false);
-      }).catchError((e) {
-        if (error is PlatformException) {
-          setState(() {
-            if (e.code == FirebaseAuthUi.kUserCancelledError) {
-              error = "User cancelled login";
-            } else {
-              error = e.message ?? 'Unk error';
-            }
-          });
-        }
-      });
-    } else {
-      await FirebaseAuthUi.instance().logout();
-      setState(() {});
-    }
+    FirebaseAuthUi.instance().launchAuth([AuthProvider.phone()]).then((fbUser) {
+      _authController.saveUserRole(fbUser.phoneNumber);
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (c) => MainScreen()), (route) => false);
+    }).catchError((e) {
+      if (error is PlatformException) {
+        setState(() {
+          if (e.code == FirebaseAuthUi.kUserCancelledError) {
+            error = "User cancelled login";
+          } else {
+            error = e.message ?? 'Unk error';
+          }
+        });
+      }
+    });
   }
 }
