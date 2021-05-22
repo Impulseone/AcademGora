@@ -34,12 +34,7 @@ class _AuthScreenState extends State<AuthScreen> {
           fit: BoxFit.cover,
         ),
       ),
-      child: FutureBuilder(
-        future: _checkLoginState(),
-        builder: (context, snapshot) {
-          return _loginForm();
-        },
-      ),
+      child: _loginForm(),
     ));
   }
 
@@ -79,26 +74,23 @@ class _AuthScreenState extends State<AuthScreen> {
         ));
   }
 
-  Future<FirebaseAuth.User> _checkLoginState() async {
-    await Firebase.initializeApp();
-    return FirebaseAuth.FirebaseAuth.instance.currentUser;
-  }
-
   void _processLogin() async {
-    FirebaseAuthUi.instance().launchAuth([AuthProvider.phone()]).then((fbUser) {
-      _authController.saveUserRole(fbUser.phoneNumber);
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (c) => MainScreen()), (route) => false);
-    }).catchError((e) {
-      if (error is PlatformException) {
-        setState(() {
-          if (e.code == FirebaseAuthUi.kUserCancelledError) {
-            error = "User cancelled login";
-          } else {
-            error = e.message ?? 'Unk error';
+    await Firebase.initializeApp().then((value) => FirebaseAuthUi.instance()
+            .launchAuth([AuthProvider.phone()]).then((fbUser) {
+          _authController.saveUserRole(fbUser.phoneNumber);
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (c) => MainScreen()),
+              (route) => false);
+        }).catchError((e) {
+          if (error is PlatformException) {
+            setState(() {
+              if (e.code == FirebaseAuthUi.kUserCancelledError) {
+                error = "User cancelled login";
+              } else {
+                error = e.message ?? 'Unk error';
+              }
+            });
           }
-        });
-      }
-    });
+        }));
   }
 }
