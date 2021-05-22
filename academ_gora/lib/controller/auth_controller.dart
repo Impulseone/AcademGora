@@ -16,7 +16,6 @@ class AuthController {
       });
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("userRole", userRole);
-      print("UserRole: $userRole");
       _saveUserInDb(userRole);
     });
   }

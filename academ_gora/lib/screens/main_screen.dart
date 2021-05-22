@@ -1,3 +1,5 @@
+import 'package:academ_gora/model/user_role.dart';
+import 'package:academ_gora/screens/account/instructor_account/instructor_account_screen.dart';
 import 'package:academ_gora/screens/account/user_account_screen.dart';
 import 'package:academ_gora/screens/info_screens/call_us_screen.dart';
 import 'package:academ_gora/screens/info_screens/chill_zone_screen.dart';
@@ -6,6 +8,7 @@ import 'package:academ_gora/screens/info_screens/price_screen.dart';
 import 'package:academ_gora/screens/info_screens/regime_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'registration_to_workout/registration_first_screen.dart';
 
@@ -108,9 +111,16 @@ class _MainScreenState extends State<MainScreen> {
         ));
   }
 
-  void _openAccountScreen() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (c) => UserAccountScreen()));
+  void _openAccountScreen() async {
+    await SharedPreferences.getInstance().then((prefs) {
+      String userRole = prefs.getString("userRole");
+      if (userRole == UserRole.user)
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (c) => UserAccountScreen()));
+      else
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (c) => InstructorAccountScreen()));
+    });
   }
 
   Widget _socialNetworks() {
@@ -262,7 +272,7 @@ class _MainScreenState extends State<MainScreen> {
     return Container(
       width: _screenWidth * 0.9,
       height: _screenHeight * 0.1,
-      margin: EdgeInsets.only(top: _screenHeight*0.05),
+      margin: EdgeInsets.only(top: _screenHeight * 0.05),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
         color: Colors.lightBlue,
@@ -292,8 +302,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _openRegistrationToInstructorScreen() {
-    Navigator.of(context).push(
-        MaterialPageRoute(builder: (c) => RegistrationFirstScreen()));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (c) => RegistrationFirstScreen()));
   }
 
   Widget _infoButtons() {

@@ -20,14 +20,10 @@ class _AuthScreenState extends State<AuthScreen> {
   AuthController _authController = AuthController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
+          width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/auth/1_background.png"),
@@ -48,9 +44,6 @@ class _AuthScreenState extends State<AuthScreen> {
                   fontSize: 20,
                 ))),
         _getCodeButton(),
-        Container(
-          height: 150,
-        )
       ],
     );
   }
