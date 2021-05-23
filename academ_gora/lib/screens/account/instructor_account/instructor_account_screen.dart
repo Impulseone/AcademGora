@@ -142,7 +142,7 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
 
   Widget _workoutsListWidget() {
     return Container(
-        height: _screenHeight * 0.1,
+        height: _screenHeight * 0.25,
         child: ListView.builder(
           itemCount: 2,
           itemBuilder: (context, index) {
@@ -258,8 +258,8 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
           TextStyle(fontSize: _screenHeight * 0.023, color: Colors.blue),
       weekdayTextStyle: TextStyle(color: Colors.black, fontSize: 12),
       locale: "ru",
-      width: 300,
-      height: 290,
+      width: _screenWidth * 0.6,
+      height: _screenHeight * 0.3,
       todayBorderColor: Colors.transparent,
       todayButtonColor: Colors.transparent,
       todayTextStyle: TextStyle(color: Colors.black, fontSize: 12),

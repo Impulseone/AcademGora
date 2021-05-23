@@ -91,8 +91,8 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
           TextStyle(fontSize: _screenHeight * 0.023, color: Colors.blue),
       weekdayTextStyle: TextStyle(color: Colors.black),
       locale: "ru",
-      width: 300,
-      height: 290,
+      width: _screenWidth*0.5,
+      height: _screenHeight*0.35,
       todayBorderColor: Colors.transparent,
       todayButtonColor: Colors.transparent,
       todayTextStyle: TextStyle(color: Colors.black),
@@ -161,8 +161,8 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
         GestureDetector(
           onTap: _decreaseDate,
           child: Container(
-            height: _screenWidth * 0.09,
-            width: _screenWidth * 0.09,
+            height: _screenWidth * 0.06,
+            width: _screenWidth * 0.06,
             child: Image.asset("assets/instructors_list/e_6.png"),
           ),
         ),
@@ -171,13 +171,13 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
             alignment: Alignment.center,
             child: Text(
               _getSelectedDate(),
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             )),
         GestureDetector(
           onTap: _increaseDate,
           child: Container(
-            height: _screenWidth * 0.09,
-            width: _screenWidth * 0.09,
+            height: _screenWidth * 0.06,
+            width: _screenWidth * 0.06,
             child: Image.asset("assets/instructors_list/e_7.png"),
           ),
         ),
