@@ -1,6 +1,7 @@
 import 'package:academ_gora/screens/account/instructor_account/set_workout_time_screen.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
+import 'package:expandable/expandable.dart';
 import 'package:firebase_auth_ui/firebase_auth_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
@@ -65,6 +66,7 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
           _changeRegistrationTimeButton(),
           _calendar(),
           _dateSliderWidget(),
+          _workoutsListWidget(),
           _redactProfileButton(),
           _backToMainButton()
         ],
@@ -111,30 +113,41 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
 
   Widget _dateSliderWidget() {
     return Container(
-        margin: EdgeInsets.only(left: _screenWidth * 0.08),
         child: Row(
-          children: [
-            GestureDetector(
-              onTap: _decreaseDate,
-              child: Container(
-                height: _screenWidth * 0.09,
-                width: _screenWidth * 0.09,
-                child: Image.asset("assets/instructors_list/e_6.png"),
-              ),
-            ),
-            Container(
-                width: _screenWidth * 0.38,
-                alignment: Alignment.center,
-                child: Text(_getSelectedDate())),
-            GestureDetector(
-              onTap: _increaseDate,
-              child: Container(
-                height: _screenWidth * 0.09,
-                width: _screenWidth * 0.09,
-                child: Image.asset("assets/instructors_list/e_7.png"),
-              ),
-            ),
-          ],
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        GestureDetector(
+          onTap: _decreaseDate,
+          child: Container(
+            height: _screenWidth * 0.07,
+            width: _screenWidth * 0.07,
+            child: Image.asset("assets/instructors_list/e_6.png"),
+          ),
+        ),
+        Container(
+            width: _screenWidth * 0.38,
+            alignment: Alignment.center,
+            child: Text(_getSelectedDate())),
+        GestureDetector(
+          onTap: _increaseDate,
+          child: Container(
+            height: _screenWidth * 0.07,
+            width: _screenWidth * 0.07,
+            child: Image.asset("assets/instructors_list/e_7.png"),
+          ),
+        ),
+      ],
+    ));
+  }
+
+  Widget _workoutsListWidget() {
+    return Container(
+        height: _screenHeight * 0.1,
+        child: ListView.builder(
+          itemCount: 2,
+          itemBuilder: (context, index) {
+            return _workoutWidget();
+          },
         ));
   }
 
@@ -262,6 +275,23 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
       targetDateTime: _selectedDate,
       selectedDayTextStyle: TextStyle(color: Colors.white),
     );
+  }
+
+  Widget _workoutWidget() {
+    return ExpandablePanel(
+      header: _header(),
+      expanded: _body(),
+      tapHeaderToExpand: true,
+      hasIcon: true,
+    );
+  }
+
+  Widget _header() {
+    return Text("20.20.20 11:30-12:30");
+  }
+
+  Widget _body() {
+    return Text("Анастасия, Мария");
   }
 
   void _openAuthScreen() async {

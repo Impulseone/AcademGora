@@ -29,14 +29,14 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.blue,
         ),
         home: FutureBuilder(
-          future: initApp(),
+          future: _initApp(),
           builder: (context, snap) {
             return snap.data == true ? MainScreen() : AuthScreen();
           },
         ));
   }
 
-  Future<bool> initApp() async {
+  Future<bool> _initApp() async {
     bool isUserAuthorized = false;
     await Firebase.initializeApp().then((value) {
       if (FirebaseAuth.instance.currentUser != null) isUserAuthorized = true;
