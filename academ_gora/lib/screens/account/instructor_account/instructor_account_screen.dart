@@ -3,6 +3,8 @@ import 'package:academ_gora/screens/auth/auth_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
 import 'package:firebase_auth_ui/firebase_auth_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_calendar_carousel/classes/event.dart';
+import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 
 class InstructorAccountScreen extends StatefulWidget {
   const InstructorAccountScreen({Key key}) : super(key: key);
@@ -15,6 +17,33 @@ class InstructorAccountScreen extends StatefulWidget {
 class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
   double _screenHeight;
   double _screenWidth;
+
+  DateTime _selectedDate = DateTime.now();
+
+  List months = [
+    'Января',
+    'Февраля',
+    'Марта',
+    'Апреля',
+    'Мая',
+    'Июня',
+    'Июля',
+    'Августа',
+    'Сентября',
+    'Октября',
+    'Ноября',
+    'Декабря'
+  ];
+
+  List weekdays = [
+    'ПН',
+    'ВТ',
+    'СР',
+    'ЧТ',
+    'ПТ',
+    'СБ',
+    'ВС',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +63,8 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
           _logoutButton(),
           _myRegistrationsTitle(),
           _changeRegistrationTimeButton(),
+          _calendar(),
+          _dateSliderWidget(),
           _redactProfileButton(),
           _backToMainButton()
         ],
@@ -43,23 +74,23 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
 
   Widget _myRegistrationsTitle() {
     return Container(
-        margin: EdgeInsets.only(top: 20),
+        margin: EdgeInsets.only(top: 5),
         child: Text(
           "Мои записи",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ));
   }
 
   Widget _changeRegistrationTimeButton() {
     return Container(
-      width: _screenWidth * 0.75,
-      height: _screenHeight * 0.09,
-      margin: EdgeInsets.only(top: 18),
+      width: _screenWidth * 0.7,
+      height: _screenHeight * 0.07,
+      margin: EdgeInsets.only(top: 12),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
         color: Colors.blue,
         child: InkWell(
-            onTap: _openRedactProfileScreen,
+            onTap: _openSetWorkoutTimeScreen,
             child: Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -69,7 +100,7 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold),
                     ),
                   ]),
@@ -78,10 +109,61 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
     );
   }
 
+  Widget _dateSliderWidget() {
+    return Container(
+        margin: EdgeInsets.only(left: _screenWidth * 0.08),
+        child: Row(
+          children: [
+            GestureDetector(
+              onTap: _decreaseDate,
+              child: Container(
+                height: _screenWidth * 0.09,
+                width: _screenWidth * 0.09,
+                child: Image.asset("assets/instructors_list/e_6.png"),
+              ),
+            ),
+            Container(
+                width: _screenWidth * 0.38,
+                alignment: Alignment.center,
+                child: Text(_getSelectedDate())),
+            GestureDetector(
+              onTap: _increaseDate,
+              child: Container(
+                height: _screenWidth * 0.09,
+                width: _screenWidth * 0.09,
+                child: Image.asset("assets/instructors_list/e_7.png"),
+              ),
+            ),
+          ],
+        ));
+  }
+
+  String _getSelectedDate() {
+    String month = months[_selectedDate.month - 1];
+    String weekday = weekdays[_selectedDate.weekday - 1];
+    return "${_selectedDate.day} $month ($weekday)";
+  }
+
+  void _increaseDate() {
+    setState(() {
+      _selectedDate = _selectedDate.add(Duration(days: 1));
+    });
+  }
+
+  void _decreaseDate() {
+    if (_selectedDate.month == DateTime.now().month &&
+        _selectedDate.day == DateTime.now().day)
+      return;
+    else
+      setState(() {
+        _selectedDate = _selectedDate.subtract(Duration(days: 1));
+      });
+  }
+
   Widget _redactProfileButton() {
     return Container(
-      width: _screenWidth * 0.7,
-      height: _screenHeight * 0.07,
+      width: _screenWidth * 0.65,
+      height: _screenHeight * 0.065,
       margin: EdgeInsets.only(top: 18),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
@@ -97,7 +179,7 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold),
                     ),
                   ]),
@@ -109,8 +191,8 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
   Widget _backToMainButton() {
     return Container(
       width: _screenWidth * 0.5,
-      height: _screenHeight * 0.07,
-      margin: EdgeInsets.only(top: 18),
+      height: _screenHeight * 0.06,
+      margin: EdgeInsets.only(top: 10),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
         color: Colors.blue,
@@ -125,7 +207,7 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold),
                     ),
                   ]),
@@ -155,6 +237,33 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
             )));
   }
 
+  Widget _calendar() {
+    return CalendarCarousel<Event>(
+      selectedDayButtonColor: Colors.blue,
+      headerMargin: EdgeInsets.all(0),
+      headerTextStyle:
+          TextStyle(fontSize: _screenHeight * 0.023, color: Colors.blue),
+      weekdayTextStyle: TextStyle(color: Colors.black, fontSize: 12),
+      locale: "ru",
+      width: 300,
+      height: 290,
+      todayBorderColor: Colors.transparent,
+      todayButtonColor: Colors.transparent,
+      todayTextStyle: TextStyle(color: Colors.black, fontSize: 12),
+      onDayPressed: (DateTime date, List<Event> events) {
+        setState(() => _selectedDate = date);
+        events.forEach((event) => print(event.title));
+      },
+      weekendTextStyle: TextStyle(color: Colors.black, fontSize: 12),
+      daysTextStyle: TextStyle(color: Colors.black, fontSize: 12),
+      prevDaysTextStyle: TextStyle(color: Colors.black, fontSize: 12),
+      nextDaysTextStyle: TextStyle(color: Colors.black, fontSize: 12),
+      selectedDateTime: _selectedDate,
+      targetDateTime: _selectedDate,
+      selectedDayTextStyle: TextStyle(color: Colors.white),
+    );
+  }
+
   void _openAuthScreen() async {
     await FirebaseAuthUi.instance().logout().then((value) {
       Navigator.of(context).pushAndRemoveUntil(
@@ -162,8 +271,11 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
     });
   }
 
-  void _openRedactProfileScreen() {
+  void _openRedactProfileScreen() {}
 
+  void _openSetWorkoutTimeScreen() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => SetWorkoutTimeScreen()));
   }
 
   void _openMainScreen() {
