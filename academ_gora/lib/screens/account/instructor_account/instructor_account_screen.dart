@@ -1,4 +1,5 @@
 import 'package:academ_gora/screens/account/instructor_account/set_workout_time_screen.dart';
+import 'package:academ_gora/screens/account/instructor_account/workout_data_widget.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
 import 'package:expandable/expandable.dart';
@@ -269,29 +270,13 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
   Widget _workoutsListWidget() {
     return Container(
         height: _screenHeight * 0.22,
+        width: _screenWidth*0.6,
         child: ListView.builder(
           itemCount: 4,
           itemBuilder: (context, index) {
-            return _workoutWidget();
+            return WorkoutDataWidget();
           },
         ));
-  }
-
-  Widget _workoutWidget() {
-    return ExpandablePanel(
-      header: _header(),
-      expanded: _body(),
-      tapHeaderToExpand: true,
-      hasIcon: true,
-    );
-  }
-
-  Widget _header() {
-    return Text("20.20.20 11:30-12:30");
-  }
-
-  Widget _body() {
-    return Text("Анастасия, Мария");
   }
 
   void _openAuthScreen() async {
