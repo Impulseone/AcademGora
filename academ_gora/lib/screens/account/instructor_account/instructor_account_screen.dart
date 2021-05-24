@@ -86,7 +86,7 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
   Widget _changeRegistrationTimeButton() {
     return Container(
       width: _screenWidth * 0.7,
-      height: _screenHeight * 0.07,
+      height: _screenHeight * 0.065,
       margin: EdgeInsets.only(top: 12),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
@@ -102,7 +102,7 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 14,
+                          fontSize: 13,
                           fontWeight: FontWeight.bold),
                     ),
                   ]),
@@ -140,17 +140,6 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
     ));
   }
 
-  Widget _workoutsListWidget() {
-    return Container(
-        height: _screenHeight * 0.25,
-        child: ListView.builder(
-          itemCount: 2,
-          itemBuilder: (context, index) {
-            return _workoutWidget();
-          },
-        ));
-  }
-
   String _getSelectedDate() {
     String month = months[_selectedDate.month - 1];
     String weekday = weekdays[_selectedDate.weekday - 1];
@@ -176,8 +165,8 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
   Widget _redactProfileButton() {
     return Container(
       width: _screenWidth * 0.65,
-      height: _screenHeight * 0.065,
-      margin: EdgeInsets.only(top: 18),
+      height: _screenHeight * 0.058,
+      margin: EdgeInsets.only(top: 5),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
         color: Colors.blue,
@@ -204,8 +193,8 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
   Widget _backToMainButton() {
     return Container(
       width: _screenWidth * 0.5,
-      height: _screenHeight * 0.06,
-      margin: EdgeInsets.only(top: 10),
+      height: _screenHeight * 0.056,
+      margin: EdgeInsets.only(top: 7),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
         color: Colors.blue,
@@ -256,25 +245,36 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
       headerMargin: EdgeInsets.all(0),
       headerTextStyle:
           TextStyle(fontSize: _screenHeight * 0.023, color: Colors.blue),
-      weekdayTextStyle: TextStyle(color: Colors.black, fontSize: 12),
+      weekdayTextStyle: TextStyle(color: Colors.black, fontSize: 14),
       locale: "ru",
-      width: _screenWidth * 0.6,
-      height: _screenHeight * 0.3,
+      width: _screenWidth * 0.55,
+      height: _screenHeight * 0.38,
       todayBorderColor: Colors.transparent,
       todayButtonColor: Colors.transparent,
-      todayTextStyle: TextStyle(color: Colors.black, fontSize: 12),
+      todayTextStyle: TextStyle(color: Colors.black, fontSize: 14),
       onDayPressed: (DateTime date, List<Event> events) {
         setState(() => _selectedDate = date);
         events.forEach((event) => print(event.title));
       },
-      weekendTextStyle: TextStyle(color: Colors.black, fontSize: 12),
-      daysTextStyle: TextStyle(color: Colors.black, fontSize: 12),
-      prevDaysTextStyle: TextStyle(color: Colors.black, fontSize: 12),
-      nextDaysTextStyle: TextStyle(color: Colors.black, fontSize: 12),
+      weekendTextStyle: TextStyle(color: Colors.black, fontSize: 14),
+      daysTextStyle: TextStyle(color: Colors.black, fontSize: 14),
+      prevDaysTextStyle: TextStyle(color: Colors.black, fontSize: 14),
+      nextDaysTextStyle: TextStyle(color: Colors.black, fontSize: 14),
       selectedDateTime: _selectedDate,
       targetDateTime: _selectedDate,
       selectedDayTextStyle: TextStyle(color: Colors.white),
     );
+  }
+
+  Widget _workoutsListWidget() {
+    return Container(
+        height: _screenHeight * 0.22,
+        child: ListView.builder(
+          itemCount: 4,
+          itemBuilder: (context, index) {
+            return _workoutWidget();
+          },
+        ));
   }
 
   Widget _workoutWidget() {
