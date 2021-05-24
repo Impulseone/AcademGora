@@ -37,11 +37,11 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     'Декабря'
   ];
 
-  List<String> openedTimesPerDay = [];
-  List<String> closedTimesPerDay = [];
-  List<String> notAvailableTimesPerDay = [];
+  List<String> _openedTimesPerDay = [];
+  List<String> _closedTimesPerDay = [];
+  List<String> _notAvailableTimesPerDay = [];
 
-  TimeStatus selectedTimeStatus;
+  TimeStatus _selectedTimeStatus;
 
   FirebaseController _firebaseController = FirebaseController();
 
@@ -91,10 +91,11 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
           TextStyle(fontSize: _screenHeight * 0.023, color: Colors.blue),
       weekdayTextStyle: TextStyle(color: Colors.black),
       locale: "ru",
-      width: _screenWidth*0.5,
-      height: _screenHeight*0.35,
+      width: _screenWidth * 0.5,
+      height: _screenHeight * 0.35,
       todayBorderColor: Colors.transparent,
       todayButtonColor: Colors.transparent,
+      daysTextStyle: _dayTextStyle(),
       todayTextStyle: TextStyle(color: Colors.black),
       onDayPressed: (DateTime date, List<Event> events) {
         setState(() => _selectedDate = date);
@@ -107,12 +108,16 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     );
   }
 
+  TextStyle _dayTextStyle(){
+
+  }
+
   Widget _indicatorsRow() {
     return Container(
-      margin: EdgeInsets.only(left: _screenWidth * 0.1),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _indicator("выходной", "assets/instructor_set_time/e4.png"),
+          // _indicator("выходной", "assets/instructor_set_time/e4.png"),
           _indicator("запись открыта", "assets/instructor_set_time/e5.png"),
           _indicator("записи нет", "assets/instructor_set_time/e6.png"),
         ],
@@ -203,9 +208,9 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     else
       setState(() {
         _selectedDate = _selectedDate.subtract(Duration(days: 1));
-        openedTimesPerDay = [];
-        closedTimesPerDay = [];
-        notAvailableTimesPerDay = [];
+        _openedTimesPerDay = [];
+        _closedTimesPerDay = [];
+        _notAvailableTimesPerDay = [];
       });
     _getOpenedTimesPerDay();
   }
@@ -293,18 +298,18 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   }
 
   void _selectTime(String time) async {
-    if (selectedTimeStatus != null) {
+    if (_selectedTimeStatus != null) {
       _setSelectedView(time);
     }
   }
 
   void _setSelectedView(String time) {
     setState(() {
-      if (selectedTimeStatus == TimeStatus.OPENED) {
+      if (_selectedTimeStatus == TimeStatus.OPENED) {
         _sendOnce(time, "открыто");
-      } else if (selectedTimeStatus == TimeStatus.CLOSED) {
+      } else if (_selectedTimeStatus == TimeStatus.CLOSED) {
         _sendOnce(time, "недоступно");
-      } else if (selectedTimeStatus == TimeStatus.NOT_AVAILABLE) {
+      } else if (_selectedTimeStatus == TimeStatus.NOT_AVAILABLE) {
         _sendOnce(time, "не открыто");
       }
     });
@@ -323,27 +328,41 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   }
 
   void _getOpenedTimesPerDay() {
-    openedTimesPerDay = [];
-    notAvailableTimesPerDay = [];
-    closedTimesPerDay = [];
+    _openedTimesPerDay = [];
+    _notAvailableTimesPerDay = [];
+    _closedTimesPerDay = [];
     UserRole.getUserRole().then((userRole) async {
       if (userRole == UserRole.instructor) {
         String userId = FirebaseAuth.instance.currentUser.uid;
         String dateString = DateFormat('ddMMyyyy').format(_selectedDate);
         Map<dynamic, dynamic> timesMap = await _firebaseController
             .get("$userRole/$userId/График работы/$dateString");
-        if(timesMap!=null)
-        timesMap.forEach((key, value) {
-          if (value == 'открыто') {
-            openedTimesPerDay.add(key);
-          }
-          else if (value == 'не открыто') {
-            notAvailableTimesPerDay.add(key);
-          }
-          else if (value == 'недоступно') {
-            closedTimesPerDay.add(key);
-          }
-        });
+        if (timesMap != null)
+          timesMap.forEach((key, value) {
+            if (value == 'открыто') {
+              _openedTimesPerDay.add(key);
+            } else if (value == 'не открыто') {
+              _notAvailableTimesPerDay.add(key);
+            } else if (value == 'недоступно') {
+              _closedTimesPerDay.add(key);
+            }
+          });
+        setState(() {});
+      }
+    });
+  }
+
+  void _getOpenedTimesPerMonth() {
+    UserRole.getUserRole().then((userRole) async {
+      if (userRole == UserRole.instructor) {
+        String userId = FirebaseAuth.instance.currentUser.uid;
+        String dateString = DateFormat('ddMMyyyy').format(_selectedDate);
+        Map<dynamic, dynamic> timesMap = await _firebaseController
+            .get("$userRole/$userId/График работы");
+        if (timesMap != null)
+          timesMap.forEach((key, value) {
+            DateTime dateTime = DateTime.parse(key.toString());
+          });
         setState(() {});
       }
     });
@@ -354,9 +373,9 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   }
 
   Color _getTimeTextColor(String time) {
-    if (openedTimesPerDay.contains(time))
+    if (_openedTimesPerDay.contains(time))
       return Colors.blue;
-    else if (closedTimesPerDay.contains(time))
+    else if (_closedTimesPerDay.contains(time))
       return Colors.red;
     else
       return Colors.grey;
@@ -387,7 +406,9 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
         margin: EdgeInsets.only(left: _screenWidth * 0.2),
         child: GestureDetector(
           onTap: () {
-            selectedTimeStatus = timeStatus;
+            setState(() {
+              _selectedTimeStatus = timeStatus;
+            });
           },
           child: Row(
             children: [
@@ -404,7 +425,9 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
               ),
               Text(
                 text,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: _selectedTimeStatus == timeStatus ? 14 : 12),
               )
             ],
           ),
