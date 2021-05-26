@@ -42,7 +42,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   List<String> _notAvailableTimesPerDay = [];
 
   List<String> _openedTimesPerMonth = [];
-  EventList<Event> _markedDateMap = new EventList<Event>();
+  EventList<Event> _markedDateMap = new EventList<Event>(events: Map());
 
   TimeStatus _selectedTimeStatus;
 
@@ -53,13 +53,13 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     super.initState();
     _getOpenedTimesPerDay();
     _getOpenedTimesPerMonth();
+    _fillMarkedDateMap();
   }
 
   @override
   Widget build(BuildContext context) {
     _screenHeight = MediaQuery.of(context).size.height;
     _screenWidth = MediaQuery.of(context).size.width;
-    _fillMarkedDateMap();
     return Scaffold(
         body: Container(
       alignment: Alignment.center,
@@ -78,8 +78,25 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   }
 
   void _fillMarkedDateMap() {
+    // _markedDateMap.add(DateTime(2021, 5, 27),
+    //     Event(date: DateTime(2021, 5, 27), dot: Container()));
+    _markedDateMap.add(DateTime(2021, 5, 28),
+        Event(date: DateTime(2021, 5, 28), dot: Container()));
+    _markedDateMap.add(DateTime(2021, 5, 29),
+        Event(date: DateTime(2021, 5, 29), dot: Container()));
     _markedDateMap.add(
-        DateTime(2021, 5, 28), Event(date: DateTime(2021, 5, 28),title: "28"));
+        DateTime(2021, 5, 30),
+        Event(
+            date: DateTime(2021, 5, 30),
+            dot: Container(),
+            icon: Container(
+              child: Center(
+                child: Text(
+                  "30",
+                  style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 14),
+                ),
+              ),
+            )));
   }
 
   Widget _instructorName() {
@@ -93,29 +110,28 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
 
   Widget _calendar() {
     return CalendarCarousel<Event>(
+      locale: "ru",
+      width: _screenWidth * 0.69,
+      height: _screenHeight * 0.43,
       selectedDayButtonColor: Colors.blue,
       headerMargin: EdgeInsets.all(0),
       headerTextStyle:
           TextStyle(fontSize: _screenHeight * 0.023, color: Colors.blue),
       weekdayTextStyle: TextStyle(color: Colors.black),
-      locale: "ru",
-      width: _screenWidth * 0.5,
-      height: _screenHeight * 0.35,
       todayBorderColor: Colors.transparent,
       todayButtonColor: Colors.transparent,
-      // daysTextStyle: _dayTextStyle(),
       todayTextStyle: TextStyle(color: Colors.black),
       onDayPressed: (DateTime date, List<Event> events) {
         setState(() => _selectedDate = date);
-        events.forEach((event) => print(event.title));
       },
       markedDatesMap: _markedDateMap,
-      markedDateCustomTextStyle: TextStyle(color: Colors.blue),
-      markedDateMoreCustomTextStyle:TextStyle(color: Colors.blue) ,
+      markedDateCustomTextStyle: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
       weekendTextStyle: TextStyle(color: Colors.black),
       selectedDateTime: _selectedDate,
       targetDateTime: _selectedDate,
       selectedDayTextStyle: TextStyle(color: Colors.white),
+      markedDateShowIcon: true,
+      markedDateIconBuilder: (e)=>e.icon,
     );
   }
 
@@ -238,38 +254,33 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
               _pickTimeButtonWidget("9:30"),
               _pickTimeButtonWidget("10:00"),
               _pickTimeButtonWidget("10:30"),
+              _pickTimeButtonWidget("11:00"),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _pickTimeButtonWidget("11:00"),
               _pickTimeButtonWidget("11:30"),
               _pickTimeButtonWidget("12:00"),
               _pickTimeButtonWidget("12:30"),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
               _pickTimeButtonWidget("13:00"),
               _pickTimeButtonWidget("13:30"),
-              _pickTimeButtonWidget("14:00"),
-              _pickTimeButtonWidget("14:30"),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              _pickTimeButtonWidget("14:00"),
+              _pickTimeButtonWidget("14:30"),
               _pickTimeButtonWidget("15:00"),
               _pickTimeButtonWidget("15:30"),
               _pickTimeButtonWidget("16:00"),
-              _pickTimeButtonWidget("16:30"),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              _pickTimeButtonWidget("16:30"),
               _pickTimeButtonWidget("17:00"),
               _pickTimeButtonWidget("17:30"),
               _pickTimeButtonWidget("18:00"),
@@ -296,7 +307,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
           height: _screenHeight * 0.033,
           width: _screenWidth * 0.15,
           alignment: Alignment.center,
-          margin: EdgeInsets.all(5),
+          margin: EdgeInsets.all(_screenHeight*0.004),
           decoration: BoxDecoration(
               color: _getTimeButtonColor(time),
               border: Border.all(color: _getTimeTextColor(time), width: 0.5),
