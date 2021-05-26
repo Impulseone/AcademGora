@@ -23,16 +23,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  carousel_slider: ^3.0.0
-  pin_input_text_field: ^3.3.1
-  flutter_calendar_carousel: ^1.5.3
+  carousel_slider: any
+  pin_input_text_field: any
+  flutter_calendar_carousel: any
   expandable: ^4.1.4
-  expand_tap_area: ^1.0.1
-  cloud_firestore: ^0.16.0
-  rxdart: ^0.22.0
-  quiver: ^2.1.5
-  firebase_database: ^6.0.0
-  shared_preferences: ^0.5.12+4
+  expand_tap_area: any
+  cloud_firestore: any
+  rxdart: any
+  quiver: any
+  firebase_database: any
+  shared_preferences: any
   firebase_auth_ui: any
   firebase_auth: any
   firebase_core: any

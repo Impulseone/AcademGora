@@ -41,6 +41,9 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   List<String> _closedTimesPerDay = [];
   List<String> _notAvailableTimesPerDay = [];
 
+  List<String> _openedTimesPerMonth = [];
+  EventList<Event> _markedDateMap = new EventList<Event>();
+
   TimeStatus _selectedTimeStatus;
 
   FirebaseController _firebaseController = FirebaseController();
@@ -48,15 +51,15 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   @override
   void initState() {
     super.initState();
-    Firebase.initializeApp().then((value) {
-      _getOpenedTimesPerDay();
-    });
+    _getOpenedTimesPerDay();
+    _getOpenedTimesPerMonth();
   }
 
   @override
   Widget build(BuildContext context) {
     _screenHeight = MediaQuery.of(context).size.height;
     _screenWidth = MediaQuery.of(context).size.width;
+    _fillMarkedDateMap();
     return Scaffold(
         body: Container(
       alignment: Alignment.center,
@@ -72,6 +75,11 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
         ],
       ),
     ));
+  }
+
+  void _fillMarkedDateMap() {
+    _markedDateMap.add(
+        DateTime(2021, 5, 28), Event(date: DateTime(2021, 5, 28),title: "28"));
   }
 
   Widget _instructorName() {
@@ -95,12 +103,15 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
       height: _screenHeight * 0.35,
       todayBorderColor: Colors.transparent,
       todayButtonColor: Colors.transparent,
-      daysTextStyle: _dayTextStyle(),
+      // daysTextStyle: _dayTextStyle(),
       todayTextStyle: TextStyle(color: Colors.black),
       onDayPressed: (DateTime date, List<Event> events) {
         setState(() => _selectedDate = date);
         events.forEach((event) => print(event.title));
       },
+      markedDatesMap: _markedDateMap,
+      markedDateCustomTextStyle: TextStyle(color: Colors.blue),
+      markedDateMoreCustomTextStyle:TextStyle(color: Colors.blue) ,
       weekendTextStyle: TextStyle(color: Colors.black),
       selectedDateTime: _selectedDate,
       targetDateTime: _selectedDate,
@@ -108,8 +119,8 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     );
   }
 
-  TextStyle _dayTextStyle(){
-
+  TextStyle _dayTextStyle() {
+    return TextStyle(color: Colors.black);
   }
 
   Widget _indicatorsRow() {
@@ -357,8 +368,8 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
       if (userRole == UserRole.instructor) {
         String userId = FirebaseAuth.instance.currentUser.uid;
         String dateString = DateFormat('ddMMyyyy').format(_selectedDate);
-        Map<dynamic, dynamic> timesMap = await _firebaseController
-            .get("$userRole/$userId/График работы");
+        Map<dynamic, dynamic> timesMap =
+            await _firebaseController.get("$userRole/$userId/График работы");
         if (timesMap != null)
           timesMap.forEach((key, value) {
             DateTime dateTime = DateTime.parse(key.toString());
