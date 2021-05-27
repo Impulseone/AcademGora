@@ -1,9 +1,8 @@
 import 'package:academ_gora/controller/firebase_controller.dart';
-import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/user_role.dart';
+import 'package:academ_gora/screens/account/instructor_account/delete_date_in_past_function.dart';
 import 'package:academ_gora/screens/registration_to_workout/helpers_widgets/horizontal_divider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
@@ -41,7 +40,6 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   List<String> _closedTimesPerDay = [];
   List<String> _notAvailableTimesPerDay = [];
 
-  List<String> _openedTimesPerMonth = [];
   EventList<Event> _markedDateMap = new EventList<Event>(events: Map());
 
   TimeStatus _selectedTimeStatus;
@@ -99,11 +97,13 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
       todayButtonColor: Colors.transparent,
       todayTextStyle: TextStyle(color: Colors.black),
       onDayPressed: (DateTime date, List<Event> events) {
-        setState(() => _selectedDate = date);
+        setState(() {
+          _selectedDate = date;
+          _getOpenedTimesPerDay();
+          _getOpenedTimesPerMonth();
+        });
       },
       markedDatesMap: _markedDateMap,
-      markedDateCustomTextStyle:
-          TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
       weekendTextStyle: TextStyle(color: Colors.black),
       selectedDateTime: _selectedDate,
       targetDateTime: _selectedDate,
@@ -111,10 +111,6 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
       markedDateShowIcon: true,
       markedDateIconBuilder: (e) => e.icon,
     );
-  }
-
-  TextStyle _dayTextStyle() {
-    return TextStyle(color: Colors.black);
   }
 
   Widget _indicatorsRow() {
@@ -204,6 +200,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
       _selectedDate = _selectedDate.add(Duration(days: 1));
     });
     _getOpenedTimesPerDay();
+    _getOpenedTimesPerMonth();
   }
 
   void _decreaseDate() {
@@ -218,6 +215,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
         _notAvailableTimesPerDay = [];
       });
     _getOpenedTimesPerDay();
+    _getOpenedTimesPerMonth();
   }
 
   Widget _timeWidget() {
@@ -304,15 +302,19 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   }
 
   void _setSelectedView(String time) {
-    setState(() {
-      if (_selectedTimeStatus == TimeStatus.OPENED) {
-        _sendOnce(time, "открыто");
-      } else if (_selectedTimeStatus == TimeStatus.CLOSED) {
-        _sendOnce(time, "недоступно");
-      } else if (_selectedTimeStatus == TimeStatus.NOT_AVAILABLE) {
-        _sendOnce(time, "не открыто");
-      }
-    });
+    DateTime now = DateTime.now();
+    if (_selectedDate.year >= now.year &&
+        _selectedDate.month >= now.month &&
+        _selectedDate.day >= now.day)
+      setState(() {
+        if (_selectedTimeStatus == TimeStatus.OPENED) {
+          _sendOnce(time, "открыто");
+        } else if (_selectedTimeStatus == TimeStatus.CLOSED) {
+          _sendOnce(time, "недоступно");
+        } else if (_selectedTimeStatus == TimeStatus.NOT_AVAILABLE) {
+          _sendOnce(time, "не открыто");
+        }
+      });
   }
 
   void _sendOnce(String time, String status) {
@@ -339,11 +341,13 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
             .get("$userRole/$userId/График работы/$dateString");
         if (timesMap != null)
           timesMap.forEach((key, value) {
-            if (value == 'открыто') {
+            if (value == 'открыто' && !_openedTimesPerDay.contains(key)) {
               _openedTimesPerDay.add(key);
-            } else if (value == 'не открыто') {
+            } else if (value == 'не открыто' &&
+                !_notAvailableTimesPerDay.contains(key)) {
               _notAvailableTimesPerDay.add(key);
-            } else if (value == 'недоступно') {
+            } else if (value == 'недоступно' &&
+                !_closedTimesPerDay.contains(key)) {
               _closedTimesPerDay.add(key);
             }
           });
@@ -358,31 +362,42 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
         String userId = FirebaseAuth.instance.currentUser.uid;
         Map<dynamic, dynamic> timesMap =
             await _firebaseController.get("$userRole/$userId/График работы");
-        if (timesMap != null)
+        if (timesMap != null) {
           setState(() {
-            _fillMarkedDateMap(_getDatesWithOpenedRegistration(timesMap));
+            _fillMarkedDateMap(
+                _getDatesWithOpenedRegistration(timesMap, userRole, userId));
           });
+        }
       }
     });
   }
 
   List<DateTime> _getDatesWithOpenedRegistration(
-      Map<dynamic, dynamic> allDates) {
+      Map<dynamic, dynamic> allDates, String userRole, String userId) {
+    DateTime now = DateTime.now();
     List<DateTime> markedDates = [];
     allDates.forEach((key, value) {
       String date = key.toString();
-      String formattedDate = "${date.substring(4, 8)}-${date.substring(2, 4)}-${date.substring(0, 2)}";
+      String formattedDate =
+          "${date.substring(4, 8)}-${date.substring(2, 4)}-${date.substring(0, 2)}";
       DateTime dateTime = DateTime.parse(formattedDate);
-      (value as Map<dynamic, dynamic>).forEach((key, value) {
-        if (value == 'открыто' && !markedDates.contains(dateTime)) {
-          markedDates.add(dateTime);
-        }
-      });
+
+      if (dateTime.year <= now.year &&
+          dateTime.month <= now.month &&
+          dateTime.day <= now.day) {
+        deleteRegistrationDatesInPast(userRole, userId, date);
+      } else
+        (value as Map<dynamic, dynamic>).forEach((key, value) {
+          if (value == 'открыто' && !markedDates.contains(dateTime)) {
+            markedDates.add(dateTime);
+          }
+        });
     });
     return markedDates;
   }
 
   void _fillMarkedDateMap(List<DateTime> markedDates) {
+    _markedDateMap.clear();
     for (var date in markedDates) {
       _markedDateMap.add(date, _createEvent(date));
     }
@@ -394,16 +409,25 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   }
 
   Widget _markedDateIcon(DateTime dateTime) {
-    String day = dateTime.day.toString();
     return Container(
       child: Center(
         child: Text(
           dateTime.day.toString(),
           style: TextStyle(
-              color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 14),
+              color: _compareDateWithSelected(dateTime)
+                  ? Colors.white
+                  : Colors.blue,
+              fontWeight: FontWeight.bold,
+              fontSize: 14),
         ),
       ),
     );
+  }
+
+  bool _compareDateWithSelected(DateTime dateTime) {
+    return dateTime.year == _selectedDate.year &&
+        dateTime.month == _selectedDate.month &&
+        dateTime.day == _selectedDate.day;
   }
 
   Color _getTimeButtonColor(String time) {
