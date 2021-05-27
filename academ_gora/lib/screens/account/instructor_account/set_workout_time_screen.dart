@@ -204,10 +204,6 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   }
 
   void _decreaseDate() {
-    if (_selectedDate.month == DateTime.now().month &&
-        _selectedDate.day == DateTime.now().day)
-      return;
-    else
       setState(() {
         _selectedDate = _selectedDate.subtract(Duration(days: 1));
         _openedTimesPerDay = [];
@@ -384,7 +380,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
 
       if (dateTime.year <= now.year &&
           dateTime.month <= now.month &&
-          dateTime.day <= now.day) {
+          dateTime.day < now.day) {
         deleteRegistrationDatesInPast(userRole, userId, date);
       } else
         (value as Map<dynamic, dynamic>).forEach((key, value) {
