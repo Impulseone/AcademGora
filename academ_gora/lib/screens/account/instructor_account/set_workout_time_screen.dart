@@ -53,7 +53,6 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     super.initState();
     _getOpenedTimesPerDay();
     _getOpenedTimesPerMonth();
-    _fillMarkedDateMap();
   }
 
   @override
@@ -75,28 +74,6 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
         ],
       ),
     ));
-  }
-
-  void _fillMarkedDateMap() {
-    // _markedDateMap.add(DateTime(2021, 5, 27),
-    //     Event(date: DateTime(2021, 5, 27), dot: Container()));
-    _markedDateMap.add(DateTime(2021, 5, 28),
-        Event(date: DateTime(2021, 5, 28), dot: Container()));
-    _markedDateMap.add(DateTime(2021, 5, 29),
-        Event(date: DateTime(2021, 5, 29), dot: Container()));
-    _markedDateMap.add(
-        DateTime(2021, 5, 30),
-        Event(
-            date: DateTime(2021, 5, 30),
-            dot: Container(),
-            icon: Container(
-              child: Center(
-                child: Text(
-                  "30",
-                  style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 14),
-                ),
-              ),
-            )));
   }
 
   Widget _instructorName() {
@@ -125,13 +102,14 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
         setState(() => _selectedDate = date);
       },
       markedDatesMap: _markedDateMap,
-      markedDateCustomTextStyle: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+      markedDateCustomTextStyle:
+          TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
       weekendTextStyle: TextStyle(color: Colors.black),
       selectedDateTime: _selectedDate,
       targetDateTime: _selectedDate,
       selectedDayTextStyle: TextStyle(color: Colors.white),
       markedDateShowIcon: true,
-      markedDateIconBuilder: (e)=>e.icon,
+      markedDateIconBuilder: (e) => e.icon,
     );
   }
 
@@ -307,7 +285,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
           height: _screenHeight * 0.033,
           width: _screenWidth * 0.15,
           alignment: Alignment.center,
-          margin: EdgeInsets.all(_screenHeight*0.004),
+          margin: EdgeInsets.all(_screenHeight * 0.004),
           decoration: BoxDecoration(
               color: _getTimeButtonColor(time),
               border: Border.all(color: _getTimeTextColor(time), width: 0.5),
@@ -378,16 +356,54 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     UserRole.getUserRole().then((userRole) async {
       if (userRole == UserRole.instructor) {
         String userId = FirebaseAuth.instance.currentUser.uid;
-        String dateString = DateFormat('ddMMyyyy').format(_selectedDate);
         Map<dynamic, dynamic> timesMap =
             await _firebaseController.get("$userRole/$userId/График работы");
         if (timesMap != null)
-          timesMap.forEach((key, value) {
-            DateTime dateTime = DateTime.parse(key.toString());
+          setState(() {
+            _fillMarkedDateMap(_getDatesWithOpenedRegistration(timesMap));
           });
-        setState(() {});
       }
     });
+  }
+
+  List<DateTime> _getDatesWithOpenedRegistration(
+      Map<dynamic, dynamic> allDates) {
+    List<DateTime> markedDates = [];
+    allDates.forEach((key, value) {
+      String date = key.toString();
+      String formattedDate = "${date.substring(4, 8)}-${date.substring(2, 4)}-${date.substring(0, 2)}";
+      DateTime dateTime = DateTime.parse(formattedDate);
+      (value as Map<dynamic, dynamic>).forEach((key, value) {
+        if (value == 'открыто' && !markedDates.contains(dateTime)) {
+          markedDates.add(dateTime);
+        }
+      });
+    });
+    return markedDates;
+  }
+
+  void _fillMarkedDateMap(List<DateTime> markedDates) {
+    for (var date in markedDates) {
+      _markedDateMap.add(date, _createEvent(date));
+    }
+  }
+
+  Event _createEvent(DateTime dateTime) {
+    return Event(
+        date: dateTime, dot: Container(), icon: _markedDateIcon(dateTime));
+  }
+
+  Widget _markedDateIcon(DateTime dateTime) {
+    String day = dateTime.day.toString();
+    return Container(
+      child: Center(
+        child: Text(
+          dateTime.day.toString(),
+          style: TextStyle(
+              color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 14),
+        ),
+      ),
+    );
   }
 
   Color _getTimeButtonColor(String time) {
