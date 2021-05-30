@@ -1,8 +1,11 @@
+import 'package:academ_gora/controller/firebase_controller.dart';
+import 'package:academ_gora/model/user_role.dart';
+import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/account/instructor_account/set_workout_time_screen.dart';
 import 'package:academ_gora/screens/account/instructor_account/workout_data_widget.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
-import 'package:expandable/expandable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_ui/firebase_auth_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
@@ -22,7 +25,7 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
 
   DateTime _selectedDate = DateTime.now();
 
-  List months = [
+  List _months = [
     'Января',
     'Февраля',
     'Марта',
@@ -37,7 +40,7 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
     'Декабря'
   ];
 
-  List weekdays = [
+  List _weekdays = [
     'ПН',
     'ВТ',
     'СР',
@@ -46,6 +49,16 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
     'СБ',
     'ВС',
   ];
+
+  List<Workout> _workouts = [];
+
+  FirebaseController _firebaseController = FirebaseController();
+
+  @override
+  void initState() {
+    super.initState();
+    _getAllWorkouts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,8 +155,8 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
   }
 
   String _getSelectedDate() {
-    String month = months[_selectedDate.month - 1];
-    String weekday = weekdays[_selectedDate.weekday - 1];
+    String month = _months[_selectedDate.month - 1];
+    String weekday = _weekdays[_selectedDate.weekday - 1];
     return "${_selectedDate.day} $month ($weekday)";
   }
 
@@ -270,13 +283,31 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
   Widget _workoutsListWidget() {
     return Container(
         height: _screenHeight * 0.22,
-        width: _screenWidth*0.6,
+        width: _screenWidth * 0.6,
         child: ListView.builder(
-          itemCount: 4,
+          itemCount: _workouts.length,
           itemBuilder: (context, index) {
-            return WorkoutDataWidget();
+            return WorkoutDataWidget(_workouts[index]);
           },
         ));
+  }
+
+  void _getAllWorkouts() async {
+    UserRole.getUserRole().then((userRole) async {
+      if (userRole == UserRole.instructor) {
+        String userId = FirebaseAuth.instance.currentUser.uid;
+        Map<dynamic, dynamic> workoutsMap =
+            await _firebaseController.get("$userRole/$userId/Занятия");
+        List<Workout> workoutsList = [];
+        workoutsMap.keys.forEach((element) {
+          Workout workout = Workout.fromJson(workoutsMap[element]);
+          workoutsList.add(workout);
+        });
+        setState(() {
+          _workouts = workoutsList;
+        });
+      }
+    });
   }
 
   void _openAuthScreen() async {

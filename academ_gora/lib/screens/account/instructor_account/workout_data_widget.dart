@@ -1,9 +1,12 @@
+import 'package:academ_gora/model/workout.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class WorkoutDataWidget extends StatefulWidget {
-  const WorkoutDataWidget({Key key}) : super(key: key);
+  final Workout workout;
+
+  const WorkoutDataWidget(this.workout, {Key key}) : super(key: key);
 
   @override
   _WorkoutDataWidgetState createState() => _WorkoutDataWidgetState();
@@ -46,13 +49,13 @@ class _WorkoutDataWidgetState extends State<WorkoutDataWidget> {
             Container(
                 margin: EdgeInsets.only(left: 5),
                 child: Text(
-                  "20.20.20",
+                  _parseDate(widget.workout.date),
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 )),
             Container(
                 margin: EdgeInsets.only(left: 15),
                 child: Text(
-                  "11:30-12:30",
+                  widget.workout.from,
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 )),
             Container(
@@ -64,7 +67,7 @@ class _WorkoutDataWidgetState extends State<WorkoutDataWidget> {
 
   Widget _body() {
     return Container(
-      margin: EdgeInsets.only(bottom: 5),
+        margin: EdgeInsets.only(bottom: 5),
         width: _screenWidth * 0.6,
         decoration: BoxDecoration(color: Colors.white70),
         child: Container(
@@ -72,14 +75,63 @@ class _WorkoutDataWidgetState extends State<WorkoutDataWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Анастасия, Мария"),
-                Text("+79999999999"),
-                Text("Количество человек: 2"),
-                Text("Возраст: 25, 22"),
-                Text("Продолжительность: 1 час"),
-                Text("Уровень катания: умею"),
+                Text(_parsePeopleNames()),
+                Text(widget.workout.userPhoneNumber),
+                Text("Количество человек: ${widget.workout.peopleCount}"),
+                Text("Возраст: ${_parsePeopleAges()}"),
+                Text(
+                    "Продолжительность: ${widget.workout.workoutDuration} час."),
+                Text(
+                    "Уровень катания: ${_parseLevelOfSkating(widget.workout.levelOfSkating)}"),
               ],
             )));
+  }
+
+  String _parseDate(String date){
+    String formattedDate = "${date.substring(0, 2)}.${date.substring(2, 4)}.${date.substring(6, 8)}";
+    return formattedDate;
+  }
+
+  String _parsePeopleNames() {
+    List<Visitor> visitors = widget.workout.visitors;
+    String peopleNames = '';
+    for (var i = 0; i < visitors.length; ++i) {
+      if (i != visitors.length - 1) {
+        peopleNames += "${visitors[i].name}, ";
+      } else {
+        peopleNames += "${visitors[i].name}";
+      }
+    }
+    return peopleNames;
+  }
+
+  String _parsePeopleAges() {
+    List<Visitor> visitors = widget.workout.visitors;
+    String peopleAges = '';
+    for (var i = 0; i < visitors.length; ++i) {
+      if (i != visitors.length - 1) {
+        peopleAges += "${visitors[i].age}, ";
+      } else {
+        peopleAges += "${visitors[i].age}";
+      }
+    }
+    return peopleAges;
+  }
+
+  String _parseLevelOfSkating(int level) {
+    switch (level) {
+      case 0:
+        return "С нуля";
+        break;
+      case 1:
+        return "Немного умею";
+        break;
+      case 2:
+        return "Умею с любой горы, улучшение техники";
+        break;
+      default:
+        return "";
+    }
   }
 
   void _setExpandedIconListener() {

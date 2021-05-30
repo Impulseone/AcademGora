@@ -15,6 +15,7 @@ class Workout {
   int levelOfSkating;
   String comment;
   String instructorPhoneNumber;
+  String userPhoneNumber;
   List<Visitor> visitors = [];
 
   static Workout fromJson(workoutData){
@@ -23,18 +24,19 @@ class Workout {
     workout.date = workoutData["Дата"];
     workout.from = workoutData["Время"];
     workout.instructorName = workoutData["Инструктор"];
-    workout.instructorPhoneNumber =
-    workoutData["Телефон инструктора"];
+    workout.instructorPhoneNumber = workoutData["Телефон инструктора"];
+    workout.userPhoneNumber = workoutData["Телефон"];
     workout.peopleCount = workoutData["Количество человек"];
     workout.comment = workoutData["Комментарий"];
     workout.sportType = workoutData["Вид спорта"];
     workout.levelOfSkating = workoutData["Уровень катания"];
     List<Visitor> visitors = [];
-    for (var visitorMap in (workoutData["Посетители"])) {
+    for (var visitorMap in (workoutData["Посетители"] as Map<dynamic,dynamic>).values) {
       if (visitorMap != null)
         visitors.add(Visitor(visitorMap["Имя"], visitorMap["Возраст"]));
     }
     workout.visitors = visitors;
+    workout.workoutDuration = workoutData["Продолжительность"];
     return workout;
   }
 
