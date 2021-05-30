@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 
+import 'package:intl/intl.dart';
+
 class InstructorAccountScreen extends StatefulWidget {
   const InstructorAccountScreen({Key key}) : super(key: key);
 
@@ -164,16 +166,19 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
     setState(() {
       _selectedDate = _selectedDate.add(Duration(days: 1));
     });
+    _getAllWorkouts();
   }
 
   void _decreaseDate() {
     if (_selectedDate.month == DateTime.now().month &&
         _selectedDate.day == DateTime.now().day)
       return;
-    else
+    else {
       setState(() {
         _selectedDate = _selectedDate.subtract(Duration(days: 1));
       });
+      _getAllWorkouts();
+    }
   }
 
   Widget _redactProfileButton() {
@@ -268,12 +273,10 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
       todayTextStyle: TextStyle(color: Colors.black, fontSize: 14),
       onDayPressed: (DateTime date, List<Event> events) {
         setState(() => _selectedDate = date);
-        events.forEach((event) => print(event.title));
+        _getAllWorkouts();
       },
       weekendTextStyle: TextStyle(color: Colors.black, fontSize: 14),
       daysTextStyle: TextStyle(color: Colors.black, fontSize: 14),
-      prevDaysTextStyle: TextStyle(color: Colors.black, fontSize: 14),
-      nextDaysTextStyle: TextStyle(color: Colors.black, fontSize: 14),
       selectedDateTime: _selectedDate,
       targetDateTime: _selectedDate,
       selectedDayTextStyle: TextStyle(color: Colors.white),
@@ -304,10 +307,20 @@ class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
           workoutsList.add(workout);
         });
         setState(() {
-          _workouts = workoutsList;
+          _workouts = _sortWorkoutsBySelectedDate(workoutsList);
         });
       }
     });
+  }
+
+  List<Workout> _sortWorkoutsBySelectedDate(List<Workout> list) {
+    List<Workout> sortedWorkouts = [];
+    list.forEach((workout) {
+      String workoutDateString = workout.date;
+      String now = DateFormat('ddMMyyyy').format(_selectedDate);
+      if (now == workoutDateString) sortedWorkouts.add(workout);
+    });
+    return sortedWorkouts;
   }
 
   void _openAuthScreen() async {
