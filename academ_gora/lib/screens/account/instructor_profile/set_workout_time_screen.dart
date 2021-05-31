@@ -1,6 +1,5 @@
 import 'package:academ_gora/controller/firebase_controller.dart';
 import 'package:academ_gora/model/user_role.dart';
-import 'package:academ_gora/screens/account/instructor_account/delete_date_in_past_function.dart';
 import 'package:academ_gora/screens/registration_to_workout/helpers_widgets/horizontal_divider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -204,12 +203,12 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   }
 
   void _decreaseDate() {
-      setState(() {
-        _selectedDate = _selectedDate.subtract(Duration(days: 1));
-        _openedTimesPerDay = [];
-        _closedTimesPerDay = [];
-        _notAvailableTimesPerDay = [];
-      });
+    setState(() {
+      _selectedDate = _selectedDate.subtract(Duration(days: 1));
+      _openedTimesPerDay = [];
+      _closedTimesPerDay = [];
+      _notAvailableTimesPerDay = [];
+    });
     _getOpenedTimesPerDay();
     _getOpenedTimesPerMonth();
   }
@@ -377,11 +376,10 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
       String formattedDate =
           "${date.substring(4, 8)}-${date.substring(2, 4)}-${date.substring(0, 2)}";
       DateTime dateTime = DateTime.parse(formattedDate);
-
       if (dateTime.year <= now.year &&
           dateTime.month <= now.month &&
           dateTime.day < now.day) {
-        deleteRegistrationDatesInPast(userRole, userId, date);
+        _firebaseController.delete("$userRole/$userId/График работы/$date");
       } else
         (value as Map<dynamic, dynamic>).forEach((key, value) {
           if (value == 'открыто' && !markedDates.contains(dateTime)) {

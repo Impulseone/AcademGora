@@ -1,8 +1,8 @@
 import 'package:academ_gora/controller/firebase_controller.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
-import 'package:academ_gora/screens/account/instructor_account/set_workout_time_screen.dart';
-import 'package:academ_gora/screens/account/instructor_account/workout_data_widget.dart';
+import 'package:academ_gora/screens/account/instructor_profile/set_workout_time_screen.dart';
+import 'package:academ_gora/screens/account/instructor_profile/workout_data_widget.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,15 +13,15 @@ import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 
 import 'package:intl/intl.dart';
 
-class InstructorAccountScreen extends StatefulWidget {
-  const InstructorAccountScreen({Key key}) : super(key: key);
+class InstructorWorkoutsScreen extends StatefulWidget {
+  const InstructorWorkoutsScreen({Key key}) : super(key: key);
 
   @override
-  _InstructorAccountScreenState createState() =>
-      _InstructorAccountScreenState();
+  _InstructorWorkoutsScreenState createState() =>
+      _InstructorWorkoutsScreenState();
 }
 
-class _InstructorAccountScreenState extends State<InstructorAccountScreen> {
+class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
   double _screenHeight;
   double _screenWidth;
 

@@ -1,5 +1,4 @@
 import 'package:academ_gora/model/user_role.dart';
-import 'package:academ_gora/screens/account/instructor_account/instructor_account_screen.dart';
 import 'package:academ_gora/screens/account/user_account_screen.dart';
 import 'package:academ_gora/screens/info_screens/call_us_screen.dart';
 import 'package:academ_gora/screens/info_screens/chill_zone_screen.dart';
@@ -10,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'account/instructor_profile/instructor_workouts_screen.dart';
 import 'registration_to_workout/registration_first_screen.dart';
 
 final List<String> imgList = [
@@ -119,7 +119,7 @@ class _MainScreenState extends State<MainScreen> {
             .push(MaterialPageRoute(builder: (c) => UserAccountScreen()));
       else
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (c) => InstructorAccountScreen()));
+            .push(MaterialPageRoute(builder: (c) => InstructorWorkoutsScreen()));
     });
   }
 

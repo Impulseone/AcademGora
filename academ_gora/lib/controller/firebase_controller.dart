@@ -14,4 +14,11 @@ class FirebaseController {
         await FirebaseDatabase.instance.reference().child(path).once();
     return dataSnapshot.value as Map<dynamic, dynamic>;
   }
+
+  void delete(String path) {
+    FirebaseDatabase.instance
+        .reference()
+        .child(path)
+        .remove();
+  }
 }
