@@ -1,6 +1,7 @@
 import 'package:academ_gora/controller/firebase_controller.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
+import 'package:academ_gora/screens/account/instructor_profile/instructor_profile_screen.dart';
 import 'package:academ_gora/screens/account/instructor_profile/set_workout_time_screen.dart';
 import 'package:academ_gora/screens/account/instructor_profile/workout_data_widget.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
@@ -330,7 +331,10 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
     });
   }
 
-  void _openRedactProfileScreen() {}
+  void _openRedactProfileScreen() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => InstructorProfileScreen()));
+  }
 
   void _openSetWorkoutTimeScreen() {
     Navigator.of(context)
