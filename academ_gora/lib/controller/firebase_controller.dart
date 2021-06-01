@@ -5,7 +5,7 @@ class FirebaseController {
     FirebaseDatabase.instance.reference().child(path).set(map);
   }
 
-  void update(String path, var map) {
+  Future<void> update(String path, var map)async {
     FirebaseDatabase.instance.reference().child(path).update(map);
   }
 

@@ -17,6 +17,7 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
   double _screenHeight;
   double _screenWidth;
   Instructor _currentInstructor = Instructor();
+  FirebaseController _firebaseController = FirebaseController();
 
   @override
   void initState() {
@@ -117,11 +118,86 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
   Widget _redactInstructorInfoButton() {
     return Container(
         child: GestureDetector(
+      onTap: () => _showRedactInfoDialog(_currentInstructor.info, false),
       child: Text(
         "Редактировать информацию о себе",
         style: TextStyle(color: Colors.blue),
       ),
     ));
+  }
+
+  void _showRedactInfoDialog(String text, bool isSocialNetwork,
+      {String socialNetworkName}) {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: _redactInfoDialogContent(text, isSocialNetwork,
+              socialNetworkName: socialNetworkName),
+        );
+      },
+    );
+  }
+
+  Widget _redactInfoDialogContent(String text, bool isSocialNetwork,
+      {String socialNetworkName}) {
+    TextEditingController myController = TextEditingController(text: text);
+    return Container(
+      height: _screenHeight * 0.19,
+      child: Column(
+        children: [
+          TextField(
+              controller: myController,
+              keyboardType: TextInputType.visiblePassword),
+          Container(
+              margin: EdgeInsets.only(top: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(right: 20),
+                    child: OutlinedButton(
+                      child: Text('ОК'),
+                      onPressed: () {
+                        _updateInstructorInfo(
+                            myController.value.text, isSocialNetwork,
+                            socialNetworkName: socialNetworkName);
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                  OutlinedButton(
+                    child: Text('ОТМЕНА'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ))
+        ],
+      ),
+    );
+  }
+
+  void _updateInstructorInfo(String updatedText, bool isSocialNetwork,
+      {String socialNetworkName}) {
+    UserRole.getUserRole().then((userRole) async {
+      if (userRole == UserRole.instructor) {
+        String userId = FirebaseAuth.instance.currentUser.uid;
+        Map<String, dynamic> info = {};
+        String path = "";
+        if (isSocialNetwork) {
+          path = "$userRole/$userId/Соцсети";
+          info = {socialNetworkName: updatedText};
+        } else {
+          path = "$userRole/$userId";
+          info = {"Информация": updatedText};
+        }
+        await _firebaseController.update(path, info).then((value) {
+          _getInstructorInfo();
+        });
+      }
+    });
   }
 
   Widget _socialNetworksList() {
@@ -139,34 +215,43 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
               text: FirebaseAuth.instance.currentUser.phoneNumber),
           _socialNetworkWidget(
               "assets/instructor_profile/social_network_icons/2insta.png",
-              text: socialNetworksMap["instagram"]),
+              text: socialNetworksMap["instagram"],
+              socialNetworkName: "instagram"),
           _socialNetworkWidget(
               "assets/instructor_profile/social_network_icons/3vk.png",
-              text: socialNetworksMap["vk"]),
+              text: socialNetworksMap["vk"],
+              socialNetworkName: "vk"),
           _socialNetworkWidget(
               "assets/instructor_profile/social_network_icons/4fb.png",
-              text: socialNetworksMap["facebook"]),
+              text: socialNetworksMap["facebook"],
+              socialNetworkName: "facebook"),
           _socialNetworkWidget(
               "assets/instructor_profile/social_network_icons/5ok.png",
-              text: socialNetworksMap["ok"]),
+              text: socialNetworksMap["ok"],
+              socialNetworkName: "ok"),
           _socialNetworkWidget(
               "assets/instructor_profile/social_network_icons/6twitter.png",
-              text: socialNetworksMap["twitter"]),
+              text: socialNetworksMap["twitter"],
+              socialNetworkName: "twitter"),
           _socialNetworkWidget(
               "assets/instructor_profile/social_network_icons/7tiktok.png",
-              text: socialNetworksMap["tiktok"]),
+              text: socialNetworksMap["tiktok"],
+              socialNetworkName: "tiktok"),
           _socialNetworkWidget(
               "assets/instructor_profile/social_network_icons/8youtube.png",
-              text: socialNetworksMap["youtube"]),
+              text: socialNetworksMap["youtube"],
+              socialNetworkName: "youtube"),
           _socialNetworkWidget(
               "assets/instructor_profile/social_network_icons/9telegram.png",
-              text: socialNetworksMap["telegram"]),
+              text: socialNetworksMap["telegram"],
+              socialNetworkName: "telegram"),
         ],
       ),
     );
   }
 
-  Widget _socialNetworkWidget(String path, {String text}) {
+  Widget _socialNetworkWidget(String path,
+      {String text, String socialNetworkName}) {
     return Container(
       margin: EdgeInsets.only(top: 3, bottom: 3),
       child: Row(
@@ -185,13 +270,19 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(right: 15),
-            height: 20,
-            width: 20,
-            child: Image.asset(
-                "assets/instructor_profile/social_network_icons/0edit.png"),
-          ),
+          text != FirebaseAuth.instance.currentUser.phoneNumber
+              ? GestureDetector(
+                  onTap: () => _showRedactInfoDialog(text, true,
+                      socialNetworkName: socialNetworkName),
+                  child: Container(
+                    margin: EdgeInsets.only(right: 15),
+                    height: 20,
+                    width: 20,
+                    child: Image.asset(
+                        "assets/instructor_profile/social_network_icons/0edit.png"),
+                  ))
+              : Container(
+                  height: 20, width: 20, margin: EdgeInsets.only(right: 15)),
         ],
       ),
     );
