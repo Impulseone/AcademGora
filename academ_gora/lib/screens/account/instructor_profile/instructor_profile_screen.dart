@@ -1,4 +1,8 @@
+import 'package:academ_gora/controller/firebase_controller.dart';
+import 'package:academ_gora/model/instructor.dart';
+import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/screens/account/instructor_profile/instructor_workouts_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class InstructorProfileScreen extends StatefulWidget {
@@ -12,6 +16,13 @@ class InstructorProfileScreen extends StatefulWidget {
 class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
   double _screenHeight;
   double _screenWidth;
+  Instructor _currentInstructor = Instructor();
+
+  @override
+  void initState() {
+    super.initState();
+    _getInstructorInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +91,7 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Text(
-        "Ярославский Александр",
+        _currentInstructor.name == null ? "" : _currentInstructor.name,
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
     );
@@ -96,7 +107,7 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
           direction: Axis.vertical,
           children: [
             Text(
-              "Инструктор по сноуборду",
+              _currentInstructor.info == null ? "" : _currentInstructor.info,
               style: TextStyle(fontSize: 14),
             )
           ],
@@ -114,34 +125,48 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
   }
 
   Widget _socialNetworksList() {
+    var socialNetworksMap = {};
+    if (_currentInstructor.socialNetworks != null &&
+        _currentInstructor.socialNetworks.isNotEmpty) {
+      socialNetworksMap = _currentInstructor.socialNetworks;
+    }
     return Container(
       margin: EdgeInsets.only(top: 20),
       child: Column(
         children: [
           _socialNetworkWidget(
-              "assets/instructor_profile/social_network_icons/1phone.png"),
+              "assets/instructor_profile/social_network_icons/1phone.png",
+              text: FirebaseAuth.instance.currentUser.phoneNumber),
           _socialNetworkWidget(
-              "assets/instructor_profile/social_network_icons/2insta.png"),
+              "assets/instructor_profile/social_network_icons/2insta.png",
+              text: socialNetworksMap["instagram"]),
           _socialNetworkWidget(
-              "assets/instructor_profile/social_network_icons/3vk.png"),
+              "assets/instructor_profile/social_network_icons/3vk.png",
+              text: socialNetworksMap["vk"]),
           _socialNetworkWidget(
-              "assets/instructor_profile/social_network_icons/4fb.png"),
+              "assets/instructor_profile/social_network_icons/4fb.png",
+              text: socialNetworksMap["facebook"]),
           _socialNetworkWidget(
-              "assets/instructor_profile/social_network_icons/5ok.png"),
+              "assets/instructor_profile/social_network_icons/5ok.png",
+              text: socialNetworksMap["ok"]),
           _socialNetworkWidget(
-              "assets/instructor_profile/social_network_icons/6twitter.png"),
+              "assets/instructor_profile/social_network_icons/6twitter.png",
+              text: socialNetworksMap["twitter"]),
           _socialNetworkWidget(
-              "assets/instructor_profile/social_network_icons/7tiktok.png"),
+              "assets/instructor_profile/social_network_icons/7tiktok.png",
+              text: socialNetworksMap["tiktok"]),
           _socialNetworkWidget(
-              "assets/instructor_profile/social_network_icons/8youtube.png"),
+              "assets/instructor_profile/social_network_icons/8youtube.png",
+              text: socialNetworksMap["youtube"]),
           _socialNetworkWidget(
-              "assets/instructor_profile/social_network_icons/9telegram.png"),
+              "assets/instructor_profile/social_network_icons/9telegram.png",
+              text: socialNetworksMap["telegram"]),
         ],
       ),
     );
   }
 
-  Widget _socialNetworkWidget(String path) {
+  Widget _socialNetworkWidget(String path, {String text}) {
     return Container(
       margin: EdgeInsets.only(top: 3, bottom: 3),
       child: Row(
@@ -156,7 +181,7 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
           Container(
             width: _screenWidth * 0.5,
             child: Text(
-              "+79611877192",
+              text == null ? "" : text,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
           ),
@@ -198,6 +223,22 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
             )),
       ),
     );
+  }
+
+  void _getInstructorInfo() async {
+    FirebaseController firebaseController = FirebaseController();
+    await UserRole.getUserRole().then((userRole) async {
+      Instructor instructor = Instructor();
+      if (userRole == UserRole.instructor) {
+        String userId = FirebaseAuth.instance.currentUser.uid;
+        Map<dynamic, dynamic> instructorInfo =
+            await firebaseController.get("$userRole/$userId");
+        instructor = Instructor.fromJson(instructorInfo);
+      }
+      setState(() {
+        _currentInstructor = instructor;
+      });
+    });
   }
 
   void _openInstructorWorkoutsScreen() {
