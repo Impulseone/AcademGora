@@ -69,6 +69,7 @@ flutter:
     - assets/account/
     - assets/all_instructors/
     - assets/instructor_profile/
+    - assets/instructor_profile/social_network_icons/
     - assets/info_screens/
     - assets/info_screens/call_us/
     - assets/info_screens/prices/
