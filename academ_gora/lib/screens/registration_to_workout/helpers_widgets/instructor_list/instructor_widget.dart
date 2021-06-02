@@ -67,7 +67,7 @@ class InstructorWidgetState extends State<InstructorWidget> {
 
   Widget _body() {
     return Row(
-      children: [_openProfileButton(), DateTimePickerWidget(this)],
+      children: [_openProfileButton(), DateTimePickerWidget(this, instructor: instructor,)],
     );
   }
 

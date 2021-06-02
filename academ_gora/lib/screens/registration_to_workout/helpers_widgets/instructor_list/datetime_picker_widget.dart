@@ -1,14 +1,19 @@
 import 'package:academ_gora/controller/firebase_controller.dart';
+import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/reg_to_instructor_data.dart';
 import 'package:academ_gora/model/workout.dart';
 import 'package:flutter/material.dart';
 
 import 'instructor_widget.dart';
+import 'package:intl/intl.dart';
 
 class DateTimePickerWidget extends StatefulWidget {
+  final Instructor instructor;
+
   final InstructorWidgetState instructorWidgetState;
 
-  const DateTimePickerWidget(this.instructorWidgetState, {Key key})
+  const DateTimePickerWidget(this.instructorWidgetState,
+      {Key key, @required this.instructor})
       : super(key: key);
 
   @override
@@ -25,6 +30,8 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   double _screenHeight;
 
   FirebaseController _firebaseController = FirebaseController();
+
+  List<String> _openedTimes = [];
 
   List months = [
     'Января',
@@ -61,6 +68,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   Widget build(BuildContext context) {
     _screenHeight = MediaQuery.of(context).size.height;
     _screenWidth = MediaQuery.of(context).size.width;
+    _fillOpenedTimes();
     return _dateTimePickerWidget();
   }
 
@@ -141,31 +149,55 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children: [
-              _pickTimeButtonWidget("9:00"),
-              _pickTimeButtonWidget("10:00"),
-              _pickTimeButtonWidget("11:00"),
-              _pickTimeButtonWidget("12:00"),
-            ],
+            children: _fillTimes(0, 4),
+          ),
+          Row(children: _fillTimes(5, 9)),
+          Row(
+            children: _fillTimes(9, 12),
           ),
           Row(
-            children: [
-              _pickTimeButtonWidget("13:00"),
-              _pickTimeButtonWidget("14:00"),
-              _pickTimeButtonWidget("15:00"),
-              _pickTimeButtonWidget("16:00"),
-            ],
+            children: _fillTimes(13, 17),
           ),
           Row(
-            children: [
-              _pickTimeButtonWidget("17:00"),
-              _pickTimeButtonWidget("18:00"),
-              _pickTimeButtonWidget("19:00"),
-            ],
+            children: _fillTimes(18, 22),
+          ),
+          Row(
+            children: _fillTimes(23, 23),
           ),
         ],
       ),
     );
+  }
+
+  void _fillOpenedTimes() {
+    _openedTimes = [];
+    var daysSchedule = widget.instructor.schedule;
+    var timesPerDay =
+        daysSchedule[DateFormat('ddMMyyyy').format(_selectedDate)];
+    if (timesPerDay != null) {
+      timesPerDay.forEach((key, value) {
+        if (value == "открыто") {
+          if (!_openedTimes.contains(value)) {
+            _openedTimes.add(key);
+          }
+        }
+      });
+    }
+  }
+
+  List<Widget> _fillTimes(int from, int to) {
+    List<Widget> timesWidgets = [];
+    if (_openedTimes.length >= from) {
+      int k;
+      if (_openedTimes.length >= to)
+        k = to;
+      else
+        k = _openedTimes.length;
+      for (var i = from; i < k; ++i) {
+        timesWidgets.add(_pickTimeButtonWidget(_openedTimes[i]));
+      }
+    }
+    return timesWidgets;
   }
 
   Widget _pickTimeButtonWidget(String time) {
