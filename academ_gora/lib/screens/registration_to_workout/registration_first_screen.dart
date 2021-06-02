@@ -107,7 +107,7 @@ class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
 
   void _openNextScreen() {
     final DateTime now = selectedDate;
-    final DateFormat formatter = DateFormat('dd.MM.yyyy');
+    final DateFormat formatter = DateFormat('ddMMyyyy');
     final String formattedDate = formatter.format(now);
     if (workoutSingleton.date == null) workoutSingleton.date = formattedDate;
 

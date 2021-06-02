@@ -8,7 +8,8 @@ class Instructor {
   List<Workout> workouts;
   WorkoutsSchedule workoutsSchedule;
   String info;
-  Map<dynamic,dynamic> socialNetworks;
+  Map<dynamic, dynamic> socialNetworks;
+  Map<dynamic, dynamic> schedule;
 
   static Instructor fromJson(Map<dynamic, dynamic> map) {
     Instructor instructor = Instructor();
@@ -17,8 +18,19 @@ class Instructor {
     instructor.photoUrl = map["Фото"];
     instructor.info = map["Информация"];
     instructor.socialNetworks = map["Соцсети"];
+    instructor.schedule = map["График работы"];
     return instructor;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Instructor &&
+          runtimeType == other.runtimeType &&
+          phone == other.phone;
+
+  @override
+  int get hashCode => phone.hashCode;
 }
 
 class SocialNetwork {

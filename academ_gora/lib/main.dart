@@ -17,11 +17,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   AuthController authBloc = AuthController();
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'АкадемГора',

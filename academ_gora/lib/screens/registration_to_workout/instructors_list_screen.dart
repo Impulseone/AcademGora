@@ -1,6 +1,7 @@
 import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/reg_to_instructor_data.dart';
 import 'package:academ_gora/model/workout.dart';
+import 'package:collection/equality.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -19,12 +20,13 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
   final dbRef = FirebaseDatabase.instance.reference();
 
   RegToInstructorData regToInstructorData;
+  WorkoutSingleton _workoutSingleton = WorkoutSingleton();
 
   double _screenHeight;
 
   @override
   Widget build(BuildContext context) {
-    _getAllInstructors();
+    _getAllInstructorsOfSelectedSport();
     _screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
@@ -141,19 +143,20 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
         MaterialPageRoute(builder: (c) => RegistrationParametersScreen()));
   }
 
-  void _getAllInstructors() async {
+  void _getAllInstructorsOfSelectedSport() async {
     dbRef.child("Инструкторы").once().then((value) {
       if (value.value != null) {
         Map<dynamic, dynamic> instructorDataMap =
             value.value as Map<dynamic, dynamic>;
         List<Instructor> instructorsFromDb = [];
         for (Map<dynamic, dynamic> instructorData in instructorDataMap.values) {
-          Instructor instructor = Instructor();
-          instructor.name = instructorData["ФИО"];
-          instructor.phone = instructorData["Телефон"];
-          instructorsFromDb.add(instructor);
+          if (instructorData["Вид спорта"] == _workoutSingleton.sportType) {
+            Instructor instructor = Instructor.fromJson(instructorData);
+            instructorsFromDb.add(instructor);
+          }
         }
-        if (instructors != instructorsFromDb) {
+        Function eq = const ListEquality().equals;
+        if (!eq(instructors, instructorsFromDb)) {
           setState(() {
             instructors = instructorsFromDb;
           });

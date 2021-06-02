@@ -19,6 +19,33 @@ class _TimeWidgetState extends State<TimeWidget> {
 
   _TimeWidgetState(this._firstCurrentlySelected, this._secondCurrentlySelected);
 
+  final List<String> times = [
+    "любое",
+    "9:00",
+    "9:30",
+    "10:00",
+    "10:30",
+    "11:00",
+    "11:30",
+    "12:00",
+    "12:30",
+    "13:00",
+    "13:30",
+    "14:00",
+    "14:30",
+    "15:00",
+    "15:30",
+    "16:00",
+    "16:30",
+    "17:00",
+    "17:30",
+    "18:00",
+    "18:30",
+    "19:00",
+    "19:30",
+    "20:00",
+  ];
+
   @override
   Widget build(BuildContext context) {
     _screenWidth = MediaQuery.of(context).size.width;
@@ -70,7 +97,7 @@ class _TimeWidgetState extends State<TimeWidget> {
             value: position == 1
                 ? _firstCurrentlySelected
                 : _secondCurrentlySelected,
-            items: <String>['любое', '10:00', '10:30', '11:00', '11:30']
+            items: times
                 .map((String value) {
               return new DropdownMenuItem<String>(
                 value: value,

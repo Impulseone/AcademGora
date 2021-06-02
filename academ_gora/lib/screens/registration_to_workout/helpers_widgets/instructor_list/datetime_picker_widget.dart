@@ -1,4 +1,6 @@
+import 'package:academ_gora/controller/firebase_controller.dart';
 import 'package:academ_gora/model/reg_to_instructor_data.dart';
+import 'package:academ_gora/model/workout.dart';
 import 'package:flutter/material.dart';
 
 import 'instructor_widget.dart';
@@ -16,10 +18,13 @@ class DateTimePickerWidget extends StatefulWidget {
 class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   RegToInstructorData _regToInstructorDataCurrent;
 
-  var _selectedDate = new DateTime.now();
+  var _selectedDate;
+  WorkoutSingleton _workoutSingleton = WorkoutSingleton();
 
   double _screenWidth;
   double _screenHeight;
+
+  FirebaseController _firebaseController = FirebaseController();
 
   List months = [
     'Января',
@@ -47,10 +52,28 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _setSelectedDate();
+  }
+
+  @override
   Widget build(BuildContext context) {
     _screenHeight = MediaQuery.of(context).size.height;
     _screenWidth = MediaQuery.of(context).size.width;
     return _dateTimePickerWidget();
+  }
+
+  void _setSelectedDate() {
+    if (_workoutSingleton.date != null && _workoutSingleton.date.isNotEmpty) {
+      String date = _workoutSingleton.date;
+      String formattedDate =
+          "${date.substring(4, 8)}-${date.substring(2, 4)}-${date.substring(0, 2)}";
+      DateTime dateTime = DateTime.parse(formattedDate);
+      _selectedDate = dateTime;
+    } else {
+      _selectedDate = DateTime.now();
+    }
   }
 
   Widget _dateTimePickerWidget() {
