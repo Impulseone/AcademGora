@@ -1,23 +1,21 @@
+import 'package:academ_gora/screens/registration_to_workout/registration_first_screen.dart';
 import 'package:flutter/material.dart';
 
 class TimeWidget extends StatefulWidget {
-  final String _fromTime;
-  final String _toTime;
+  final RegistrationFirstScreenState registrationFirstScreenState;
 
-  TimeWidget(this._fromTime, this._toTime);
+  TimeWidget(this.registrationFirstScreenState);
 
   @override
   _TimeWidgetState createState() =>
-      _TimeWidgetState(_fromTime, _toTime);
+      _TimeWidgetState();
 }
 
 class _TimeWidgetState extends State<TimeWidget> {
-  String _firstCurrentlySelected;
-  String _secondCurrentlySelected;
+  String _fromTime;
+  String _toTime;
 
   double _screenWidth;
-
-  _TimeWidgetState(this._firstCurrentlySelected, this._secondCurrentlySelected);
 
   final List<String> times = [
     "любое",
@@ -95,8 +93,8 @@ class _TimeWidgetState extends State<TimeWidget> {
         child: DropdownButtonHideUnderline(
           child: new DropdownButton<String>(
             value: position == 1
-                ? _firstCurrentlySelected
-                : _secondCurrentlySelected,
+                ? _fromTime
+                : _toTime,
             items: times
                 .map((String value) {
               return new DropdownMenuItem<String>(
@@ -106,10 +104,14 @@ class _TimeWidgetState extends State<TimeWidget> {
             }).toList(),
             onChanged: (String value) {
               setState(() {
-                if (position == 1)
-                  _firstCurrentlySelected = value;
-                else
-                  _secondCurrentlySelected = value;
+                if (position == 1) {
+                  _fromTime = value;
+                  widget.registrationFirstScreenState.fromTime = value;
+                }
+                else {
+                  _toTime = value;
+                  widget.registrationFirstScreenState.toTime = value;
+                }
               });
             },
           ),

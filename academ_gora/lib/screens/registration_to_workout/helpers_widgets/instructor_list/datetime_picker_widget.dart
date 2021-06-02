@@ -2,6 +2,7 @@ import 'package:academ_gora/controller/firebase_controller.dart';
 import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/reg_to_instructor_data.dart';
 import 'package:academ_gora/model/workout.dart';
+import 'package:academ_gora/times_map.dart';
 import 'package:flutter/material.dart';
 
 import 'instructor_widget.dart';
@@ -182,6 +183,43 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
           }
         }
       });
+    }
+    _filterOpenedTimes();
+  }
+
+  void _filterOpenedTimes() {
+    List<String> filteredTimes = [];
+    String from = _workoutSingleton.from;
+    String to = _workoutSingleton.to;
+    if ((from == null || from == 'любое') && (to == null || to == 'любое')) {
+    } else if ((from != null && from != 'любое') &&
+        (to == null || to == 'любое')) {
+      var times = timesMap();
+      int priorityFrom = times[from];
+      _openedTimes.forEach((element) {
+        int priorityOpenedTime = times[element];
+        if (priorityOpenedTime >= priorityFrom) filteredTimes.add(element);
+      });
+      _openedTimes = filteredTimes;
+    } else if ((from == null || from == 'любое') &&
+        (to != null && to != 'любое')) {
+      var times = timesMap();
+      int priorityTo = times[to];
+      _openedTimes.forEach((element) {
+        int priorityOpenedTime = times[element];
+        if (priorityOpenedTime <= priorityTo) filteredTimes.add(element);
+      });
+      _openedTimes = filteredTimes;
+    } else {
+      var times = timesMap();
+      int priorityFrom = times[from];
+      int priorityTo = times[to];
+      _openedTimes.forEach((element) {
+        int priorityOpenedTime = times[element];
+        if (priorityOpenedTime >= priorityFrom &&
+            priorityOpenedTime <= priorityTo) filteredTimes.add(element);
+      });
+      _openedTimes = filteredTimes;
     }
   }
 

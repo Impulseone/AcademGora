@@ -18,8 +18,8 @@ class RegistrationFirstScreen extends StatefulWidget {
 class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
   int kindOfSport = -1;
   DateTime selectedDate;
-  String _fromTime;
-  String _toTime;
+  String fromTime;
+  String toTime;
   double _screenHeight;
   double _screenWidth;
 
@@ -49,7 +49,7 @@ class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
           horizontalDivider(20, 20, 20, 20),
           DateWidget(this, selectedDate),
           horizontalDivider(20, 20, 20, 20),
-          TimeWidget(_fromTime, _toTime),
+          TimeWidget(this),
           _warningText(),
           _continueButton(),
           Container(
@@ -110,11 +110,10 @@ class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
     final DateFormat formatter = DateFormat('ddMMyyyy');
     final String formattedDate = formatter.format(now);
     if (workoutSingleton.date == null) workoutSingleton.date = formattedDate;
-
     workoutSingleton.id = selectedDate.millisecondsSinceEpoch.toString();
-
-    String sportType = kindOfSport == 0 ? SportType.skiing : SportType.snowboard;
-    workoutSingleton.sportType = sportType;
+    workoutSingleton.from = fromTime;
+    workoutSingleton.to = toTime;
+    workoutSingleton.sportType = kindOfSport == 0 ? SportType.skiing : SportType.snowboard;
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (c) => InstructorsListScreen()));
   }
@@ -162,6 +161,8 @@ class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
 
   void _openInstructorsListScreen() {
     workoutSingleton.sportType = kindOfSport == 0 ? SportType.skiing : SportType.snowboard;
+    workoutSingleton.from = fromTime;
+    workoutSingleton.to = toTime;
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (c) => InstructorsListScreen()));
   }
