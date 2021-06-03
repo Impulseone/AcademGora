@@ -89,9 +89,9 @@ class _SelectDurationWidgetState extends State<SelectDurationWidget> {
 
   void _selectCount(int which) {
     _selectedDuration = which;
-    WorkoutSingleton().workoutDuration = which;
     widget.registrationParametersScreenState.setState(() {
-      widget.registrationParametersScreenState.duration = _selectedDuration;
+      widget.registrationParametersScreenState.duration = _selectedDuration== 0 ? 1 : 2;
+      widget.registrationParametersScreenState.workoutSingleton.workoutDuration = which == 0 ? 1 : 2;
     });
     setState(() {});
   }

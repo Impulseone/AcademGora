@@ -256,6 +256,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   void _selectTime(String time) {
     WorkoutSingleton().instructorId = widget.instructor.id;
+    WorkoutSingleton().date = DateFormat("ddMMyyyy").format(_selectedDate);
     RegToInstructorData regToInstructorData = RegToInstructorData(
         widget.instructorWidgetState.instructor.name,
         widget.instructorWidgetState.instructor.phone,
