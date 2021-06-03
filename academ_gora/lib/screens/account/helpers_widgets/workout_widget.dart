@@ -57,7 +57,7 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
             Container(
                 margin: EdgeInsets.only(left: 20),
                 child: Text(
-                  widget.workout.date,
+                  _parseDate(widget.workout.date),
                   style: TextStyle(color: Colors.white, fontSize: 22),
                 )),
             Container(
@@ -66,6 +66,10 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
                     style: TextStyle(color: Colors.white, fontSize: 22)))
           ],
         ));
+  }
+
+  String _parseDate(String date) {
+    return "${date.substring(0, 2)}.${date.substring(2, 4)}.${date.substring(4, 8)}";
   }
 
   Widget _countOfPeople() {
@@ -100,8 +104,8 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
   }
 
   void _openUpdateWorkoutScreen() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (c) => UpdateWorkoutScreen(widget.workout)));
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (c) => UpdateWorkoutScreen(widget.workout)));
   }
 
   Widget _button(String text, double leftMargin, Function function) {

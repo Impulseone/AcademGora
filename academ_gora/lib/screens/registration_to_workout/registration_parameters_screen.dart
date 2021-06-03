@@ -22,6 +22,8 @@ class RegistrationParametersScreenState
     extends State<RegistrationParametersScreen> {
   final dbRef = FirebaseDatabase.instance.reference();
 
+  WorkoutSingleton workoutSingleton = WorkoutSingleton();
+
   List<Pair> textEditingControllers = [];
   List<Visitor> visitors = [];
   int peopleCount = 0;
@@ -213,8 +215,15 @@ class RegistrationParametersScreenState
         ));
   }
 
-  void _openRegFinalScreen() async {
-    WorkoutSingleton workoutSingleton = WorkoutSingleton();
+  void _openRegFinalScreen() {
+    _sendWorkoutDataToUser();
+    _sendWorkoutDataToInstructor();
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (c) => RegistrationFinalScreen()),
+        (route) => false);
+  }
+
+  void _sendWorkoutDataToUser() async {
     workoutSingleton.peopleCount = peopleCount;
     workoutSingleton.workoutDuration = duration;
     workoutSingleton.levelOfSkating = levelOfSkating;
@@ -236,8 +245,28 @@ class RegistrationParametersScreenState
             "Комментарий": _commentController.text
           })
         });
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (c) => RegistrationFinalScreen()));
+  }
+
+  void _sendWorkoutDataToInstructor() async {
+    FirebaseDatabase.instance
+        .reference()
+        .child(
+            "Инструкторы/${workoutSingleton.instructorId}/Занятия/Занятие ${workoutSingleton.id}")
+        .set({
+      "Вид спорта": workoutSingleton.sportType,
+      "Время": _getWorkoutTime(),
+      "Дата": workoutSingleton.date,
+      "Количество человек": workoutSingleton.peopleCount,
+      "Посетители": _humansMap(),
+      "Уровень катания": levelOfSkating,
+      "Комментарий": _commentController.text,
+      "Продолжительность": workoutSingleton.workoutDuration,
+      "Телефон": FirebaseAuth.instance.currentUser.phoneNumber
+    });
+  }
+
+  String _getWorkoutTime() {
+    return workoutSingleton.from;
   }
 
   Map<String, dynamic> _humansMap() {
@@ -246,7 +275,7 @@ class RegistrationParametersScreenState
     for (var i = 0; i < visitors.length; ++i) {
       var human = visitors[i];
       map.putIfAbsent(
-          "${i + 1}",
+          "Посетитель ${i + 1}",
           () => {
                 "Имя": human.name,
                 "Возраст": human.age,
@@ -297,7 +326,8 @@ class RegistrationParametersScreenState
   }
 
   void _addVisitors(String name, int age) {
-    visitors.add(Visitor(name, age));
+    Visitor visitor = Visitor(name, age);
+    if (!visitors.contains(visitor)) visitors.add(visitor);
   }
 
   void _onBackPressed() {

@@ -1,4 +1,3 @@
-import 'package:academ_gora/controller/firebase_controller.dart';
 import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/reg_to_instructor_data.dart';
 import 'package:academ_gora/model/workout.dart';
@@ -29,8 +28,6 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   double _screenWidth;
   double _screenHeight;
-
-  FirebaseController _firebaseController = FirebaseController();
 
   List<String> _openedTimes = [];
 
@@ -258,12 +255,12 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   }
 
   void _selectTime(String time) {
+    WorkoutSingleton().instructorId = widget.instructor.id;
     RegToInstructorData regToInstructorData = RegToInstructorData(
         widget.instructorWidgetState.instructor.name,
         widget.instructorWidgetState.instructor.phone,
         _selectedDate,
         time);
-
     if (widget.instructorWidgetState.regToInstructorData == null)
       _updateRegToInstructorData(regToInstructorData);
     else if (widget.instructorWidgetState.regToInstructorData.instructorName ==

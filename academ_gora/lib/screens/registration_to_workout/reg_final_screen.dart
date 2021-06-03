@@ -34,7 +34,7 @@ class _RegistrationFinalScreenState extends State<RegistrationFinalScreen> {
                 children: [
                   _textWidget("Запись оформлена\n"),
                   _textWidget(
-                      "Ждем вас на занятии\n${workoutSingleton.date} в ${workoutSingleton.from}\nв СК \"Академический\"\n"),
+                      "Ждем вас на занятии\n${_parseDate(workoutSingleton.date)} в ${workoutSingleton.from}\nв СК \"Академический\"\n"),
                   _textWidget(
                       "Информация о занятии\nдоступна в личном\nкабинете"),
                   _buttonWidget("В личный кабинет", _screenHeight * 0.3),
@@ -42,6 +42,10 @@ class _RegistrationFinalScreenState extends State<RegistrationFinalScreen> {
                 ],
               ),
             )));
+  }
+
+  String _parseDate(String date) {
+    return "${date.substring(0, 2)}.${date.substring(2, 4)}.${date.substring(4, 8)}";
   }
 
   Widget _textWidget(String text) {

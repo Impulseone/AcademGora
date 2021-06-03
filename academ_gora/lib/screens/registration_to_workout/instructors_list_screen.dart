@@ -149,12 +149,14 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
         Map<dynamic, dynamic> instructorDataMap =
             value.value as Map<dynamic, dynamic>;
         List<Instructor> instructorsFromDb = [];
-        for (Map<dynamic, dynamic> instructorData in instructorDataMap.values) {
-          if (instructorData["Вид спорта"] == _workoutSingleton.sportType) {
-            Instructor instructor = Instructor.fromJson(instructorData);
+
+        instructorDataMap.forEach((key, value) {
+          if (value["Вид спорта"] == _workoutSingleton.sportType) {
+            Instructor instructor = Instructor.fromJson(value);
+            instructor.id = key;
             instructorsFromDb.add(instructor);
           }
-        }
+        });
         Function eq = const ListEquality().equals;
         if (!eq(instructors, instructorsFromDb)) {
           setState(() {

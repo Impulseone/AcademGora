@@ -18,7 +18,7 @@ class Workout {
   String userPhoneNumber;
   List<Visitor> visitors = [];
 
-  static Workout fromJson(workoutData){
+  static Workout fromJson(workoutData) {
     Workout workout = Workout();
     workout.id = workoutData["id"];
     workout.date = workoutData["Дата"];
@@ -30,14 +30,17 @@ class Workout {
     workout.comment = workoutData["Комментарий"];
     workout.sportType = workoutData["Вид спорта"];
     workout.levelOfSkating = workoutData["Уровень катания"];
-    List<Visitor> visitors = [];
-    for (var visitorMap in (workoutData["Посетители"] as Map<dynamic,dynamic>).values) {
-      if (visitorMap != null)
-        visitors.add(Visitor(visitorMap["Имя"], visitorMap["Возраст"]));
-    }
-    workout.visitors = visitors;
+    workout.visitors = _parseVisitors(workoutData["Посетители"]);
     workout.workoutDuration = workoutData["Продолжительность"];
     return workout;
+  }
+
+  static List<Visitor> _parseVisitors(Map<dynamic,dynamic> visitors) {
+    List<Visitor> visitorsList = [];
+    visitors.forEach((key,value) {
+        visitorsList.add(Visitor(value["Имя"], value["Возраст"]));
+    });
+    return visitorsList;
   }
 
   @override
@@ -62,6 +65,7 @@ class WorkoutSingleton {
   int levelOfSkating;
   String comment;
   String fio;
+  String instructorId;
   int age;
   String instructorName;
   String instructorPhoneNumber;
@@ -88,6 +92,7 @@ class WorkoutSingleton {
     instructorName = null;
     instructorPhoneNumber = null;
     visitors = [];
+    instructorId = null;
   }
 }
 
@@ -96,4 +101,15 @@ class Visitor {
   int age;
 
   Visitor(this.name, this.age);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Visitor &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          age == other.age;
+
+  @override
+  int get hashCode => name.hashCode ^ age.hashCode;
 }
