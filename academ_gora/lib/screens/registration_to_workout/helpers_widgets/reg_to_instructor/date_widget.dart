@@ -1,3 +1,4 @@
+import 'package:academ_gora/model/workout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
@@ -96,6 +97,7 @@ class _DateWidgetState extends State<DateWidget> {
 
   void _clearDateFieldButton() {
     _selectedDate = null;
+    WorkoutSingleton().date = null;
     widget.registrationToInstructorScreenState.setState(() {
       widget.registrationToInstructorScreenState.selectedDate = _selectedDate;
     });
@@ -114,7 +116,9 @@ class _DateWidgetState extends State<DateWidget> {
                           child: Text('OK'), onPressed: _applyAndCloseDialog),
                     ],
                     content: CalendarCarousel<Event>(
-                      headerTextStyle: TextStyle(fontSize: _screenHeight*0.028, color: Colors.blueAccent),
+                      headerTextStyle: TextStyle(
+                          fontSize: _screenHeight * 0.028,
+                          color: Colors.blueAccent),
                       locale: "ru",
                       width: 300,
                       height: 270,

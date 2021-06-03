@@ -131,10 +131,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
     WorkoutSingleton workoutSingleton = WorkoutSingleton();
     workoutSingleton.instructorName = regToInstructorData.instructorName;
     workoutSingleton.from = regToInstructorData.time;
-    final DateTime now = regToInstructorData.date;
-    final DateFormat formatter = DateFormat('dd.MM.yyyy');
-    final String formattedDate = formatter.format(now);
-    if (workoutSingleton.date == null) workoutSingleton.date = formattedDate;
+    if (workoutSingleton.date == null) workoutSingleton.date = DateFormat('ddMMyyyy').format(regToInstructorData.date);
     if (workoutSingleton.id == null)
       workoutSingleton.id =
           regToInstructorData.date.millisecondsSinceEpoch.toString();

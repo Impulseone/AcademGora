@@ -1,3 +1,4 @@
+import 'package:academ_gora/model/workout.dart';
 import 'package:flutter/material.dart';
 
 import '../../registration_parameters_screen.dart';
@@ -38,7 +39,7 @@ class _SelectDurationWidgetState extends State<SelectDurationWidget> {
 
   Widget _peoplesCountWidget() {
     return Container(
-        margin: EdgeInsets.only(left: _screenWidth*0.03),
+        margin: EdgeInsets.only(left: _screenWidth * 0.03),
         child: Text(
           "Длительность\nзанятия",
           style: TextStyle(fontSize: 12, color: Colors.blue),
@@ -69,8 +70,8 @@ class _SelectDurationWidgetState extends State<SelectDurationWidget> {
                 image: AssetImage(_createBackgroundOfCountButton(which)),
                 fit: BoxFit.fill),
           ),
-          height:  _screenHeight*0.045,
-          width: _screenWidth*0.29,
+          height: _screenHeight * 0.045,
+          width: _screenWidth * 0.29,
           padding: EdgeInsets.only(right: 12),
           alignment: Alignment.centerRight,
           child: Text(
@@ -78,7 +79,8 @@ class _SelectDurationWidgetState extends State<SelectDurationWidget> {
             style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: which == _selectedDuration ? Colors.white : Colors.black),
+                color:
+                    which == _selectedDuration ? Colors.white : Colors.black),
           ),
         ),
       ),
@@ -87,6 +89,7 @@ class _SelectDurationWidgetState extends State<SelectDurationWidget> {
 
   void _selectCount(int which) {
     _selectedDuration = which;
+    WorkoutSingleton().workoutDuration = which;
     widget.registrationParametersScreenState.setState(() {
       widget.registrationParametersScreenState.duration = _selectedDuration;
     });
