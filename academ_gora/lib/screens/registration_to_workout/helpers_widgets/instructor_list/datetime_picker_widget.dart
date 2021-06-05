@@ -56,6 +56,8 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
     'ВС',
   ];
 
+  TimesController _timesController = TimesController();
+
   @override
   void initState() {
     super.initState();
@@ -191,7 +193,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
     if ((from == null || from == 'любое') && (to == null || to == 'любое')) {
     } else if ((from != null && from != 'любое') &&
         (to == null || to == 'любое')) {
-      var times = timesMap();
+      var times = _timesController.times;
       int priorityFrom = times[from];
       _openedTimes.forEach((element) {
         int priorityOpenedTime = times[element];
@@ -200,7 +202,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
       _openedTimes = filteredTimes;
     } else if ((from == null || from == 'любое') &&
         (to != null && to != 'любое')) {
-      var times = timesMap();
+      var times = _timesController.times;
       int priorityTo = times[to];
       _openedTimes.forEach((element) {
         int priorityOpenedTime = times[element];
@@ -208,7 +210,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
       });
       _openedTimes = filteredTimes;
     } else {
-      var times = timesMap();
+      var times = _timesController.times;
       int priorityFrom = times[from];
       int priorityTo = times[to];
       _openedTimes.forEach((element) {
@@ -255,8 +257,8 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   }
 
   void _selectTime(String time) {
-    WorkoutSingleton().instructorId = widget.instructor.id;
-    WorkoutSingleton().date = DateFormat("ddMMyyyy").format(_selectedDate);
+    _workoutSingleton.instructorId = widget.instructor.id;
+    _workoutSingleton.date = DateFormat("ddMMyyyy").format(_selectedDate);
     RegToInstructorData regToInstructorData = RegToInstructorData(
         widget.instructorWidgetState.instructor.name,
         widget.instructorWidgetState.instructor.phone,

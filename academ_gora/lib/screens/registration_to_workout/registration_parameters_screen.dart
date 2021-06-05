@@ -1,5 +1,6 @@
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
+import 'package:academ_gora/times_map.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +34,7 @@ class RegistrationParametersScreenState
   double _screenWidth;
 
   TextEditingController _commentController = TextEditingController();
+  TimesController _timesController = TimesController();
 
   @override
   Widget build(BuildContext context) {
@@ -193,7 +195,7 @@ class RegistrationParametersScreenState
                             levelOfSkating != null &&
                             duration != null &&
                             _checkTextControllers()
-                        ? _openRegFinalScreen
+                        ? _sendData
                         : null,
                     child: Center(
                       child: Column(
@@ -215,18 +217,23 @@ class RegistrationParametersScreenState
         ));
   }
 
+  void _sendData(){
+    workoutSingleton.peopleCount = peopleCount;
+    workoutSingleton.levelOfSkating = levelOfSkating;
+    _sendWorkoutDataToUser().then((_) {
+      _sendWorkoutDataToInstructor().then((_) {
+        _openRegFinalScreen();
+      });
+    });
+  }
+
   void _openRegFinalScreen() {
-    _sendWorkoutDataToUser();
-    _sendWorkoutDataToInstructor();
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (c) => RegistrationFinalScreen()),
         (route) => false);
   }
 
-  void _sendWorkoutDataToUser() async {
-    workoutSingleton.peopleCount = peopleCount;
-    workoutSingleton.workoutDuration = duration;
-    workoutSingleton.levelOfSkating = levelOfSkating;
+  Future<void> _sendWorkoutDataToUser() async {
     await UserRole.getUserRole().then((userRole) => {
           FirebaseDatabase.instance
               .reference()
@@ -236,7 +243,7 @@ class RegistrationParametersScreenState
             "id": workoutSingleton.id,
             "Телефон инструктора": workoutSingleton.instructorPhoneNumber,
             "Вид спорта": workoutSingleton.sportType,
-            "Время": workoutSingleton.from,
+            "Время": _getWorkoutTime(),
             "Дата": workoutSingleton.date,
             "Инструктор": workoutSingleton.instructorName,
             "Количество человек": workoutSingleton.peopleCount,
@@ -247,7 +254,7 @@ class RegistrationParametersScreenState
         });
   }
 
-  void _sendWorkoutDataToInstructor() async {
+  Future<void> _sendWorkoutDataToInstructor() async {
     FirebaseDatabase.instance
         .reference()
         .child(
@@ -263,10 +270,20 @@ class RegistrationParametersScreenState
       "Продолжительность": workoutSingleton.workoutDuration,
       "Телефон": FirebaseAuth.instance.currentUser.phoneNumber
     });
+    FirebaseDatabase.instance
+        .reference()
+        .child(
+            "Инструкторы/${workoutSingleton.instructorId}/График работы/${workoutSingleton.date}")
+        .update({
+      "${workoutSingleton.from}": "недоступно",
+    });
   }
 
   String _getWorkoutTime() {
-    return workoutSingleton.from;
+    String from = workoutSingleton.from;
+    int duration = workoutSingleton.workoutDuration;
+    String to = _timesController.getTimeByValue(_timesController.times[from]+duration);
+    return "$from-$to";
   }
 
   Map<String, dynamic> _humansMap() {
