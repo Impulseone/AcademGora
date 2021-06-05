@@ -1,3 +1,4 @@
+import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/account/helpers_widgets/workout_info.dart';
@@ -144,8 +145,9 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
                 style: TextStyle(fontSize: 18),
               ),
               onPressed: () {
-                _cancelWorkout();
-                Navigator.of(context).pop();
+                _cancelWorkout().then((_) {
+                  Navigator.of(context).pop();
+                });
               },
             ),
             TextButton(
@@ -160,7 +162,12 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
     );
   }
 
-  void _cancelWorkout() async {
+  Future<void> _cancelWorkout() async {
+    _deleteWorkoutFromUser();
+    _deleteWorkoutFromInstructor();
+  }
+
+  Future<void> _deleteWorkoutFromUser() async {
     await UserRole.getUserRole().then((userRole) {
       if (userRole == UserRole.user) {
         String userId = FirebaseAuth.instance.currentUser.uid;
@@ -171,6 +178,21 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
           widget.userAccountScreenState.setState(() {});
         });
       }
+    });
+  }
+
+  void _deleteWorkoutFromInstructor() async {
+    await dbRef.child("Инструкторы").once().then((instructorData) {
+      Map<dynamic, dynamic> instructorDataMap =
+          instructorData.value as Map<dynamic, dynamic>;
+      instructorDataMap.forEach((instructorId, value) {
+        Instructor instructor = Instructor.fromJson(value);
+        if (instructor.phone == widget.workout.instructorPhoneNumber) {
+          String path =
+              "Инструкторы/$instructorId/Занятия/Занятие ${widget.workout.id}";
+          dbRef.child(path).remove();
+        }
+      });
     });
   }
 
