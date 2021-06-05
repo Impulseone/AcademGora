@@ -3,14 +3,13 @@ import 'package:academ_gora/screens/main_screen.dart';
 import 'package:expand_tap_area/expand_tap_area.dart';
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
+
 class InstructorProfileScreen extends StatelessWidget {
   final String _instructorName;
 
-  final double screenWidth;
-  final double screenHeight;
-
   const InstructorProfileScreen(this._instructorName,
-      {Key key, @required this.screenWidth, @required this.screenHeight})
+      {Key key})
       : super(key: key);
 
   @override

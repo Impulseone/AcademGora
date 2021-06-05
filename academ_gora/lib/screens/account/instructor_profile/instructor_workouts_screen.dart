@@ -14,6 +14,8 @@ import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 
 import 'package:intl/intl.dart';
 
+import '../../../main.dart';
+
 class InstructorWorkoutsScreen extends StatefulWidget {
   const InstructorWorkoutsScreen({Key key}) : super(key: key);
 
@@ -23,9 +25,6 @@ class InstructorWorkoutsScreen extends StatefulWidget {
 }
 
 class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
-  double _screenHeight;
-  double _screenWidth;
-
   DateTime _selectedDate = DateTime.now();
 
   List _months = [
@@ -65,8 +64,6 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         body: Container(
       width: MediaQuery.of(context).size.width,
@@ -102,8 +99,8 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
 
   Widget _changeRegistrationTimeButton() {
     return Container(
-      width: _screenWidth * 0.7,
-      height: _screenHeight * 0.065,
+      width: screenWidth * 0.7,
+      height: screenHeight * 0.065,
       margin: EdgeInsets.only(top: 12),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
@@ -136,20 +133,20 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
         GestureDetector(
           onTap: _decreaseDate,
           child: Container(
-            height: _screenWidth * 0.07,
-            width: _screenWidth * 0.07,
+            height: screenWidth * 0.07,
+            width: screenWidth * 0.07,
             child: Image.asset("assets/instructors_list/e_6.png"),
           ),
         ),
         Container(
-            width: _screenWidth * 0.38,
+            width: screenWidth * 0.38,
             alignment: Alignment.center,
             child: Text(_getSelectedDate())),
         GestureDetector(
           onTap: _increaseDate,
           child: Container(
-            height: _screenWidth * 0.07,
-            width: _screenWidth * 0.07,
+            height: screenWidth * 0.07,
+            width: screenWidth * 0.07,
             child: Image.asset("assets/instructors_list/e_7.png"),
           ),
         ),
@@ -184,8 +181,8 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
 
   Widget _redactProfileButton() {
     return Container(
-      width: _screenWidth * 0.65,
-      height: _screenHeight * 0.058,
+      width: screenWidth * 0.65,
+      height: screenHeight * 0.058,
       margin: EdgeInsets.only(top: 5),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
@@ -212,8 +209,8 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
 
   Widget _backToMainButton() {
     return Container(
-      width: _screenWidth * 0.5,
-      height: _screenHeight * 0.056,
+      width: screenWidth * 0.5,
+      height: screenHeight * 0.056,
       margin: EdgeInsets.only(top: 7),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
@@ -264,11 +261,11 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
       selectedDayButtonColor: Colors.blue,
       headerMargin: EdgeInsets.all(0),
       headerTextStyle:
-          TextStyle(fontSize: _screenHeight * 0.023, color: Colors.blue),
+          TextStyle(fontSize: screenHeight * 0.023, color: Colors.blue),
       weekdayTextStyle: TextStyle(color: Colors.black, fontSize: 14),
       locale: "ru",
-      width: _screenWidth * 0.55,
-      height: _screenHeight * 0.38,
+      width: screenWidth * 0.55,
+      height: screenHeight * 0.38,
       todayBorderColor: Colors.transparent,
       todayButtonColor: Colors.transparent,
       todayTextStyle: TextStyle(color: Colors.black, fontSize: 14),
@@ -286,8 +283,8 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
 
   Widget _workoutsListWidget() {
     return Container(
-        height: _screenHeight * 0.22,
-        width: _screenWidth * 0.6,
+        height: screenHeight * 0.22,
+        width: screenWidth * 0.6,
         child: ListView.builder(
           itemCount: _workouts.length,
           itemBuilder: (context, index) {

@@ -1,4 +1,5 @@
 import 'package:academ_gora/controller/firebase_controller.dart';
+import 'package:academ_gora/main.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/screens/registration_to_workout/helpers_widgets/horizontal_divider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,8 +16,6 @@ class SetWorkoutTimeScreen extends StatefulWidget {
 }
 
 class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
-  double _screenHeight;
-  double _screenWidth;
 
   DateTime _selectedDate = DateTime.now();
 
@@ -54,18 +53,16 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         body: Container(
       alignment: Alignment.center,
       child: Column(
         children: [
           _instructorName(),
-          horizontalDivider(_screenWidth * 0.1, _screenWidth * 0.1, 10, 10),
+          horizontalDivider(screenWidth * 0.1, screenWidth * 0.1, 10, 10),
           _calendar(),
           _indicatorsRow(),
-          horizontalDivider(_screenWidth * 0.1, _screenWidth * 0.1, 15, 15),
+          horizontalDivider(screenWidth * 0.1, screenWidth * 0.1, 15, 15),
           _dateTimePickerWidget(),
           _changeStatusButtons()
         ],
@@ -75,7 +72,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
 
   Widget _instructorName() {
     return Container(
-        margin: EdgeInsets.only(top: _screenHeight * 0.07),
+        margin: EdgeInsets.only(top: screenHeight * 0.07),
         child: Text(
           "Ярославский Александр",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
@@ -85,12 +82,12 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   Widget _calendar() {
     return CalendarCarousel<Event>(
       locale: "ru",
-      width: _screenWidth * 0.69,
-      height: _screenHeight * 0.43,
+      width: screenWidth * 0.69,
+      height: screenHeight * 0.43,
       selectedDayButtonColor: Colors.blue,
       headerMargin: EdgeInsets.all(0),
       headerTextStyle:
-          TextStyle(fontSize: _screenHeight * 0.023, color: Colors.blue),
+          TextStyle(fontSize: screenHeight * 0.023, color: Colors.blue),
       weekdayTextStyle: TextStyle(color: Colors.black),
       todayBorderColor: Colors.transparent,
       todayButtonColor: Colors.transparent,
@@ -127,7 +124,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
 
   Widget _indicator(String text, String iconPath) {
     return Container(
-      margin: EdgeInsets.only(left: _screenWidth * 0.04),
+      margin: EdgeInsets.only(left: screenWidth * 0.04),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -166,13 +163,13 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
         GestureDetector(
           onTap: _decreaseDate,
           child: Container(
-            height: _screenWidth * 0.06,
-            width: _screenWidth * 0.06,
+            height: screenWidth * 0.06,
+            width: screenWidth * 0.06,
             child: Image.asset("assets/instructors_list/e_6.png"),
           ),
         ),
         Container(
-            width: _screenWidth * 0.38,
+            width: screenWidth * 0.38,
             alignment: Alignment.center,
             child: Text(
               _getSelectedDate(),
@@ -181,8 +178,8 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
         GestureDetector(
           onTap: _increaseDate,
           child: Container(
-            height: _screenWidth * 0.06,
-            width: _screenWidth * 0.06,
+            height: screenWidth * 0.06,
+            width: screenWidth * 0.06,
             child: Image.asset("assets/instructors_list/e_7.png"),
           ),
         ),
@@ -275,10 +272,10 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     return GestureDetector(
         onTap: () => _selectTime(time),
         child: Container(
-          height: _screenHeight * 0.033,
-          width: _screenWidth * 0.15,
+          height: screenHeight * 0.033,
+          width: screenWidth * 0.15,
           alignment: Alignment.center,
-          margin: EdgeInsets.all(_screenHeight * 0.004),
+          margin: EdgeInsets.all(screenHeight * 0.004),
           decoration: BoxDecoration(
               color: _getTimeButtonColor(time),
               border: Border.all(color: _getTimeTextColor(time), width: 0.5),
@@ -458,8 +455,8 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   Widget _changeStatusButton(
       TimeStatus timeStatus, String text, String iconPath) {
     return Container(
-        height: _screenHeight * 0.033,
-        margin: EdgeInsets.only(left: _screenWidth * 0.2),
+        height: screenHeight * 0.033,
+        margin: EdgeInsets.only(left: screenWidth * 0.2),
         child: GestureDetector(
           onTap: () {
             setState(() {

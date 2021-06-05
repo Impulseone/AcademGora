@@ -3,14 +3,14 @@ import 'package:academ_gora/screens/main_screen.dart';
 import 'package:expand_tap_area/expand_tap_area.dart';
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
+
 class AllInstructorsScreen extends StatefulWidget {
   @override
   _AllInstructorsScreenState createState() => _AllInstructorsScreenState();
 }
 
 class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
-  double _screenWidth;
-  double _screenHeight;
 
   String _selectedKindOfSport = "ГОРНЫЕ ЛЫЖИ";
 
@@ -36,12 +36,10 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
-        height: _screenHeight,
-        width: _screenWidth,
+        height: screenHeight,
+        width: screenWidth,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/all_instructors/bg.png"),
@@ -88,11 +86,11 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
         },
         child: Container(
           width: _checkKindOfSport(name)
-              ? _screenWidth * 0.75
-              : _screenWidth * 0.7,
+              ? screenWidth * 0.75
+              : screenWidth * 0.7,
           height: _checkKindOfSport(name)
-              ? _screenHeight * 0.06
-              : _screenHeight * 0.05,
+              ? screenHeight * 0.06
+              : screenHeight * 0.05,
           margin: EdgeInsets.only(top: 15),
           alignment: Alignment.center,
           decoration: BoxDecoration(
@@ -103,8 +101,8 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
             style: TextStyle(
                 color: _checkKindOfSport(name) ? Colors.white : Colors.blue,
                 fontSize: _checkKindOfSport(name)
-                    ? _screenHeight * 0.034
-                    : _screenHeight * 0.03),
+                    ? screenHeight * 0.034
+                    : screenHeight * 0.03),
           ),
         ));
   }
@@ -116,8 +114,8 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
 
   Widget _instructorsListWidget() {
     return Container(
-        height: _screenHeight * 0.7,
-        width: _screenWidth * 0.78,
+        height: screenHeight * 0.7,
+        width: screenWidth * 0.78,
         margin: EdgeInsets.only(top: 10, bottom: 10),
         alignment: Alignment.center,
         child: CustomScrollView(
@@ -151,8 +149,8 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
           child: Column(
             children: [
               Container(
-                width: _screenWidth * 0.3,
-                height: _screenHeight * 0.13,
+                width: screenWidth * 0.3,
+                height: screenHeight * 0.13,
                 child: Image.asset("assets/all_instructors/2.png"),
               ),
               Text(
@@ -169,15 +167,13 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (c) => InstructorProfileScreen(
               instructorName,
-              screenHeight: _screenHeight,
-              screenWidth: _screenWidth,
             )));
   }
 
   Widget _backToMainScreenButton() {
     return Container(
-      width: _screenWidth * 0.4,
-      height: _screenHeight * 0.05,
+      width: screenWidth * 0.4,
+      height: screenHeight * 0.05,
       margin: EdgeInsets.only(top: 18),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),

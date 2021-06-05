@@ -4,6 +4,7 @@ import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/times_map.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../main.dart';
 import 'instructor_widget.dart';
 import 'package:intl/intl.dart';
 
@@ -25,9 +26,6 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   var _selectedDate;
   WorkoutSingleton _workoutSingleton = WorkoutSingleton();
-
-  double _screenWidth;
-  double _screenHeight;
 
   List<String> _openedTimes = [];
 
@@ -66,8 +64,6 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     _fillOpenedTimes();
     return _dateTimePickerWidget();
   }
@@ -93,26 +89,26 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   Widget _dateSliderWidget() {
     return Container(
-        margin: EdgeInsets.only(left: _screenWidth * 0.08),
+        margin: EdgeInsets.only(left: screenWidth * 0.08),
         child: Row(
           children: [
             GestureDetector(
               onTap: _decreaseDate,
               child: Container(
-                height: _screenWidth * 0.09,
-                width: _screenWidth * 0.09,
+                height: screenWidth * 0.09,
+                width: screenWidth * 0.09,
                 child: Image.asset("assets/instructors_list/e_6.png"),
               ),
             ),
             Container(
-                width: _screenWidth * 0.38,
+                width: screenWidth * 0.38,
                 alignment: Alignment.center,
                 child: Text(_getSelectedDate())),
             GestureDetector(
               onTap: _increaseDate,
               child: Container(
-                height: _screenWidth * 0.09,
-                width: _screenWidth * 0.09,
+                height: screenWidth * 0.09,
+                width: screenWidth * 0.09,
                 child: Image.asset("assets/instructors_list/e_7.png"),
               ),
             ),
@@ -144,7 +140,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
 
   Widget _timeWidget() {
     return Container(
-      margin: EdgeInsets.only(left: _screenWidth * 0.1, top: 10),
+      margin: EdgeInsets.only(left: screenWidth * 0.1, top: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -241,8 +237,8 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
     return GestureDetector(
         onTap: () => _selectTime(time),
         child: Container(
-          height: _screenHeight * 0.05,
-          width: _screenWidth * 0.13,
+          height: screenHeight * 0.05,
+          width: screenWidth * 0.13,
           alignment: Alignment.center,
           margin: EdgeInsets.all(3),
           decoration: BoxDecoration(

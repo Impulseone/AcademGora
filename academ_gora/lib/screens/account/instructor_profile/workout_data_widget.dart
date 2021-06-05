@@ -3,6 +3,8 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+import '../../../main.dart';
+
 class WorkoutDataWidget extends StatefulWidget {
   final Workout workout;
 
@@ -13,16 +15,13 @@ class WorkoutDataWidget extends StatefulWidget {
 }
 
 class _WorkoutDataWidgetState extends State<WorkoutDataWidget> {
+
   bool isExpanded = false;
   Icon _expandedIcon = Icon(Icons.keyboard_arrow_down);
-  double _screenHeight;
-  double _screenWidth;
   ExpandableController _expandableController = ExpandableController();
 
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     _setExpandedIconListener();
     return _workoutWidget();
   }
@@ -59,7 +58,7 @@ class _WorkoutDataWidgetState extends State<WorkoutDataWidget> {
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 )),
             Container(
-                margin: EdgeInsets.only(left: _screenWidth * 0.05),
+                margin: EdgeInsets.only(left: screenWidth * 0.05),
                 child: _expandedIcon)
           ],
         ));
@@ -68,7 +67,7 @@ class _WorkoutDataWidgetState extends State<WorkoutDataWidget> {
   Widget _body() {
     return Container(
         margin: EdgeInsets.only(bottom: 5),
-        width: _screenWidth * 0.6,
+        width: screenWidth * 0.6,
         decoration: BoxDecoration(color: Colors.white70),
         child: Container(
             margin: EdgeInsets.only(left: 10),

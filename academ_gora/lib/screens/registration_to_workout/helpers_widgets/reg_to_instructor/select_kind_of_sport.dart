@@ -1,6 +1,7 @@
 import 'package:academ_gora/model/workout.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../main.dart';
 import '../../registration_first_screen.dart';
 
 class SelectKindOfSportWidget extends StatefulWidget {
@@ -20,15 +21,10 @@ class SelectKindOfSportWidget extends StatefulWidget {
 class _SelectKindOfSportWidgetState extends State<SelectKindOfSportWidget> {
   int _kindOfSport;
 
-  double _screenHeight;
-  double _screenWidth;
-
   _SelectKindOfSportWidgetState(this._kindOfSport);
 
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     return Column(
       children: [
         _topImages(),
@@ -43,19 +39,19 @@ class _SelectKindOfSportWidgetState extends State<SelectKindOfSportWidget> {
       children: [
         _kindOfSportImage("assets/registration_to_instructor/2_ski.png"),
         _kindOfSportImage("assets/registration_to_instructor/2_snowboard.png",
-            marginLeft: _screenWidth * 0.05)
+            marginLeft: screenWidth * 0.05)
       ],
     );
   }
 
   Widget _kindOfSportImage(String imagePath, {double marginLeft = 0}) {
     return Container(
-      margin: EdgeInsets.only(top: _screenHeight * 0.07, left: marginLeft),
+      margin: EdgeInsets.only(top: screenHeight * 0.07, left: marginLeft),
       alignment: Alignment.center,
       child: Image.asset(
         imagePath,
-        height: _screenHeight * 0.26,
-        width: _screenHeight * 0.26,
+        height: screenHeight * 0.26,
+        width: screenHeight * 0.26,
         fit: BoxFit.cover,
       ),
     );
@@ -79,8 +75,8 @@ class _SelectKindOfSportWidgetState extends State<SelectKindOfSportWidget> {
                 image: AssetImage(_createBackgroundOfKindOfSportButton(which)),
                 fit: BoxFit.fill),
           ),
-          height: _screenHeight * 0.06,
-          width: _screenWidth * 0.4,
+          height: screenHeight * 0.06,
+          width: screenWidth * 0.4,
           padding: EdgeInsets.only(right: 7),
           alignment: Alignment.centerRight,
           child: Text(

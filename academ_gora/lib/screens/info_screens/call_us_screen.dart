@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
 import '../main_screen.dart';
 
 class CallUsScreen extends StatefulWidget {
@@ -8,17 +9,13 @@ class CallUsScreen extends StatefulWidget {
 }
 
 class _CallUsScreenState extends State<CallUsScreen> {
-  double _screenWidth;
-  double _screenHeight;
 
   @override
   Widget build(BuildContext context) {
-    _screenWidth = MediaQuery.of(context).size.width;
-    _screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         body: Container(
-      height: _screenHeight,
-      width: _screenWidth,
+      height: screenHeight,
+      width: screenWidth,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/info_screens/call_us/bg.png"),
@@ -40,18 +37,18 @@ class _CallUsScreenState extends State<CallUsScreen> {
 
   Widget _callToAdministrationTitle() {
     return Container(
-      margin: EdgeInsets.only(top: _screenHeight * 0.1),
+      margin: EdgeInsets.only(top: screenHeight * 0.1),
       child: Text("СВЯЗАТЬСЯ С АДМИНИСТРАЦИЕЙ"),
     );
   }
 
   Widget _callNumberButton() {
     return Container(
-      height: _screenHeight * 0.07,
-      width: _screenWidth * 0.8,
+      height: screenHeight * 0.07,
+      width: screenWidth * 0.8,
       alignment: Alignment.centerRight,
-      padding: EdgeInsets.only(right: _screenWidth * 0.1),
-      margin: EdgeInsets.only(top: _screenHeight * 0.07),
+      padding: EdgeInsets.only(right: screenWidth * 0.1),
+      margin: EdgeInsets.only(top: screenHeight * 0.07),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(8)),
         image: DecorationImage(
@@ -62,7 +59,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
       child: Text(
         "89025101513",
         style: TextStyle(
-            fontSize: _screenHeight * 0.04,
+            fontSize: screenHeight * 0.04,
             color: Colors.white,
             fontWeight: FontWeight.bold),
       ),
@@ -71,11 +68,11 @@ class _CallUsScreenState extends State<CallUsScreen> {
 
   Widget _whatsAppButton() {
     return Container(
-      height: _screenHeight * 0.07,
-      width: _screenWidth * 0.8,
+      height: screenHeight * 0.07,
+      width: screenWidth * 0.8,
       alignment: Alignment.centerRight,
-      padding: EdgeInsets.only(right: _screenWidth * 0.15),
-      margin: EdgeInsets.only(top: _screenHeight * 0.04),
+      padding: EdgeInsets.only(right: screenWidth * 0.15),
+      margin: EdgeInsets.only(top: screenHeight * 0.04),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(8)),
         image: DecorationImage(
@@ -86,7 +83,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
       child: Text(
         "НАПИСАТЬ",
         style: TextStyle(
-            fontSize: _screenHeight * 0.04,
+            fontSize: screenHeight * 0.04,
             color: Colors.white,
             fontWeight: FontWeight.bold),
       ),
@@ -95,11 +92,11 @@ class _CallUsScreenState extends State<CallUsScreen> {
 
   Widget _mailButton() {
     return Container(
-      height: _screenHeight * 0.07,
-      width: _screenWidth * 0.8,
+      height: screenHeight * 0.07,
+      width: screenWidth * 0.8,
       alignment: Alignment.centerRight,
-      padding: EdgeInsets.only(right: _screenWidth * 0.05),
-      margin: EdgeInsets.only(top: _screenHeight * 0.04),
+      padding: EdgeInsets.only(right: screenWidth * 0.05),
+      margin: EdgeInsets.only(top: screenHeight * 0.04),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(8)),
         image: DecorationImage(
@@ -110,7 +107,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
       child: Text(
         "Progress077@yandex.ru",
         style: TextStyle(
-            fontSize: _screenHeight * 0.025,
+            fontSize: screenHeight * 0.025,
             color: Colors.white,
             fontWeight: FontWeight.bold),
       ),
@@ -119,17 +116,17 @@ class _CallUsScreenState extends State<CallUsScreen> {
 
   Widget _logo() {
     return Container(
-      margin: EdgeInsets.only(top: _screenHeight * 0.06),
-      height: _screenHeight * 0.25,
-      width: _screenWidth * 0.35,
+      margin: EdgeInsets.only(top: screenHeight * 0.06),
+      height: screenHeight * 0.25,
+      width: screenWidth * 0.35,
       child: Image.asset("assets/info_screens/call_us/4.png"),
     );
   }
 
   Widget _openMainScreenButton() {
     return Container(
-      width: _screenWidth * 0.63,
-      height: _screenHeight * 0.08,
+      width: screenWidth * 0.63,
+      height: screenHeight * 0.08,
       margin: EdgeInsets.only(top: 30),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),

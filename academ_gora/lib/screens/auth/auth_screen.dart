@@ -1,9 +1,7 @@
 import 'package:academ_gora/controller/auth_controller.dart';
-import 'package:academ_gora/screens/auth/helpers/login_form_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuth;
 import 'package:firebase_auth_ui/firebase_auth_ui.dart';
 import 'package:firebase_auth_ui/providers.dart';
 import 'package:flutter/services.dart';

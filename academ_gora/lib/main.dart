@@ -5,6 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+double screenHeight;
+double screenWidth;
+
 void main() {
   runApp(MyApp());
 }
@@ -26,14 +29,20 @@ class _MyAppState extends State<MyApp> {
         home: FutureBuilder(
           future: _initApp(),
           builder: (context, snap) {
-            return snap.data == true ? MainScreen() : AuthScreen();
+            screenHeight = MediaQuery.of(context).size.height;
+            screenWidth = MediaQuery.of(context).size.width;
+            if (snap.hasData)
+              return snap.data == true ? MainScreen() : AuthScreen();
+            else {
+              return SplashScreen();
+            }
           },
         ));
   }
 
   Future<bool> _initApp() async {
     bool isUserAuthorized = false;
-    await Firebase.initializeApp().then((value) {
+    await Firebase.initializeApp().then((_) {
       if (FirebaseAuth.instance.currentUser != null) isUserAuthorized = true;
     });
     return isUserAuthorized;

@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
 import '../main_screen.dart';
 import 'about_us_info.dart';
 
@@ -15,15 +16,10 @@ class ChillZoneScreen extends StatefulWidget {
 
 class _ChillZoneScreenState extends State<ChillZoneScreen> {
 
-  double screenWidth;
-  double screenHeight;
-
   int _current = 0;
 
   @override
   Widget build(BuildContext context) {
-    screenWidth = MediaQuery.of(context).size.width;
-    screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         body: Container(
           height: screenHeight,

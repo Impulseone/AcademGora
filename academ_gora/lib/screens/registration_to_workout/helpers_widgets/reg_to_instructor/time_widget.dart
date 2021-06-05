@@ -1,21 +1,20 @@
 import 'package:academ_gora/screens/registration_to_workout/registration_first_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../main.dart';
+
 class TimeWidget extends StatefulWidget {
   final RegistrationFirstScreenState registrationFirstScreenState;
 
   TimeWidget(this.registrationFirstScreenState);
 
   @override
-  _TimeWidgetState createState() =>
-      _TimeWidgetState();
+  _TimeWidgetState createState() => _TimeWidgetState();
 }
 
 class _TimeWidgetState extends State<TimeWidget> {
   String _fromTime;
   String _toTime;
-
-  double _screenWidth;
 
   final List<String> times = [
     "любое",
@@ -46,7 +45,6 @@ class _TimeWidgetState extends State<TimeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    _screenWidth = MediaQuery.of(context).size.width;
     return _timeWidget();
   }
 
@@ -82,7 +80,7 @@ class _TimeWidgetState extends State<TimeWidget> {
 
   Widget _timeField(double leftMargin, double rightMargin, int position) {
     return Container(
-        width: _screenWidth*0.25,
+        width: screenWidth * 0.25,
         height: 30,
         padding: EdgeInsets.only(left: 3),
         margin: EdgeInsets.only(left: leftMargin, right: rightMargin),
@@ -92,11 +90,8 @@ class _TimeWidgetState extends State<TimeWidget> {
         ),
         child: DropdownButtonHideUnderline(
           child: new DropdownButton<String>(
-            value: position == 1
-                ? _fromTime
-                : _toTime,
-            items: times
-                .map((String value) {
+            value: position == 1 ? _fromTime : _toTime,
+            items: times.map((String value) {
               return new DropdownMenuItem<String>(
                 value: value,
                 child: new Text(value),
@@ -107,8 +102,7 @@ class _TimeWidgetState extends State<TimeWidget> {
                 if (position == 1) {
                   _fromTime = value;
                   widget.registrationFirstScreenState.fromTime = value;
-                }
-                else {
+                } else {
                   _toTime = value;
                   widget.registrationFirstScreenState.toTime = value;
                 }

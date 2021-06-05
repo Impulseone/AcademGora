@@ -2,6 +2,7 @@ import 'package:academ_gora/model/workout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
+import '../../main.dart';
 import 'helpers_widgets/horizontal_divider.dart';
 import 'helpers_widgets/reg_to_instructor/date_widget.dart';
 import 'helpers_widgets/reg_to_instructor/select_kind_of_sport.dart';
@@ -20,8 +21,6 @@ class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
   DateTime selectedDate;
   String fromTime;
   String toTime;
-  double _screenHeight;
-  double _screenWidth;
 
   WorkoutSingleton workoutSingleton = WorkoutSingleton();
 
@@ -33,8 +32,6 @@ class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(
@@ -67,7 +64,7 @@ class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
 
   Widget _warningText() {
     return Container(
-        margin: EdgeInsets.only(top: _screenHeight * 0.02, left: 10, right: 10),
+        margin: EdgeInsets.only(top: screenHeight * 0.02, left: 10, right: 10),
         child: Text(
           "Укажите конкретное время или желаемый интервал для начала занятия",
           textAlign: TextAlign.center,
@@ -77,8 +74,8 @@ class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
 
   Widget _continueButton() {
     return Container(
-      width: _screenWidth * 0.75,
-      height: _screenHeight * 0.08,
+      width: screenWidth * 0.75,
+      height: screenHeight * 0.08,
       margin: EdgeInsets.only(top: 18),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
@@ -134,8 +131,8 @@ class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
 
   Widget _selectCoachButton() {
     return Container(
-      width: _screenWidth * 0.75,
-      height: _screenHeight * 0.08,
+      width: screenWidth * 0.75,
+      height: screenHeight * 0.08,
       margin: EdgeInsets.only(top: 15),
       decoration: BoxDecoration(
           border: Border.all(color: _selectCoachButtonColor()),

@@ -5,6 +5,8 @@ import 'package:academ_gora/screens/account/instructor_profile/instructor_workou
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../../main.dart';
+
 class InstructorProfileScreen extends StatefulWidget {
   const InstructorProfileScreen({Key key}) : super(key: key);
 
@@ -14,8 +16,6 @@ class InstructorProfileScreen extends StatefulWidget {
 }
 
 class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
-  double _screenHeight;
-  double _screenWidth;
   Instructor _currentInstructor = Instructor();
   FirebaseController _firebaseController = FirebaseController();
 
@@ -27,11 +27,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         body: Container(
-      width: _screenWidth,
+      width: screenWidth,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/instructor_profile/bg.png"),
@@ -55,15 +53,15 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
 
   Widget _instructorPhoto() {
     return Container(
-        height: _screenHeight * 0.1,
-        width: _screenWidth * 0.2,
+        height: screenHeight * 0.1,
+        width: screenWidth * 0.2,
         child: Image.asset("assets/instructors_list/e_3.png"));
   }
 
   Widget _redactPhotoButton() {
     return Container(
-      width: _screenWidth * 0.6,
-      height: _screenHeight * 0.05,
+      width: screenWidth * 0.6,
+      height: screenHeight * 0.05,
       margin: EdgeInsets.only(top: 10),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
@@ -101,8 +99,8 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
   Widget _instructorInfo() {
     return Container(
         margin: EdgeInsets.only(top: 10),
-        height: _screenHeight * 0.2,
-        width: _screenWidth * 0.8,
+        height: screenHeight * 0.2,
+        width: screenWidth * 0.8,
         child: SingleChildScrollView(
             child: Flex(
           direction: Axis.vertical,
@@ -143,7 +141,7 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
       {String socialNetworkName}) {
     TextEditingController myController = TextEditingController(text: text);
     return Container(
-      height: _screenHeight * 0.19,
+      height: screenHeight * 0.19,
       child: Column(
         children: [
           TextField(
@@ -264,7 +262,7 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
             child: Image.asset(path),
           ),
           Container(
-            width: _screenWidth * 0.5,
+            width: screenWidth * 0.5,
             child: Text(
               text == null ? "" : text,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -290,8 +288,8 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
 
   Widget _backButton() {
     return Container(
-      width: _screenWidth * 0.6,
-      height: _screenHeight * 0.05,
+      width: screenWidth * 0.6,
+      height: screenHeight * 0.05,
       margin: EdgeInsets.only(top: 25),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),

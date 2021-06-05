@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 
+import '../../main.dart';
 import 'helpers_widgets/instructor_list/instructor_widget.dart';
 import 'registration_parameters_screen.dart';
 
@@ -22,12 +23,9 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
   RegToInstructorData regToInstructorData;
   WorkoutSingleton _workoutSingleton = WorkoutSingleton();
 
-  double _screenHeight;
-
   @override
   Widget build(BuildContext context) {
     _getAllInstructorsOfSelectedSport();
-    _screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
           decoration: BoxDecoration(
@@ -38,7 +36,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
           ),
           child: Column(children: [
             Container(
-              height: _screenHeight * 0.72,
+              height: screenHeight * 0.72,
               margin: EdgeInsets.only(top: 50, left: 15, right: 15),
               child: ListView.builder(
                 itemCount: instructors.length,

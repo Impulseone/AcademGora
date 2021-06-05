@@ -1,3 +1,4 @@
+import 'package:academ_gora/main.dart';
 import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
@@ -21,17 +22,12 @@ class WorkoutWidget extends StatefulWidget {
 }
 
 class _WorkoutWidgetState extends State<WorkoutWidget> {
-  double height;
-  double width;
-
   final dbRef = FirebaseDatabase.instance.reference();
 
   @override
   Widget build(BuildContext context) {
-    height = MediaQuery.of(context).size.height;
-    width = MediaQuery.of(context).size.width;
     return Container(
-      width: width * 0.9,
+      width: screenWidth * 0.9,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage("assets/account/e2.png"),
@@ -62,7 +58,7 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
                   style: TextStyle(color: Colors.white, fontSize: 22),
                 )),
             Container(
-                margin: EdgeInsets.only(left: width / 7),
+                margin: EdgeInsets.only(left: screenWidth / 7),
                 child: Text(widget.workout.from,
                     style: TextStyle(color: Colors.white, fontSize: 22)))
           ],
@@ -85,7 +81,7 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
                   style: TextStyle(fontSize: 18),
                 )),
             Container(
-              margin: EdgeInsets.only(left: width / 6),
+              margin: EdgeInsets.only(left: screenWidth / 6),
               child: Text(widget.workout.peopleCount.toString(),
                   style: TextStyle(fontSize: 18)),
             ),
@@ -99,7 +95,7 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
         child: Row(
           children: [
             _button("РЕДАКТИРОВАТЬ", 10, _openUpdateWorkoutScreen),
-            _button("ОТМЕНИТЬ", width / 8, _showCancelWorkoutDialog),
+            _button("ОТМЕНИТЬ", screenWidth / 8, _showCancelWorkoutDialog),
           ],
         ));
   }
@@ -213,7 +209,7 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
 
   Widget _instructorInfoWidget() {
     return Container(
-        width: width * 0.9,
+        width: screenWidth * 0.9,
         margin: EdgeInsets.only(left: 10, top: 5),
         child: Row(
           children: [
@@ -222,7 +218,7 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
               style: TextStyle(fontSize: 14),
             ),
             Container(
-                width: width * 0.4,
+                width: screenWidth * 0.4,
                 margin: EdgeInsets.only(left: 45),
                 child: Text(
                   widget.workout.instructorName,
@@ -243,7 +239,7 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
     return Container(
         alignment: Alignment.center,
         height: 30,
-        width: width * 0.45,
+        width: screenWidth * 0.45,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
           image: DecorationImage(
@@ -260,8 +256,8 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
     return Container(
         alignment: Alignment.center,
         height: 30,
-        width: width * 0.35,
-        margin: EdgeInsets.only(left: width * 0.05),
+        width: screenWidth * 0.35,
+        margin: EdgeInsets.only(left: screenWidth * 0.05),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
           image: DecorationImage(

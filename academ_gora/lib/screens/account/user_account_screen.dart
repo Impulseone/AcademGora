@@ -9,6 +9,8 @@ import 'package:firebase_auth_ui/firebase_auth_ui.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
+
 class UserAccountScreen extends StatefulWidget {
   @override
   UserAccountScreenState createState() => UserAccountScreenState();
@@ -17,15 +19,10 @@ class UserAccountScreen extends StatefulWidget {
 class UserAccountScreenState extends State<UserAccountScreen> {
   List<Workout> workouts = [];
 
-  double _screenHeight;
-  double _screenWidth;
-
   final dbRef = FirebaseDatabase.instance.reference();
 
   @override
   Widget build(BuildContext context) {
-    _screenWidth = MediaQuery.of(context).size.width;
-    _screenHeight = MediaQuery.of(context).size.height;
     _getAllWorkouts();
     return Scaffold(
         body: Container(
@@ -48,7 +45,7 @@ class UserAccountScreenState extends State<UserAccountScreen> {
 
   Widget _topAccountInfo() {
     return Container(
-        margin: EdgeInsets.only(top: _screenHeight * 0.07, right: 10),
+        margin: EdgeInsets.only(top: screenHeight * 0.07, right: 10),
         child: Column(
           children: [
             _accountTextWidget(),
@@ -110,9 +107,9 @@ class UserAccountScreenState extends State<UserAccountScreen> {
         onTap: _openMainScreen,
         child: Container(
           alignment: Alignment.center,
-          width: _screenWidth * 0.5,
-          height: _screenHeight * 0.07,
-          margin: EdgeInsets.only(top: _screenHeight * 0.01),
+          width: screenWidth * 0.5,
+          height: screenHeight * 0.07,
+          margin: EdgeInsets.only(top: screenHeight * 0.01),
           decoration: BoxDecoration(
               color: Colors.blue,
               borderRadius: BorderRadius.all(Radius.circular(26))),
@@ -120,7 +117,7 @@ class UserAccountScreenState extends State<UserAccountScreen> {
             "НА ГЛАВНУЮ",
             style: TextStyle(
                 color: Colors.white,
-                fontSize: _screenHeight * 0.03,
+                fontSize: screenHeight * 0.03,
                 fontWeight: FontWeight.bold),
           ),
         ));
@@ -150,7 +147,7 @@ class UserAccountScreenState extends State<UserAccountScreen> {
 
   Widget _workoutsList() {
     return Container(
-      height: _screenHeight * 0.6,
+      height: screenHeight * 0.6,
       child: ListView.builder(
           itemCount: workouts.length,
           itemBuilder: (BuildContext context, int index) {

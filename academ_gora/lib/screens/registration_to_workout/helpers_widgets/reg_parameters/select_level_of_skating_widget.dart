@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../main.dart';
 import '../../registration_parameters_screen.dart';
 
 class SelectLevelOfSkatingWidget extends StatefulWidget {
@@ -22,19 +23,15 @@ class _SelectLevelOfSkatingWidgetState
 
   _SelectLevelOfSkatingWidgetState(this._selectedLevelOfSkating);
 
-  double _screenHeight;
-  double _screenWidth;
-
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     return Column(
       children: [
         _title(),
         _levelButtons(),
         _levelButton(
-            2, _screenWidth * 0.9, "Умею с любой горы, улучшение техники",rightMargin:_screenWidth * 0.03 )
+            2, screenWidth * 0.9, "Умею с любой горы, улучшение техники",
+            rightMargin: screenWidth * 0.03)
       ],
     );
   }
@@ -42,7 +39,7 @@ class _SelectLevelOfSkatingWidgetState
   Widget _title() {
     return Container(
         alignment: Alignment.centerLeft,
-        margin: EdgeInsets.only(left: _screenWidth * 0.03),
+        margin: EdgeInsets.only(left: screenWidth * 0.03),
         child: Text(
           "Выбор уровня катания:",
           style: TextStyle(fontSize: 12, color: Colors.blue),
@@ -51,13 +48,12 @@ class _SelectLevelOfSkatingWidgetState
 
   Widget _levelButtons() {
     return Container(
-        margin: EdgeInsets.only(left: _screenWidth * 0.03, top: 10, bottom: 10),
+        margin: EdgeInsets.only(left: screenWidth * 0.03, top: 10, bottom: 10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            _levelButton(0, _screenWidth * 0.33, "C нуля"),
-            _levelButton(1, _screenWidth * 0.52, "Немного умею",
-                leftMargin: 20),
+            _levelButton(0, screenWidth * 0.33, "C нуля"),
+            _levelButton(1, screenWidth * 0.52, "Немного умею", leftMargin: 20),
           ],
         ));
   }
@@ -76,7 +72,7 @@ class _SelectLevelOfSkatingWidgetState
                     AssetImage(_createBackgroundOfLevelOfSkatingButton(which)),
                 fit: BoxFit.fill),
           ),
-          height: _screenHeight * 0.045,
+          height: screenHeight * 0.045,
           width: width,
           padding: EdgeInsets.only(right: 8),
           alignment: Alignment.center,

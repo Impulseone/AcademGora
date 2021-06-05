@@ -3,6 +3,8 @@ import 'package:academ_gora/screens/account/user_account_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
+
 class RegistrationFinalScreen extends StatefulWidget {
   @override
   _RegistrationFinalScreenState createState() =>
@@ -10,15 +12,11 @@ class RegistrationFinalScreen extends StatefulWidget {
 }
 
 class _RegistrationFinalScreenState extends State<RegistrationFinalScreen> {
-  double _screenHeight;
-  double _screenWidth;
 
   WorkoutSingleton workoutSingleton = WorkoutSingleton();
 
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         body: Container(
             width: MediaQuery.of(context).size.width,
@@ -29,7 +27,7 @@ class _RegistrationFinalScreenState extends State<RegistrationFinalScreen> {
               ),
             ),
             child: Container(
-              margin: EdgeInsets.only(top: _screenHeight * 0.1),
+              margin: EdgeInsets.only(top: screenHeight * 0.1),
               child: Column(
                 children: [
                   _textWidget("Запись оформлена\n"),
@@ -37,7 +35,7 @@ class _RegistrationFinalScreenState extends State<RegistrationFinalScreen> {
                       "Ждем вас на занятии\n${_parseDate(workoutSingleton.date)} в ${workoutSingleton.from}\nв СК \"Академический\"\n"),
                   _textWidget(
                       "Информация о занятии\nдоступна в личном\nкабинете"),
-                  _buttonWidget("В личный кабинет", _screenHeight * 0.3),
+                  _buttonWidget("В личный кабинет", screenHeight * 0.3),
                   _buttonWidget("На главную", 20),
                 ],
               ),
@@ -59,7 +57,7 @@ class _RegistrationFinalScreenState extends State<RegistrationFinalScreen> {
   Widget _buttonWidget(String text, double marginTop) {
     return Container(
       width: 280.0,
-      height: _screenHeight * 0.09,
+      height: screenHeight * 0.09,
       margin: EdgeInsets.only(top: marginTop),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),

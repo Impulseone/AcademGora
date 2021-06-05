@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../main.dart';
 import '../../registration_parameters_screen.dart';
 
 class SelectPeopleCountWidget extends StatefulWidget {
@@ -21,13 +22,8 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
 
   _SelectPeopleCountWidgetState(this._selectedCount);
 
-  double _screenHeight;
-  double _screenWidth;
-
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     return Row(
       children: [
         _peoplesCountWidget(),
@@ -38,7 +34,7 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
 
   Widget _peoplesCountWidget() {
     return Container(
-        margin: EdgeInsets.only(left: _screenWidth * 0.03),
+        margin: EdgeInsets.only(left: screenWidth * 0.03),
         child: Text(
           "Количество человек",
           style: TextStyle(fontSize: 12, color: Colors.blue),
@@ -71,8 +67,8 @@ class _SelectPeopleCountWidgetState extends State<SelectPeopleCountWidget> {
                 image: AssetImage(_createBackgroundOfCountButton(which)),
                 fit: BoxFit.fill),
           ),
-          height: _screenHeight * 0.045,
-          width: _screenHeight * 0.045,
+          height: screenHeight * 0.045,
+          width: screenHeight * 0.045,
           alignment: Alignment.center,
           child: Text(
             which.toString(),

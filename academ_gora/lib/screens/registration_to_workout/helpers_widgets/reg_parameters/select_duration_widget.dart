@@ -1,6 +1,7 @@
 import 'package:academ_gora/model/workout.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../main.dart';
 import '../../registration_parameters_screen.dart';
 
 class SelectDurationWidget extends StatefulWidget {
@@ -20,17 +21,12 @@ class SelectDurationWidget extends StatefulWidget {
 class _SelectDurationWidgetState extends State<SelectDurationWidget> {
   int _selectedDuration;
 
-  double _screenHeight;
-  double _screenWidth;
-
   WorkoutSingleton _workoutSingleton = WorkoutSingleton();
 
   _SelectDurationWidgetState(this._selectedDuration);
 
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     return Row(
       children: [
         _peoplesCountWidget(),
@@ -41,7 +37,7 @@ class _SelectDurationWidgetState extends State<SelectDurationWidget> {
 
   Widget _peoplesCountWidget() {
     return Container(
-        margin: EdgeInsets.only(left: _screenWidth * 0.03),
+        margin: EdgeInsets.only(left: screenWidth * 0.03),
         child: Text(
           "Длительность\nзанятия",
           style: TextStyle(fontSize: 12, color: Colors.blue),
@@ -72,8 +68,8 @@ class _SelectDurationWidgetState extends State<SelectDurationWidget> {
                 image: AssetImage(_createBackgroundOfCountButton(which)),
                 fit: BoxFit.fill),
           ),
-          height: _screenHeight * 0.045,
-          width: _screenWidth * 0.29,
+          height: screenHeight * 0.045,
+          width: screenWidth * 0.29,
           padding: EdgeInsets.only(right: 12),
           alignment: Alignment.centerRight,
           child: Text(

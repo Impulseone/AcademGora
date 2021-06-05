@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
 import '../main_screen.dart';
 import 'about_us_info.dart';
 
@@ -14,8 +15,6 @@ class RegimeScreen extends StatefulWidget {
 }
 
 class _RegimeScreenState extends State<RegimeScreen> {
-  double screenWidth;
-  double screenHeight;
 
   int _current = 0;
 

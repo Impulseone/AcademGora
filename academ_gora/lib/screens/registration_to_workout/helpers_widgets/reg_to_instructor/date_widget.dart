@@ -4,6 +4,7 @@ import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
+import '../../../../main.dart';
 import '../../registration_first_screen.dart';
 
 class DateWidget extends StatefulWidget {
@@ -21,13 +22,8 @@ class _DateWidgetState extends State<DateWidget> {
 
   _DateWidgetState(this._selectedDate);
 
-  double _screenHeight;
-  double _screenWidth;
-
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [_dateNameWidget(), _dateFieldWidget()],
@@ -52,9 +48,9 @@ class _DateWidgetState extends State<DateWidget> {
 
   Widget _dateFieldWidget() {
     return Container(
-      width: _screenWidth * 0.5,
+      width: screenWidth * 0.5,
       height: 30,
-      margin: EdgeInsets.only(left: _screenWidth * 0.18),
+      margin: EdgeInsets.only(left: screenWidth * 0.18),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(5.0),
@@ -69,7 +65,7 @@ class _DateWidgetState extends State<DateWidget> {
     return GestureDetector(
       child: Center(
           child: Container(
-              width: _screenWidth * 0.4,
+              width: screenWidth * 0.4,
               alignment: Alignment.center,
               color: Colors.white,
               height: 30,
@@ -117,7 +113,7 @@ class _DateWidgetState extends State<DateWidget> {
                     ],
                     content: CalendarCarousel<Event>(
                       headerTextStyle: TextStyle(
-                          fontSize: _screenHeight * 0.028,
+                          fontSize: screenHeight * 0.028,
                           color: Colors.blueAccent),
                       locale: "ru",
                       width: 300,

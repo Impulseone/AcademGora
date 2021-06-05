@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
 import 'helpers_widgets/horizontal_divider.dart';
 import 'helpers_widgets/reg_parameters/human_info_widget.dart';
 import 'helpers_widgets/reg_parameters/info_text.dart';
@@ -30,16 +31,12 @@ class RegistrationParametersScreenState
   int peopleCount = 0;
   int duration;
   int levelOfSkating;
-  double _screenHeight;
-  double _screenWidth;
 
   TextEditingController _commentController = TextEditingController();
   TimesController _timesController = TimesController();
 
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
           height: MediaQuery.of(context).size.height,
@@ -50,7 +47,7 @@ class RegistrationParametersScreenState
             ),
           ),
           child: Container(
-              width: _screenWidth,
+              width: screenWidth,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -59,20 +56,20 @@ class RegistrationParametersScreenState
                         margin: EdgeInsets.only(top: 12, left: 5),
                         child: SelectPeopleCountWidget(peopleCount, this)),
                     horizontalDivider(
-                        10, 10, _screenHeight * 0.015, _screenHeight * 0.015),
+                        10, 10, screenHeight * 0.015, screenHeight * 0.015),
                     Container(
                         margin: EdgeInsets.only(left: 5),
                         child: SelectDurationWidget(duration, this)),
                     horizontalDivider(
-                        10, 10, _screenHeight * 0.015, _screenHeight * 0.015),
+                        10, 10, screenHeight * 0.015, screenHeight * 0.015),
                     Container(
                         margin: EdgeInsets.only(left: 5),
                         child:
                             SelectLevelOfSkatingWidget(levelOfSkating, this)),
                     horizontalDivider(
-                        10, 10, _screenHeight * 0.015, _screenHeight * 0.015),
+                        10, 10, screenHeight * 0.015, screenHeight * 0.015),
                     Container(
-                        height: _screenHeight * 0.19,
+                        height: screenHeight * 0.19,
                         child: ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             padding: const EdgeInsets.all(3),
@@ -94,9 +91,9 @@ class RegistrationParametersScreenState
 
   Widget _infoWidget() {
     return Container(
-        margin: EdgeInsets.only(top: _screenHeight * 0.05),
-        width: _screenWidth * 0.9,
-        height: _screenHeight * 0.25,
+        margin: EdgeInsets.only(top: screenHeight * 0.05),
+        width: screenWidth * 0.9,
+        height: screenHeight * 0.25,
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -114,26 +111,26 @@ class RegistrationParametersScreenState
                 Container(
                     height: 30,
                     width: 30,
-                    margin: EdgeInsets.only(right: _screenWidth * 0.16),
+                    margin: EdgeInsets.only(right: screenWidth * 0.16),
                     child:
                         Image.asset("assets/registration_parameters/e_2.png")),
                 Container(
                     child: Text(
                   InfoText.getLevelText(),
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: _screenHeight * 0.018),
+                  style: TextStyle(fontSize: screenHeight * 0.018),
                 ))
               ],
             ),
             Text(
               InfoText.getText(),
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: _screenHeight * 0.018),
+              style: TextStyle(fontSize: screenHeight * 0.018),
             ),
             Text(
               InfoText.getAge(),
               textAlign: TextAlign.left,
-              style: TextStyle(fontSize: _screenHeight * 0.018),
+              style: TextStyle(fontSize: screenHeight * 0.018),
             ),
           ],
         ));
@@ -149,8 +146,8 @@ class RegistrationParametersScreenState
               width: 20,
               child: Image.asset("assets/registration_parameters/e12.png")),
           Container(
-            width: _screenWidth * 0.85,
-            height: _screenHeight * 0.05,
+            width: screenWidth * 0.85,
+            height: screenHeight * 0.05,
             margin: EdgeInsets.only(left: 5),
             child: TextField(
               controller: _commentController,
@@ -186,7 +183,7 @@ class RegistrationParametersScreenState
             ),
             Container(
               width: 170,
-              height: _screenHeight * 0.06,
+              height: screenHeight * 0.06,
               child: Material(
                 borderRadius: BorderRadius.all(Radius.circular(35)),
                 color: _continueButtonBackgroundColor(),

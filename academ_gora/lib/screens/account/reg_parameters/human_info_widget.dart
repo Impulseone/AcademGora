@@ -3,6 +3,8 @@ import 'package:academ_gora/screens/registration_to_workout/registration_paramet
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../main.dart';
+
 class HumanInfoWidget extends StatefulWidget {
   final int which;
   final List<Pair> textEditingControllers;
@@ -18,20 +20,16 @@ class HumanInfoWidget extends StatefulWidget {
 }
 
 class _HumanInfoWidgetState extends State<HumanInfoWidget> {
-  double _screenHeight;
-  double _screenWidth;
 
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     return Row(
       children: [
         _numberOfPersonWidget(),
         _titleWidget("Имя"),
-        _textFieldWidget(_screenWidth * 0.35, 50, TextInputType.name),
+        _textFieldWidget(screenWidth * 0.35, 50, TextInputType.name),
         _titleWidget("Возраст"),
-        _textFieldWidget(_screenWidth * 0.14, 3, TextInputType.number)
+        _textFieldWidget(screenWidth * 0.14, 3, TextInputType.number)
       ],
     );
   }
@@ -41,7 +39,7 @@ class _HumanInfoWidgetState extends State<HumanInfoWidget> {
       widget.which.toString(),
       style: TextStyle(
           color: Colors.grey,
-          fontSize: _screenHeight * 0.025,
+          fontSize: screenHeight * 0.025,
           fontWeight: FontWeight.bold),
     );
   }
@@ -59,7 +57,7 @@ class _HumanInfoWidgetState extends State<HumanInfoWidget> {
       double width, int maxLength, TextInputType textInputType) {
     return Container(
       margin: EdgeInsets.only(bottom: 3, left: 10),
-      height: _screenHeight * 0.04,
+      height: screenHeight * 0.04,
       width: width,
       child: TextField(
         onSubmitted: (s) =>
@@ -71,7 +69,7 @@ class _HumanInfoWidgetState extends State<HumanInfoWidget> {
         controller: maxLength == 3
             ? widget.textEditingControllers[widget.which - 1].right
             : widget.textEditingControllers[widget.which - 1].left,
-        style: TextStyle(fontSize: _screenHeight * 0.025),
+        style: TextStyle(fontSize: screenHeight * 0.025),
         decoration: new InputDecoration(
           border: InputBorder.none,
           focusedBorder: InputBorder.none,

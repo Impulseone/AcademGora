@@ -11,6 +11,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
+
 class UpdateWorkoutScreen extends StatefulWidget {
   final Workout workout;
 
@@ -27,15 +29,14 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
   List<Visitor> visitors = [];
   int peopleCount = 0;
   int levelOfSkating;
-  double _screenHeight;
-  double _screenWidth;
   TextEditingController _commentEditingController;
 
   @override
   void initState() {
     super.initState();
     peopleCount = widget.workout.peopleCount;
-   _commentEditingController = TextEditingController(text: widget.workout.comment);
+    _commentEditingController =
+        TextEditingController(text: widget.workout.comment);
     for (var i = 0; i < peopleCount; ++i) {
       TextEditingController nameController =
           TextEditingController(text: widget.workout.visitors[i].name);
@@ -48,8 +49,6 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
           height: MediaQuery.of(context).size.height,
@@ -60,7 +59,7 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
             ),
           ),
           child: Container(
-              width: _screenWidth,
+              width: screenWidth,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -69,15 +68,15 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
                         margin: EdgeInsets.only(top: 12, left: 5),
                         child: SelectPeopleCountWidget(peopleCount, this)),
                     horizontalDivider(
-                        10, 10, _screenHeight * 0.015, _screenHeight * 0.015),
+                        10, 10, screenHeight * 0.015, screenHeight * 0.015),
                     Container(
                         margin: EdgeInsets.only(left: 5),
                         child:
                             SelectLevelOfSkatingWidget(levelOfSkating, this)),
                     horizontalDivider(
-                        10, 10, _screenHeight * 0.015, _screenHeight * 0.015),
+                        10, 10, screenHeight * 0.015, screenHeight * 0.015),
                     Container(
-                        height: _screenHeight * 0.19,
+                        height: screenHeight * 0.19,
                         child: ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             padding: const EdgeInsets.all(3),
@@ -99,9 +98,9 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
 
   Widget _infoWidget() {
     return Container(
-        margin: EdgeInsets.only(top: _screenHeight * 0.05),
-        width: _screenWidth * 0.9,
-        height: _screenHeight * 0.25,
+        margin: EdgeInsets.only(top: screenHeight * 0.05),
+        width: screenWidth * 0.9,
+        height: screenHeight * 0.25,
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -119,26 +118,26 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
                 Container(
                     height: 30,
                     width: 30,
-                    margin: EdgeInsets.only(right: _screenWidth * 0.16),
+                    margin: EdgeInsets.only(right: screenWidth * 0.16),
                     child:
                         Image.asset("assets/registration_parameters/e_2.png")),
                 Container(
                     child: Text(
                   InfoText.getLevelText(),
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: _screenHeight * 0.018),
+                  style: TextStyle(fontSize: screenHeight * 0.018),
                 ))
               ],
             ),
             Text(
               InfoText.getText(),
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: _screenHeight * 0.018),
+              style: TextStyle(fontSize: screenHeight * 0.018),
             ),
             Text(
               InfoText.getAge(),
               textAlign: TextAlign.left,
-              style: TextStyle(fontSize: _screenHeight * 0.018),
+              style: TextStyle(fontSize: screenHeight * 0.018),
             ),
           ],
         ));
@@ -154,8 +153,8 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
               width: 20,
               child: Image.asset("assets/registration_parameters/e12.png")),
           Container(
-            width: _screenWidth * 0.85,
-            height: _screenHeight * 0.06,
+            width: screenWidth * 0.85,
+            height: screenHeight * 0.06,
             margin: EdgeInsets.only(left: 5),
             child: TextField(
               controller: _commentEditingController,
@@ -191,7 +190,7 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
             ),
             Container(
               width: 170,
-              height: _screenHeight * 0.06,
+              height: screenHeight * 0.06,
               child: Material(
                 borderRadius: BorderRadius.all(Radius.circular(35)),
                 color: _continueButtonBackgroundColor(),

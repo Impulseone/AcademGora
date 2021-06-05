@@ -4,6 +4,7 @@ import 'package:academ_gora/screens/instructor_profile/instructor_profile_screen
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../main.dart';
 import '../../instructors_list_screen.dart';
 import 'datetime_picker_widget.dart';
 
@@ -20,15 +21,11 @@ class InstructorWidget extends StatefulWidget {
 class InstructorWidgetState extends State<InstructorWidget> {
   RegToInstructorData regToInstructorData;
   Instructor instructor;
-  double _screenWidth;
-  double _screenHeight;
 
   InstructorWidgetState(this.instructor);
 
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     regToInstructorData = widget.instructorsListScreenState.regToInstructorData;
     return ExpandablePanel(
       header: _header(),
@@ -46,16 +43,14 @@ class InstructorWidgetState extends State<InstructorWidget> {
             GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (c) => InstructorProfileScreen(instructor.name,
-                          screenWidth: MediaQuery.of(context).size.width,
-                          screenHeight: MediaQuery.of(context).size.height)));
+                      builder: (c) => InstructorProfileScreen(instructor.name)));
                 },
                 child: Container(
-                    height: _screenHeight * 0.08,
-                    width: _screenHeight * 0.08,
+                    height: screenHeight * 0.08,
+                    width: screenHeight * 0.08,
                     child: Image.asset("assets/instructors_list/e_3.png"))),
             Container(
-                width: _screenWidth * 0.58,
+                width: screenWidth * 0.58,
                 margin: EdgeInsets.only(left: 12),
                 child: Text(
                   instructor.name,
@@ -97,8 +92,7 @@ class InstructorWidgetState extends State<InstructorWidget> {
 
   void _openProfile() {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (c) => InstructorProfileScreen(instructor.name,
-            screenWidth: _screenWidth, screenHeight: _screenHeight)));
+        builder: (c) => InstructorProfileScreen(instructor.name)));
   }
 
   @override

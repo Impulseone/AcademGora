@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../main.dart';
 import 'account/instructor_profile/instructor_workouts_screen.dart';
 import 'registration_to_workout/registration_first_screen.dart';
 
@@ -59,13 +60,9 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final List<Widget> buttons = [];
   int _current = 0;
-  double _screenHeight;
-  double _screenWidth;
 
   @override
   Widget build(BuildContext context) {
-    _screenHeight = MediaQuery.of(context).size.height;
-    _screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
           decoration: BoxDecoration(
@@ -90,7 +87,7 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _titleAndAccButton() {
     return Container(
-        margin: EdgeInsets.only(top: _screenHeight * 0.06),
+        margin: EdgeInsets.only(top: screenHeight * 0.06),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -128,17 +125,17 @@ class _MainScreenState extends State<MainScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-            width: _screenWidth * 0.1,
-            height: _screenWidth * 0.1,
+            width: screenWidth * 0.1,
+            height: screenWidth * 0.1,
             child: Image.asset("assets/main/2_phone.png")),
         Container(
-            width: _screenWidth * 0.1,
-            height: _screenWidth * 0.1,
+            width: screenWidth * 0.1,
+            height: screenWidth * 0.1,
             margin: EdgeInsets.only(left: 18),
             child: Image.asset("assets/main/3_insta.png")),
         Container(
-            width: _screenWidth * 0.1,
-            height: _screenWidth * 0.1,
+            width: screenWidth * 0.1,
+            height: screenWidth * 0.1,
             margin: EdgeInsets.only(left: 18),
             child: Image.asset("assets/main/4_vk.png")),
       ],
@@ -147,7 +144,7 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _slider() {
     return Container(
-        margin: EdgeInsets.only(top: _screenHeight * 0.03),
+        margin: EdgeInsets.only(top: screenHeight * 0.03),
         child: Column(children: [
           CarouselSlider(
             items: imageSliders,
@@ -205,8 +202,8 @@ class _MainScreenState extends State<MainScreen> {
                 alignment: Alignment.center,
                 child: Image.asset(
                   assetPath,
-                  height: _screenHeight * 0.23,
-                  width: _screenWidth * 0.3,
+                  height: screenHeight * 0.23,
+                  width: screenWidth * 0.3,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -270,9 +267,9 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _registrationToInstructorButton() {
     return Container(
-      width: _screenWidth * 0.9,
-      height: _screenHeight * 0.1,
-      margin: EdgeInsets.only(top: _screenHeight * 0.05),
+      width: screenWidth * 0.9,
+      height: screenHeight * 0.1,
+      margin: EdgeInsets.only(top: screenHeight * 0.05),
       child: Material(
         borderRadius: BorderRadius.all(Radius.circular(35)),
         color: Colors.lightBlue,

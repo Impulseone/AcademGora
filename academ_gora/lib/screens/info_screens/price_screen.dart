@@ -1,6 +1,7 @@
 import 'package:academ_gora/screens/info_screens/price_info.dart';
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
 import '../main_screen.dart';
 
 class PriceScreen extends StatefulWidget {
@@ -9,13 +10,9 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
-  double screenWidth;
-  double screenHeight;
 
   @override
   Widget build(BuildContext context) {
-    screenWidth = MediaQuery.of(context).size.width;
-    screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         body: Container(
             height: screenHeight,

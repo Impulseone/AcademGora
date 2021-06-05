@@ -3,6 +3,7 @@ import 'package:academ_gora/screens/info_screens/about_us_info.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
+import '../../main.dart';
 import '../main_screen.dart';
 
 final List<String> imgList = [
@@ -19,15 +20,11 @@ class AboutUsScreen extends StatefulWidget {
 }
 
 class _AboutUsScreenState extends State<AboutUsScreen> {
-  double screenWidth;
-  double screenHeight;
 
   int _current = 0;
 
   @override
   Widget build(BuildContext context) {
-    screenWidth = MediaQuery.of(context).size.width;
-    screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
         body: Container(
       height: screenHeight,
