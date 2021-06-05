@@ -274,15 +274,31 @@ class RegistrationParametersScreenState
         .reference()
         .child(
             "Инструкторы/${workoutSingleton.instructorId}/График работы/${workoutSingleton.date}")
-        .update({
-      "${workoutSingleton.from}": "недоступно",
-    });
+        .update(_closeTimesMap());
+  }
+
+  Map<String,dynamic>_closeTimesMap(){
+    Map<String,dynamic> map = {};
+    int duration = workoutSingleton.workoutDuration;
+    if (duration==1){
+      map.putIfAbsent("${workoutSingleton.from}", () => "недоступно");
+      map.putIfAbsent("${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from]-1)}", () => "недоступно");
+      map.putIfAbsent("${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from]+1)}", () => "недоступно");
+    }
+    if (duration==2){
+      map.putIfAbsent("${workoutSingleton.from}", () => "недоступно");
+      map.putIfAbsent("${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from]-1)}", () => "недоступно");
+      map.putIfAbsent("${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from]+1)}", () => "недоступно");
+      map.putIfAbsent("${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from]+2)}", () => "недоступно");
+      map.putIfAbsent("${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from]+3)}", () => "недоступно");
+    }
+     return map;
   }
 
   String _getWorkoutTime() {
     String from = workoutSingleton.from;
     int duration = workoutSingleton.workoutDuration;
-    String to = _timesController.getTimeByValue(_timesController.times[from]+duration);
+    String to = _timesController.getTimeByValue(_timesController.times[from]+duration*2);
     return "$from-$to";
   }
 
