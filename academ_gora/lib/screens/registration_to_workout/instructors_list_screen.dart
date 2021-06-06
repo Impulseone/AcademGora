@@ -1,3 +1,4 @@
+import 'package:academ_gora/controller/firebase_requests_controller.dart';
 import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/reg_to_instructor_data.dart';
 import 'package:academ_gora/model/workout.dart';
@@ -19,8 +20,7 @@ class InstructorsListScreen extends StatefulWidget {
 
 class InstructorsListScreenState extends State<InstructorsListScreen> {
   List<Instructor> instructors = [];
-  final dbRef = FirebaseDatabase.instance.reference();
-
+FirebaseRequestsController _firebaseRequestsController = FirebaseRequestsController();
   RegToInstructorData regToInstructorData;
   WorkoutSingleton _workoutSingleton = WorkoutSingleton();
 
@@ -135,12 +135,11 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
   }
 
   void _getAllInstructorsOfSelectedSport() async {
-    dbRef.child("Инструкторы").once().then((value) {
-      if (value.value != null) {
+    _firebaseRequestsController.get("Инструкторы").then((value) {
+      if (value != null) {
         Map<dynamic, dynamic> instructorDataMap =
-            value.value as Map<dynamic, dynamic>;
+            value;
         List<Instructor> instructorsFromDb = [];
-
         instructorDataMap.forEach((key, value) {
           if (value["Вид спорта"] == _workoutSingleton.sportType) {
             Instructor instructor = Instructor.fromJson(value);

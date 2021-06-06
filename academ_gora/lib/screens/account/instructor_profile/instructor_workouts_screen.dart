@@ -1,4 +1,4 @@
-import 'package:academ_gora/controller/firebase_controller.dart';
+import 'package:academ_gora/controller/firebase_requests_controller.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/account/instructor_profile/instructor_profile_screen.dart';
@@ -55,7 +55,7 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
 
   List<Workout> _workouts = [];
 
-  FirebaseController _firebaseController = FirebaseController();
+  FirebaseRequestsController _firebaseController = FirebaseRequestsController();
 
   @override
   void initState() {

@@ -1,3 +1,4 @@
+import 'package:academ_gora/controller/firebase_requests_controller.dart';
 import 'package:academ_gora/main.dart';
 import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/user_role.dart';
@@ -6,7 +7,6 @@ import 'package:academ_gora/screens/account/helpers_widgets/workout_info.dart';
 import 'package:academ_gora/screens/account/update_workout_screen.dart';
 import 'package:academ_gora/screens/account/user_account_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class WorkoutWidget extends StatefulWidget {
@@ -22,7 +22,8 @@ class WorkoutWidget extends StatefulWidget {
 }
 
 class _WorkoutWidgetState extends State<WorkoutWidget> {
-  final dbRef = FirebaseDatabase.instance.reference();
+  FirebaseRequestsController _firebaseRequestsController =
+      FirebaseRequestsController();
 
   @override
   Widget build(BuildContext context) {
@@ -167,10 +168,9 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
     await UserRole.getUserRole().then((userRole) {
       if (userRole == UserRole.user) {
         String userId = FirebaseAuth.instance.currentUser.uid;
-        dbRef
-            .child("$userRole/$userId/Занятия/${widget.workout.id}")
-            .remove()
-            .then((value) {
+        _firebaseRequestsController
+            .delete("$userRole/$userId/Занятия/${widget.workout.id}")
+            .then((_) {
           widget.userAccountScreenState.setState(() {});
         });
       }
@@ -178,15 +178,12 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
   }
 
   void _deleteWorkoutFromInstructor() async {
-    await dbRef.child("Инструкторы").once().then((instructorData) {
-      Map<dynamic, dynamic> instructorDataMap =
-          instructorData.value as Map<dynamic, dynamic>;
+    await _firebaseRequestsController.get("Инструкторы").then((instructorData) {
+      Map<dynamic, dynamic> instructorDataMap = instructorData;
       instructorDataMap.forEach((instructorId, value) {
         Instructor instructor = Instructor.fromJson(value);
         if (instructor.phone == widget.workout.instructorPhoneNumber) {
-          String path =
-              "Инструкторы/$instructorId/Занятия/Занятие ${widget.workout.id}";
-          dbRef.child(path).remove();
+          _firebaseRequestsController.delete("Инструкторы/$instructorId/Занятия/Занятие ${widget.workout.id}");
         }
       });
     });

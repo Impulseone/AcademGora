@@ -1,6 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 
-class FirebaseController {
+class FirebaseRequestsController {
   void send(String path, var map) {
     FirebaseDatabase.instance.reference().child(path).set(map);
   }
@@ -15,7 +15,7 @@ class FirebaseController {
     return dataSnapshot.value as Map<dynamic, dynamic>;
   }
 
-  void delete(String path) {
+  Future<void> delete(String path) {
     FirebaseDatabase.instance
         .reference()
         .child(path)

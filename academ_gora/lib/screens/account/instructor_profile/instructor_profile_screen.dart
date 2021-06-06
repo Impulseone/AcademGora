@@ -1,4 +1,4 @@
-import 'package:academ_gora/controller/firebase_controller.dart';
+import 'package:academ_gora/controller/firebase_requests_controller.dart';
 import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/screens/account/instructor_profile/instructor_workouts_screen.dart';
@@ -18,7 +18,7 @@ class InstructorProfileScreen extends StatefulWidget {
 
 class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
   Instructor _currentInstructor = Instructor();
-  FirebaseController _firebaseController = FirebaseController();
+  FirebaseRequestsController _firebaseController = FirebaseRequestsController();
 
   @override
   void initState() {
@@ -311,7 +311,7 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
   }
 
   void _getInstructorInfo() async {
-    FirebaseController firebaseController = FirebaseController();
+    FirebaseRequestsController firebaseController = FirebaseRequestsController();
     await UserRole.getUserRole().then((userRole) async {
       Instructor instructor = Instructor();
       if (userRole == UserRole.instructor) {

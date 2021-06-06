@@ -1,4 +1,4 @@
-import 'package:academ_gora/controller/firebase_controller.dart';
+import 'package:academ_gora/controller/firebase_requests_controller.dart';
 import 'package:academ_gora/main.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/screens/registration_to_workout/helpers_widgets/horizontal_divider.dart';
@@ -42,7 +42,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
 
   TimeStatus _selectedTimeStatus;
 
-  FirebaseController _firebaseController = FirebaseController();
+  FirebaseRequestsController _firebaseController = FirebaseRequestsController();
 
   @override
   void initState() {

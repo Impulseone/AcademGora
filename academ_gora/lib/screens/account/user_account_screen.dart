@@ -1,3 +1,4 @@
+import 'package:academ_gora/controller/firebase_requests_controller.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/account/helpers_widgets/workout_widget.dart';
@@ -19,8 +20,7 @@ class UserAccountScreen extends StatefulWidget {
 
 class UserAccountScreenState extends State<UserAccountScreen> {
   List<Workout> workouts = [];
-
-  final dbRef = FirebaseDatabase.instance.reference();
+  FirebaseRequestsController _firebaseController = FirebaseRequestsController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class UserAccountScreenState extends State<UserAccountScreen> {
       child: Column(
         children: [
           _topAccountInfo(),
-          _lessonsTitle(),
+          _workoutsTitle(),
           _workoutsList(),
           _backToMainScreenButton()
         ],
@@ -46,7 +46,7 @@ class UserAccountScreenState extends State<UserAccountScreen> {
           children: [
             _accountTextWidget(),
             _phoneTextWidget(),
-            _exitAndMainButtons()
+            _logoutButton()
           ],
         ));
   }
@@ -71,10 +71,6 @@ class UserAccountScreenState extends State<UserAccountScreen> {
           FirebaseAuth.instance.currentUser.phoneNumber,
           style: TextStyle(color: Colors.white, fontSize: 18),
         ));
-  }
-
-  Widget _exitAndMainButtons() {
-    return _logoutButton();
   }
 
   Widget _logoutButton() {
@@ -131,7 +127,7 @@ class UserAccountScreenState extends State<UserAccountScreen> {
         MaterialPageRoute(builder: (c) => MainScreen()), (route) => false);
   }
 
-  Widget _lessonsTitle() {
+  Widget _workoutsTitle() {
     return Container(
         margin: EdgeInsets.only(top: 20, left: 20, bottom: 10),
         alignment: Alignment.centerLeft,
@@ -168,18 +164,16 @@ class UserAccountScreenState extends State<UserAccountScreen> {
 
   void _getAllWorkouts() async {
     await UserRole.getUserRole().then((value) => {
-          dbRef
-              .child("$value/${FirebaseAuth.instance.currentUser.uid}/Занятия")
-              .once()
+          _firebaseController
+              .get("$value/${FirebaseAuth.instance.currentUser.uid}/Занятия")
               .then((value) {
-            if (value.value == null && workouts.length != 0) {
+            if (value == null && workouts.length != 0) {
               setState(() {
                 workouts = [];
               });
             }
-            if (value.value != null) {
-              Map<dynamic, dynamic> workoutDataMap =
-                  value.value as Map<dynamic, dynamic>;
+            if (value != null) {
+              Map<dynamic, dynamic> workoutDataMap = value;
               List<Workout> workoutsFromDb = [];
               for (Map<dynamic, dynamic> workoutData in workoutDataMap.values) {
                 workoutsFromDb.add(Workout.fromJson(workoutData));

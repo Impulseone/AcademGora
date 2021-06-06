@@ -23,8 +23,6 @@ class RegistrationParametersScreen extends StatefulWidget {
 
 class RegistrationParametersScreenState
     extends State<RegistrationParametersScreen> {
-  final dbRef = FirebaseDatabase.instance.reference();
-
   WorkoutSingleton workoutSingleton = WorkoutSingleton();
 
   List<Pair> textEditingControllers = [];
@@ -41,7 +39,8 @@ class RegistrationParametersScreenState
     return Scaffold(
       body: Container(
           height: MediaQuery.of(context).size.height,
-          decoration: screenDecoration("assets/registration_parameters/0_bg.png"),
+          decoration:
+              screenDecoration("assets/registration_parameters/0_bg.png"),
           child: Container(
               width: screenWidth,
               child: SingleChildScrollView(
@@ -210,7 +209,7 @@ class RegistrationParametersScreenState
         ));
   }
 
-  void _sendData(){
+  void _sendData() {
     workoutSingleton.peopleCount = peopleCount;
     workoutSingleton.levelOfSkating = levelOfSkating;
     _sendWorkoutDataToUser().then((_) {
@@ -270,28 +269,41 @@ class RegistrationParametersScreenState
         .update(_closeTimesMap());
   }
 
-  Map<String,dynamic>_closeTimesMap(){
-    Map<String,dynamic> map = {};
+  Map<String, dynamic> _closeTimesMap() {
+    Map<String, dynamic> map = {};
     int duration = workoutSingleton.workoutDuration;
-    if (duration==1){
+    if (duration == 1) {
       map.putIfAbsent("${workoutSingleton.from}", () => "недоступно");
-      map.putIfAbsent("${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from]-1)}", () => "недоступно");
-      map.putIfAbsent("${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from]+1)}", () => "недоступно");
+      map.putIfAbsent(
+          "${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from] - 1)}",
+          () => "недоступно");
+      map.putIfAbsent(
+          "${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from] + 1)}",
+          () => "недоступно");
     }
-    if (duration==2){
+    if (duration == 2) {
       map.putIfAbsent("${workoutSingleton.from}", () => "недоступно");
-      map.putIfAbsent("${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from]-1)}", () => "недоступно");
-      map.putIfAbsent("${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from]+1)}", () => "недоступно");
-      map.putIfAbsent("${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from]+2)}", () => "недоступно");
-      map.putIfAbsent("${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from]+3)}", () => "недоступно");
+      map.putIfAbsent(
+          "${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from] - 1)}",
+          () => "недоступно");
+      map.putIfAbsent(
+          "${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from] + 1)}",
+          () => "недоступно");
+      map.putIfAbsent(
+          "${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from] + 2)}",
+          () => "недоступно");
+      map.putIfAbsent(
+          "${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from] + 3)}",
+          () => "недоступно");
     }
-     return map;
+    return map;
   }
 
   String _getWorkoutTime() {
     String from = workoutSingleton.from;
     int duration = workoutSingleton.workoutDuration;
-    String to = _timesController.getTimeByValue(_timesController.times[from]+duration*2);
+    String to = _timesController
+        .getTimeByValue(_timesController.times[from] + duration * 2);
     return "$from-$to";
   }
 

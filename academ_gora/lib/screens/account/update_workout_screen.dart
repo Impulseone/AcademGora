@@ -24,7 +24,6 @@ class UpdateWorkoutScreen extends StatefulWidget {
 }
 
 class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
-  final dbRef = FirebaseDatabase.instance.reference();
 
   List<Pair> textEditingControllers = [];
   List<Visitor> visitors = [];
