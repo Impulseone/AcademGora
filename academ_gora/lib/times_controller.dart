@@ -59,5 +59,29 @@ class TimesController {
     return timesStatus;
   }
 
+  bool checkTimesStatusForOneHour(Map<dynamic,dynamic> schedule, String from, String status) {
+    int fromPriority = _times[from];
+    if(
+    schedule[getTimeByValue(fromPriority)]=='открыто'&&
+    schedule[getTimeByValue(fromPriority+1)]=='открыто'
+    ){
+      return true;
+    }
+    else return false;
+  }
+
+  bool checkTimesStatusForTwoHours(Map<dynamic,dynamic> schedule, String from, String status) {
+    int fromPriority = _times[from];
+    if(
+    schedule[getTimeByValue(fromPriority)]=='открыто'&&
+    schedule[getTimeByValue(fromPriority+1)]=='открыто'&&
+    schedule[getTimeByValue(fromPriority+2)]=='открыто'&&
+    schedule[getTimeByValue(fromPriority+3)]=='открыто'
+    ){
+      return true;
+    }
+    else return false;
+  }
+
   get times => _times;
 }
