@@ -296,6 +296,7 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
         Map<dynamic, dynamic> workoutsMap =
             await _firebaseController.get("$userRole/$userId/Занятия");
         List<Workout> workoutsList = [];
+        if(workoutsMap!=null&& workoutsMap.length>0)
         workoutsMap.keys.forEach((element) {
           Workout workout = Workout.fromJson(workoutsMap[element]);
           workoutsList.add(workout);
@@ -309,7 +310,7 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
 
   List<Workout> _sortWorkoutsBySelectedDate(List<Workout> list) {
     List<Workout> sortedWorkouts = [];
-    list.forEach((workout) {
+    if(list.length>0)list.forEach((workout) {
       String workoutDateString = workout.date;
       String now = DateFormat('ddMMyyyy').format(_selectedDate);
       if (now == workoutDateString) sortedWorkouts.add(workout);

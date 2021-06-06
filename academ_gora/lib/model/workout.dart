@@ -22,7 +22,8 @@ class Workout {
     Workout workout = Workout();
     workout.id = workoutData["id"];
     workout.date = workoutData["Дата"];
-    workout.from = workoutData["Время"];
+    workout.from = (workoutData["Время"] as String).split('-')[0];
+    workout.to = (workoutData["Время"] as String).split('-')[1];
     workout.instructorName = workoutData["Инструктор"];
     workout.instructorPhoneNumber = workoutData["Телефон инструктора"];
     workout.userPhoneNumber = workoutData["Телефон"];

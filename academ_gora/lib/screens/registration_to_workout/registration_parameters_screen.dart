@@ -1,6 +1,6 @@
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
-import 'package:academ_gora/times_map.dart';
+import 'package:academ_gora/times_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -241,6 +241,7 @@ class RegistrationParametersScreenState
             "Количество человек": workoutSingleton.peopleCount,
             "Посетители": _humansMap(),
             "Уровень катания": levelOfSkating,
+            "Продолжительность": workoutSingleton.workoutDuration,
             "Комментарий": _commentController.text
           })
         });
@@ -266,37 +267,8 @@ class RegistrationParametersScreenState
         .reference()
         .child(
             "Инструкторы/${workoutSingleton.instructorId}/График работы/${workoutSingleton.date}")
-        .update(_closeTimesMap());
-  }
-
-  Map<String, dynamic> _closeTimesMap() {
-    Map<String, dynamic> map = {};
-    int duration = workoutSingleton.workoutDuration;
-    if (duration == 1) {
-      map.putIfAbsent("${workoutSingleton.from}", () => "недоступно");
-      map.putIfAbsent(
-          "${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from] - 1)}",
-          () => "недоступно");
-      map.putIfAbsent(
-          "${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from] + 1)}",
-          () => "недоступно");
-    }
-    if (duration == 2) {
-      map.putIfAbsent("${workoutSingleton.from}", () => "недоступно");
-      map.putIfAbsent(
-          "${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from] - 1)}",
-          () => "недоступно");
-      map.putIfAbsent(
-          "${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from] + 1)}",
-          () => "недоступно");
-      map.putIfAbsent(
-          "${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from] + 2)}",
-          () => "недоступно");
-      map.putIfAbsent(
-          "${_timesController.getTimeByValue(_timesController.times[workoutSingleton.from] + 3)}",
-          () => "недоступно");
-    }
-    return map;
+        .update(_timesController.setTimesStatus(
+            workoutSingleton.from, duration, "недоступно"));
   }
 
   String _getWorkoutTime() {

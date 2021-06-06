@@ -15,8 +15,8 @@ class FirebaseRequestsController {
     return dataSnapshot.value as Map<dynamic, dynamic>;
   }
 
-  Future<void> delete(String path) {
-    FirebaseDatabase.instance
+  Future<void> delete(String path) async {
+   return FirebaseDatabase.instance
         .reference()
         .child(path)
         .remove();

@@ -1,7 +1,7 @@
 import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/reg_to_instructor_data.dart';
 import 'package:academ_gora/model/workout.dart';
-import 'package:academ_gora/times_map.dart';
+import 'package:academ_gora/times_controller.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../main.dart';

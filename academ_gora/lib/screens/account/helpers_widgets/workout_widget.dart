@@ -6,6 +6,7 @@ import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/account/helpers_widgets/workout_info.dart';
 import 'package:academ_gora/screens/account/update_workout_screen.dart';
 import 'package:academ_gora/screens/account/user_account_screen.dart';
+import 'package:academ_gora/times_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +25,7 @@ class WorkoutWidget extends StatefulWidget {
 class _WorkoutWidgetState extends State<WorkoutWidget> {
   FirebaseRequestsController _firebaseRequestsController =
       FirebaseRequestsController();
+  TimesController _timesController = TimesController();
 
   @override
   Widget build(BuildContext context) {
@@ -141,11 +143,7 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
                 'Да',
                 style: TextStyle(fontSize: 18),
               ),
-              onPressed: () {
-                _cancelWorkout().then((_) {
-                  Navigator.of(context).pop();
-                });
-              },
+              onPressed: _cancelWorkout,
             ),
             TextButton(
               child: Text('Нет', style: TextStyle(fontSize: 18)),
@@ -159,13 +157,12 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
     );
   }
 
-  Future<void> _cancelWorkout() async {
+  void _cancelWorkout() {
     _deleteWorkoutFromUser();
-    _deleteWorkoutFromInstructor();
   }
 
-  Future<void> _deleteWorkoutFromUser() async {
-    await UserRole.getUserRole().then((userRole) {
+  void _deleteWorkoutFromUser() {
+    UserRole.getUserRole().then((userRole) {
       if (userRole == UserRole.user) {
         String userId = FirebaseAuth.instance.currentUser.uid;
         _firebaseRequestsController
@@ -174,18 +171,37 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
           widget.userAccountScreenState.setState(() {});
         });
       }
-    });
+    }).then((value) => _deleteWorkoutFromInstructor());
   }
 
-  void _deleteWorkoutFromInstructor() async {
-    await _firebaseRequestsController.get("Инструкторы").then((instructorData) {
+  void _deleteWorkoutFromInstructor() {
+    _firebaseRequestsController.get("Инструкторы").then((instructorData) {
       Map<dynamic, dynamic> instructorDataMap = instructorData;
       instructorDataMap.forEach((instructorId, value) {
         Instructor instructor = Instructor.fromJson(value);
         if (instructor.phone == widget.workout.instructorPhoneNumber) {
-          _firebaseRequestsController.delete("Инструкторы/$instructorId/Занятия/Занятие ${widget.workout.id}");
+          String path = "Инструкторы/$instructorId/Занятия/Занятие ${widget.workout.id}";
+          _firebaseRequestsController.delete(path);
         }
       });
+    }).then((_) => _updateInstructorSchedule());
+  }
+
+  void _updateInstructorSchedule() {
+    _firebaseRequestsController.get("Инструкторы").then((instructorData) {
+      Map<dynamic, dynamic> instructorDataMap = instructorData;
+      instructorDataMap.forEach((instructorId, value) {
+        Instructor instructor = Instructor.fromJson(value);
+        if (instructor.phone == widget.workout.instructorPhoneNumber) {
+          _firebaseRequestsController.update(
+              "Инструкторы/$instructorId/График работы/${widget.workout.date}",
+              _timesController.setTimesStatus(widget.workout.from,
+                  widget.workout.workoutDuration, "не открыто"));
+        }
+      });
+    }).then((value) {
+      Navigator.of(context).pop();
+
     });
   }
 
