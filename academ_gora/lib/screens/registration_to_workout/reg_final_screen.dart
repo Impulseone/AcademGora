@@ -1,5 +1,6 @@
 import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/account/user_account_screen.dart';
+import 'package:academ_gora/screens/extension.dart';
 import 'package:academ_gora/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -20,12 +21,7 @@ class _RegistrationFinalScreenState extends State<RegistrationFinalScreen> {
     return Scaffold(
         body: Container(
             width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/reg_final/0_bg.png"),
-                fit: BoxFit.cover,
-              ),
-            ),
+            decoration: screenDecoration("assets/reg_final/0_bg.png"),
             child: Container(
               margin: EdgeInsets.only(top: screenHeight * 0.1),
               child: Column(

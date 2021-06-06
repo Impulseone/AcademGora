@@ -5,6 +5,7 @@ import 'package:academ_gora/screens/account/instructor_profile/instructor_profil
 import 'package:academ_gora/screens/account/instructor_profile/set_workout_time_screen.dart';
 import 'package:academ_gora/screens/account/instructor_profile/workout_data_widget.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
+import 'package:academ_gora/screens/extension.dart';
 import 'package:academ_gora/screens/main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_ui/firebase_auth_ui.dart';
@@ -67,12 +68,7 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
     return Scaffold(
         body: Container(
       width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/instructor_profile/bg.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
+      decoration: screenDecoration("assets/instructor_profile/bg.png"),
       child: Column(
         children: [
           _logoutButton(),

@@ -2,6 +2,7 @@ import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/account/helpers_widgets/workout_widget.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
+import 'package:academ_gora/screens/extension.dart';
 import 'package:academ_gora/screens/main_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,12 +27,7 @@ class UserAccountScreenState extends State<UserAccountScreen> {
     _getAllWorkouts();
     return Scaffold(
         body: Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/account/0_bg.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
+      decoration: screenDecoration("assets/account/0_bg.png"),
       child: Column(
         children: [
           _topAccountInfo(),

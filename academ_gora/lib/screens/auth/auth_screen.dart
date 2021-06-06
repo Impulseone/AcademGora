@@ -1,4 +1,5 @@
 import 'package:academ_gora/controller/auth_controller.dart';
+import 'package:academ_gora/screens/extension.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -22,12 +23,7 @@ class _AuthScreenState extends State<AuthScreen> {
     return Scaffold(
         body: Container(
           width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/auth/1_background.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
+      decoration: screenDecoration("assets/auth/1_background.png"),
       child: _loginForm(),
     ));
   }

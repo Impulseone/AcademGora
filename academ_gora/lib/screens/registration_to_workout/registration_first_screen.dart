@@ -1,4 +1,5 @@
 import 'package:academ_gora/model/workout.dart';
+import 'package:academ_gora/screens/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
@@ -34,12 +35,7 @@ class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/registration_to_instructor/1_bg.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
+      decoration: screenDecoration("assets/registration_to_instructor/1_bg.png"),
       child: Column(
         children: [
           SelectKindOfSportWidget(this, kindOfSport),

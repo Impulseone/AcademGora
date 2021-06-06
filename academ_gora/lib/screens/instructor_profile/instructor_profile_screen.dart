@@ -1,3 +1,4 @@
+import 'package:academ_gora/screens/extension.dart';
 import 'package:academ_gora/screens/instructor_profile/instructor_info.dart';
 import 'package:academ_gora/screens/main_screen.dart';
 import 'package:expand_tap_area/expand_tap_area.dart';
@@ -18,12 +19,7 @@ class InstructorProfileScreen extends StatelessWidget {
         body: Container(
       height: screenHeight,
       width: screenWidth,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/instructor_profile/bg.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
+      decoration: screenDecoration("assets/instructor_profile/bg.png"),
       child: Column(
         children: [
           _instructorPhoto(),

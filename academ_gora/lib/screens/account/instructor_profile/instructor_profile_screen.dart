@@ -2,6 +2,7 @@ import 'package:academ_gora/controller/firebase_controller.dart';
 import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/screens/account/instructor_profile/instructor_workouts_screen.dart';
+import 'package:academ_gora/screens/extension.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -30,12 +31,7 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
     return Scaffold(
         body: Container(
       width: screenWidth,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/instructor_profile/bg.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
+      decoration: screenDecoration("assets/instructor_profile/bg.png"),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

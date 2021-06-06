@@ -1,4 +1,5 @@
 import 'package:academ_gora/screens/all_instructors/all_instructors_screen.dart';
+import 'package:academ_gora/screens/extension.dart';
 import 'package:academ_gora/screens/info_screens/about_us_info.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -29,12 +30,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
         body: Container(
       height: screenHeight,
       width: screenWidth,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/info_screens/about_us/bg.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
+      decoration: screenDecoration("assets/info_screens/about_us/bg.png"),
       child: Column(
         children: [
           _title(),

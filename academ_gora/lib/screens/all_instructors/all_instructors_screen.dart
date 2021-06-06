@@ -4,6 +4,7 @@ import 'package:expand_tap_area/expand_tap_area.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
+import '../extension.dart';
 
 class AllInstructorsScreen extends StatefulWidget {
   @override
@@ -40,12 +41,7 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
       body: Container(
         height: screenHeight,
         width: screenWidth,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/all_instructors/bg.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
+        decoration: screenDecoration("assets/all_instructors/bg.png"),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

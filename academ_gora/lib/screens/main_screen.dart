@@ -1,5 +1,6 @@
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/screens/account/user_account_screen.dart';
+import 'package:academ_gora/screens/extension.dart';
 import 'package:academ_gora/screens/info_screens/call_us_screen.dart';
 import 'package:academ_gora/screens/info_screens/chill_zone_screen.dart';
 import 'package:academ_gora/screens/info_screens/about_us_screen.dart';
@@ -13,45 +14,6 @@ import '../main.dart';
 import 'account/instructor_profile/instructor_workouts_screen.dart';
 import 'registration_to_workout/registration_first_screen.dart';
 
-final List<String> imgList = [
-  "assets/main/10_pic1.png",
-  "assets/main/10_pic2.png",
-  "assets/main/10_pic3.png",
-  "assets/main/10_pic4.png"
-];
-
-final List<Widget> imageSliders = imgList
-    .map((item) => Container(
-          child: Container(
-            margin: EdgeInsets.all(5.0),
-            child: Stack(
-              children: <Widget>[
-                Image.asset(item),
-                Positioned(
-                  top: 0.0,
-                  left: 0.0,
-                  right: 0.0,
-                  child: Container(
-                    alignment: Alignment.topRight,
-                    padding:
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                    child: Text(
-                      'Время \nкатать',
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ))
-    .toList();
-
 class MainScreen extends StatefulWidget {
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -60,17 +22,60 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final List<Widget> buttons = [];
   int _current = 0;
+  List<Widget> imageSliders;
+
+  final List<String> imgList = [
+    "assets/main/10_pic1.png",
+    "assets/main/10_pic2.png",
+    "assets/main/10_pic3.png",
+    "assets/main/10_pic4.png"
+  ];
+
+  void _setImageSliders(){
+    imageSliders = imgList
+        .map((item) => Container(
+      child: Container(
+        margin: EdgeInsets.all(5.0),
+        child: Stack(
+          children: <Widget>[
+            Image.asset(item),
+            Positioned(
+              top: 0.0,
+              left: 0.0,
+              right: 0.0,
+              child: Container(
+                alignment: Alignment.topRight,
+                padding:
+                EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                child: Text(
+                  'Время \nкатать',
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    ))
+        .toList();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _setImageSliders();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/main/background.svg"),
-              fit: BoxFit.cover,
-            ),
-          ),
+          decoration: screenDecoration("assets/main/background.svg"),
           child: Center(
               child: Column(
             children: [

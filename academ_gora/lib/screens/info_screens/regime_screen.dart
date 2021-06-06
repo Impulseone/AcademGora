@@ -1,3 +1,4 @@
+import 'package:academ_gora/screens/extension.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -26,12 +27,7 @@ class _RegimeScreenState extends State<RegimeScreen> {
         body: Container(
       height: screenHeight,
       width: screenWidth,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/info_screens/about_us/bg.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
+      decoration: screenDecoration("assets/info_screens/about_us/bg.png"),
       child: Column(
         children: [
           _title(),

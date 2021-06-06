@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../main.dart';
+import '../extension.dart';
 import 'helpers_widgets/instructor_list/instructor_widget.dart';
 import 'registration_parameters_screen.dart';
 
@@ -28,12 +29,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
     _getAllInstructorsOfSelectedSport();
     return Scaffold(
       body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/registration_to_instructor/1_bg.png"),
-              fit: BoxFit.cover,
-            ),
-          ),
+          decoration: screenDecoration("assets/registration_to_instructor/1_bg.png"),
           child: Column(children: [
             Container(
               height: screenHeight * 0.72,

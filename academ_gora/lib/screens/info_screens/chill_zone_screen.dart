@@ -1,3 +1,4 @@
+import 'package:academ_gora/screens/extension.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -24,12 +25,7 @@ class _ChillZoneScreenState extends State<ChillZoneScreen> {
         body: Container(
           height: screenHeight,
           width: screenWidth,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/info_screens/chill_zone/bg.png"),
-              fit: BoxFit.cover,
-            ),
-          ),
+          decoration: screenDecoration("assets/info_screens/chill_zone/bg.png"),
           child: Column(
             children: [
               _title(),

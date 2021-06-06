@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
+import '../extension.dart';
 import 'helpers_widgets/horizontal_divider.dart';
 import 'helpers_widgets/reg_parameters/human_info_widget.dart';
 import 'helpers_widgets/reg_parameters/info_text.dart';
@@ -40,12 +41,7 @@ class RegistrationParametersScreenState
     return Scaffold(
       body: Container(
           height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/registration_parameters/0_bg.png"),
-              fit: BoxFit.cover,
-            ),
-          ),
+          decoration: screenDecoration("assets/registration_parameters/0_bg.png"),
           child: Container(
               width: screenWidth,
               child: SingleChildScrollView(
