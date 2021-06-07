@@ -62,7 +62,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
       alignment: Alignment.center,
       child: Column(
         children: [
-          _instructorName(),
+          _titleRow(),
           horizontalDivider(screenWidth * 0.1, screenWidth * 0.1, 10, 10),
           _calendar(),
           _indicatorsRow(),
@@ -72,6 +72,25 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
         ],
       ),
     ));
+  }
+
+  Widget _titleRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [_backButton(), _instructorName()],
+    );
+  }
+
+  Widget _backButton() {
+    return GestureDetector(
+        onTap: () {
+          Navigator.of(context).pop();
+        },
+        child: Container(
+            margin: EdgeInsets.only(left: 10, right: 20, top: screenHeight * 0.07),
+            child: Row(
+              children: [Icon(Icons.arrow_back_ios), Text("НАЗАД")],
+            )));
   }
 
   Widget _instructorName() {
@@ -324,13 +343,14 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
         if (_checkChangeTimePossibility(time))
           _firebaseController.update(
               "$userRole/$userId/График работы/$dateString", {time: status});
-        else _showWarningDialog();
+        else
+          _showWarningDialog();
       }
     });
     _getOpenedTimesPerDay();
   }
 
-  void _showWarningDialog(){
+  void _showWarningDialog() {
     showDialog<void>(
       context: context,
       builder: (BuildContext context) {
