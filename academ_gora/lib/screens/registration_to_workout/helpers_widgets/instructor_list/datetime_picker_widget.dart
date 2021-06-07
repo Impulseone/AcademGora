@@ -179,6 +179,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
         }
       });
     }
+    _openedTimes = _timesController.sortTimes(_openedTimes);
     _filterOpenedTimes();
   }
 

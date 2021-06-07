@@ -25,6 +25,19 @@ class TimesController {
     "20:00": 22,
   };
 
+  List<String> sortTimes(List<String> times){
+    List<String> sortedTimes = [];
+    List<int> priorities=[];
+    times.forEach((time) {
+      priorities.add(_times[time]);
+    });
+    priorities.sort();
+    priorities.forEach((priority) {
+      sortedTimes.add(getTimeByValue(priority));
+    });
+    return sortedTimes;
+  }
+
   bool checkTimeInterval(String time, String from, String to) {
     int timePriority = _times[time];
     int fromPriority = _times[from];
