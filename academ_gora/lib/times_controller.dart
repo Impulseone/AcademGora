@@ -25,6 +25,16 @@ class TimesController {
     "20:00": 22,
   };
 
+  bool checkTimeInterval(String time, String from, String to) {
+    int timePriority = _times[time];
+    int fromPriority = _times[from];
+    int toPriority = _times[to];
+    if (timePriority >= fromPriority && timePriority <= toPriority)
+      return true;
+    else
+      return false;
+  }
+
   String getTimeByValue(int timeValue) {
     String time = "";
     _times.forEach((key, value) {
@@ -59,28 +69,26 @@ class TimesController {
     return timesStatus;
   }
 
-  bool checkTimesStatusForOneHour(Map<dynamic,dynamic> schedule, String from, String status) {
+  bool checkTimesStatusForOneHour(
+      Map<dynamic, dynamic> schedule, String from, String status) {
     int fromPriority = _times[from];
-    if(
-    schedule[getTimeByValue(fromPriority)]=='открыто'&&
-    schedule[getTimeByValue(fromPriority+1)]=='открыто'
-    ){
+    if (schedule[getTimeByValue(fromPriority)] == 'открыто' &&
+        schedule[getTimeByValue(fromPriority + 1)] == 'открыто') {
       return true;
-    }
-    else return false;
+    } else
+      return false;
   }
 
-  bool checkTimesStatusForTwoHours(Map<dynamic,dynamic> schedule, String from, String status) {
+  bool checkTimesStatusForTwoHours(
+      Map<dynamic, dynamic> schedule, String from, String status) {
     int fromPriority = _times[from];
-    if(
-    schedule[getTimeByValue(fromPriority)]=='открыто'&&
-    schedule[getTimeByValue(fromPriority+1)]=='открыто'&&
-    schedule[getTimeByValue(fromPriority+2)]=='открыто'&&
-    schedule[getTimeByValue(fromPriority+3)]=='открыто'
-    ){
+    if (schedule[getTimeByValue(fromPriority)] == 'открыто' &&
+        schedule[getTimeByValue(fromPriority + 1)] == 'открыто' &&
+        schedule[getTimeByValue(fromPriority + 2)] == 'открыто' &&
+        schedule[getTimeByValue(fromPriority + 3)] == 'открыто') {
       return true;
-    }
-    else return false;
+    } else
+      return false;
   }
 
   get times => _times;

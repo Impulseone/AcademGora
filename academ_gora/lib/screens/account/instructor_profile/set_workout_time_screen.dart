@@ -1,7 +1,9 @@
 import 'package:academ_gora/controller/firebase_requests_controller.dart';
 import 'package:academ_gora/main.dart';
 import 'package:academ_gora/model/user_role.dart';
+import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/registration_to_workout/helpers_widgets/horizontal_divider.dart';
+import 'package:academ_gora/times_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
@@ -16,7 +18,6 @@ class SetWorkoutTimeScreen extends StatefulWidget {
 }
 
 class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
-
   DateTime _selectedDate = DateTime.now();
 
   List months = [
@@ -43,12 +44,15 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   TimeStatus _selectedTimeStatus;
 
   FirebaseRequestsController _firebaseController = FirebaseRequestsController();
+  TimesController _timesController = TimesController();
+  List<Workout> _workoutsPerDay = [];
 
   @override
   void initState() {
     super.initState();
     _getOpenedTimesPerDay();
     _getOpenedTimesPerMonth();
+    _getAllWorkoutsPerDay();
   }
 
   @override
@@ -97,6 +101,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
           _selectedDate = date;
           _getOpenedTimesPerDay();
           _getOpenedTimesPerMonth();
+          _getAllWorkoutsPerDay();
         });
       },
       markedDatesMap: _markedDateMap,
@@ -197,6 +202,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     });
     _getOpenedTimesPerDay();
     _getOpenedTimesPerMonth();
+    _getAllWorkoutsPerDay();
   }
 
   void _decreaseDate() {
@@ -208,6 +214,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     });
     _getOpenedTimesPerDay();
     _getOpenedTimesPerMonth();
+    _getAllWorkoutsPerDay();
   }
 
   Widget _timeWidget() {
@@ -314,11 +321,71 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
       if (userRole == UserRole.instructor) {
         String userId = FirebaseAuth.instance.currentUser.uid;
         String dateString = DateFormat('ddMMyyyy').format(_selectedDate);
-        _firebaseController.update(
-            "$userRole/$userId/График работы/$dateString", {time: status});
+        if (_checkChangeTimePossibility(time))
+          _firebaseController.update(
+              "$userRole/$userId/График работы/$dateString", {time: status});
+        else _showWarningDialog();
       }
     });
     _getOpenedTimesPerDay();
+  }
+
+  void _showWarningDialog(){
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Text(
+            "На выбранное время назначено занятие",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 18),
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                'ОК',
+                style: TextStyle(fontSize: 18),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _getAllWorkoutsPerDay() {
+    UserRole.getUserRole().then((value) {
+      if (value == UserRole.instructor) {
+        String userId = FirebaseAuth.instance.currentUser.uid;
+        String dateString = DateFormat('ddMMyyyy').format(_selectedDate);
+        List<Workout> workouts = [];
+        _firebaseController.get("$value/$userId/Занятия").then((value) {
+          value.forEach((key, value) {
+            if (value["Дата"] == dateString)
+              workouts.add(Workout.fromJson(value));
+          });
+          _workoutsPerDay = workouts;
+        });
+      }
+    });
+  }
+
+  bool _checkChangeTimePossibility(String time) {
+    bool possibility = true;
+    if (_workoutsPerDay.length > 0) {
+      _workoutsPerDay.forEach((element) {
+        if (_timesController.checkTimeInterval(
+            time, element.from, element.to)) {
+          possibility = false;
+          return;
+        }
+      });
+      return possibility;
+    } else
+      return true;
   }
 
   void _getOpenedTimesPerDay() {
