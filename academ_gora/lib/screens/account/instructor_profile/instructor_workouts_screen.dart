@@ -53,9 +53,11 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
     'ВС',
   ];
 
-  List<Workout> _workouts = [];
+  List<Workout> _workoutsPerDay = [];
+  List<Workout> _allWorkouts = [];
 
   FirebaseRequestsController _firebaseController = FirebaseRequestsController();
+  EventList<Event> _markedDateMap = new EventList<Event>(events: Map());
 
   @override
   void initState() {
@@ -65,14 +67,14 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _fillMarkedDateMap();
     return Scaffold(
         body: Container(
       width: MediaQuery.of(context).size.width,
       decoration: screenDecoration("assets/instructor_profile/bg.png"),
       child: Column(
         children: [
-          _logoutButton(),
-          _myRegistrationsTitle(),
+          _titleRow(),
           _changeRegistrationTimeButton(),
           _calendar(),
           _dateSliderWidget(),
@@ -84,13 +86,45 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
     ));
   }
 
+  Widget _titleRow() {
+    return Container(
+        margin: EdgeInsets.only(top: 28, right: 28),
+        child: Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        _myRegistrationsTitle(),
+        _logoutButton(),
+      ],
+    ));
+  }
+
   Widget _myRegistrationsTitle() {
     return Container(
-        margin: EdgeInsets.only(top: 5),
+        margin: EdgeInsets.only(right: 20),
         child: Text(
           "Мои записи",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ));
+  }
+
+  Widget _logoutButton() {
+    return GestureDetector(
+        onTap: _openAuthScreen,
+        child: Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  "ВЫЙТИ",
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                ),
+                Container(
+                    margin: EdgeInsets.only(left: 5),
+                    height: 20,
+                    width: 20,
+                    child: Icon(Icons.logout))
+              ],
+            )));
   }
 
   Widget _changeRegistrationTimeButton() {
@@ -231,27 +265,6 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
     );
   }
 
-  Widget _logoutButton() {
-    return GestureDetector(
-        onTap: _openAuthScreen,
-        child: Container(
-            margin: EdgeInsets.only(top: 40, right: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  "ВЫЙТИ",
-                  style: TextStyle(color: Colors.black, fontSize: 18),
-                ),
-                Container(
-                    margin: EdgeInsets.only(left: 5),
-                    height: 20,
-                    width: 20,
-                    child: Icon(Icons.logout))
-              ],
-            )));
-  }
-
   Widget _calendar() {
     return CalendarCarousel<Event>(
       selectedDayButtonColor: Colors.blue,
@@ -260,8 +273,8 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
           TextStyle(fontSize: screenHeight * 0.023, color: Colors.blue),
       weekdayTextStyle: TextStyle(color: Colors.black, fontSize: 14),
       locale: "ru",
-      width: screenWidth * 0.55,
-      height: screenHeight * 0.38,
+      width: screenWidth * 0.69,
+      height: screenHeight * 0.43,
       todayBorderColor: Colors.transparent,
       todayButtonColor: Colors.transparent,
       todayTextStyle: TextStyle(color: Colors.black, fontSize: 14),
@@ -274,7 +287,48 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
       selectedDateTime: _selectedDate,
       targetDateTime: _selectedDate,
       selectedDayTextStyle: TextStyle(color: Colors.white),
+      markedDatesMap: _markedDateMap,
+      markedDateShowIcon: true,
+      markedDateIconBuilder: (e) => e.icon,
     );
+  }
+
+  void _fillMarkedDateMap() {
+    _markedDateMap.clear();
+    _allWorkouts.forEach((element) {
+      String date = element.date;
+      String formattedDate =
+          "${date.substring(4, 8)}-${date.substring(2, 4)}-${date.substring(0, 2)}";
+      DateTime dateTime = DateTime.parse(formattedDate);
+      if(!_markedDateMap.events.containsKey(dateTime)) _markedDateMap.add(dateTime, _createEvent(dateTime));
+    });
+  }
+
+  Event _createEvent(DateTime dateTime) {
+    return Event(
+        date: dateTime, dot: Container(), icon: _markedDateIcon(dateTime));
+  }
+
+  Widget _markedDateIcon(DateTime dateTime) {
+    return Container(
+      child: Center(
+        child: Text(
+          dateTime.day.toString(),
+          style: TextStyle(
+              color: _compareDateWithSelected(dateTime)
+                  ? Colors.white
+                  : Colors.blue,
+              fontWeight: FontWeight.bold,
+              fontSize: 14),
+        ),
+      ),
+    );
+  }
+
+  bool _compareDateWithSelected(DateTime dateTime) {
+    return dateTime.year == _selectedDate.year &&
+        dateTime.month == _selectedDate.month &&
+        dateTime.day == _selectedDate.day;
   }
 
   Widget _workoutsListWidget() {
@@ -282,9 +336,9 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
         height: screenHeight * 0.22,
         width: screenWidth * 0.6,
         child: ListView.builder(
-          itemCount: _workouts.length,
+          itemCount: _workoutsPerDay.length,
           itemBuilder: (context, index) {
-            return WorkoutDataWidget(_workouts[index]);
+            return WorkoutDataWidget(_workoutsPerDay[index]);
           },
         ));
   }
@@ -296,13 +350,14 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
         Map<dynamic, dynamic> workoutsMap =
             await _firebaseController.get("$userRole/$userId/Занятия");
         List<Workout> workoutsList = [];
-        if(workoutsMap!=null&& workoutsMap.length>0)
-        workoutsMap.keys.forEach((element) {
-          Workout workout = Workout.fromJson(workoutsMap[element]);
-          workoutsList.add(workout);
-        });
+        if (workoutsMap != null && workoutsMap.length > 0)
+          workoutsMap.keys.forEach((element) {
+            Workout workout = Workout.fromJson(workoutsMap[element]);
+            workoutsList.add(workout);
+          });
         setState(() {
-          _workouts = _sortWorkoutsBySelectedDate(workoutsList);
+          _allWorkouts = workoutsList;
+          _workoutsPerDay = _sortWorkoutsBySelectedDate(workoutsList);
         });
       }
     });
@@ -310,11 +365,12 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
 
   List<Workout> _sortWorkoutsBySelectedDate(List<Workout> list) {
     List<Workout> sortedWorkouts = [];
-    if(list.length>0)list.forEach((workout) {
-      String workoutDateString = workout.date;
-      String now = DateFormat('ddMMyyyy').format(_selectedDate);
-      if (now == workoutDateString) sortedWorkouts.add(workout);
-    });
+    if (list.length > 0)
+      list.forEach((workout) {
+        String workoutDateString = workout.date;
+        String now = DateFormat('ddMMyyyy').format(_selectedDate);
+        if (now == workoutDateString) sortedWorkouts.add(workout);
+      });
     return sortedWorkouts;
   }
 
@@ -326,8 +382,8 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
   }
 
   void _openRedactProfileScreen() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => InstructorProfileScreen()));
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => InstructorProfileScreen()));
   }
 
   void _openSetWorkoutTimeScreen() {
