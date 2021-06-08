@@ -90,12 +90,12 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
     return Container(
         margin: EdgeInsets.only(top: 28, right: 28),
         child: Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        _myRegistrationsTitle(),
-        _logoutButton(),
-      ],
-    ));
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            _myRegistrationsTitle(),
+            _logoutButton(),
+          ],
+        ));
   }
 
   Widget _myRegistrationsTitle() {
@@ -112,19 +112,19 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
         onTap: _openAuthScreen,
         child: Container(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  "ВЫЙТИ",
-                  style: TextStyle(color: Colors.black, fontSize: 18),
-                ),
-                Container(
-                    margin: EdgeInsets.only(left: 5),
-                    height: 20,
-                    width: 20,
-                    child: Icon(Icons.logout))
-              ],
-            )));
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              "ВЫЙТИ",
+              style: TextStyle(color: Colors.black, fontSize: 18),
+            ),
+            Container(
+                margin: EdgeInsets.only(left: 5),
+                height: 20,
+                width: 20,
+                child: Icon(Icons.logout))
+          ],
+        )));
   }
 
   Widget _changeRegistrationTimeButton() {
@@ -300,7 +300,8 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
       String formattedDate =
           "${date.substring(4, 8)}-${date.substring(2, 4)}-${date.substring(0, 2)}";
       DateTime dateTime = DateTime.parse(formattedDate);
-      if(!_markedDateMap.events.containsKey(dateTime)) _markedDateMap.add(dateTime, _createEvent(dateTime));
+      if (!_markedDateMap.events.containsKey(dateTime))
+        _markedDateMap.add(dateTime, _createEvent(dateTime));
     });
   }
 
@@ -353,7 +354,10 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
         if (workoutsMap != null && workoutsMap.length > 0)
           workoutsMap.keys.forEach((element) {
             Workout workout = Workout.fromJson(workoutsMap[element]);
-            workoutsList.add(workout);
+            if (_compareWorkoutDates(workout.date))
+              workoutsList.add(workout);
+            else
+              _deleteWorkout(element);
           });
         setState(() {
           _allWorkouts = workoutsList;
@@ -361,6 +365,24 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
         });
       }
     });
+  }
+
+  bool _compareWorkoutDates(String workoutDate) {
+    String formattedDate =
+        "${workoutDate.substring(4, 8)}-${workoutDate.substring(2, 4)}-${workoutDate.substring(0, 2)}";
+    DateTime workoutDateTime = DateTime.parse(formattedDate);
+    DateTime now = DateTime.now();
+    if (workoutDateTime.year >= now.year &&
+        workoutDateTime.day >= now.day &&
+        workoutDateTime.month >= now.month) {
+      return true;
+    } else
+      return false;
+  }
+
+  void _deleteWorkout(String workoutId) {
+    _firebaseController.delete(
+        "${UserRole.instructor}/${FirebaseAuth.instance.currentUser.uid}/Занятия/$workoutId");
   }
 
   List<Workout> _sortWorkoutsBySelectedDate(List<Workout> list) {

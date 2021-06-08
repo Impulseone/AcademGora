@@ -203,6 +203,6 @@ class UserAccountScreenState extends State<UserAccountScreen> {
 
   void _deleteWorkout(String workoutId) {
     _firebaseController.delete(
-        "Пользователи/${FirebaseAuth.instance.currentUser.uid}/Занятия/$workoutId");
+        "${UserRole.user}/${FirebaseAuth.instance.currentUser.uid}/Занятия/$workoutId");
   }
 }
