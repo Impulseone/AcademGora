@@ -1,3 +1,4 @@
+import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/screens/extension.dart';
 import 'package:academ_gora/screens/instructor_profile/instructor_info.dart';
 import 'package:academ_gora/screens/main_screen.dart';
@@ -7,11 +8,9 @@ import 'package:flutter/material.dart';
 import '../../main.dart';
 
 class InstructorProfileScreen extends StatelessWidget {
-  final String _instructorName;
+  final Instructor instructor;
 
-  const InstructorProfileScreen(this._instructorName,
-      {Key key})
-      : super(key: key);
+  const InstructorProfileScreen(this.instructor, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +24,8 @@ class InstructorProfileScreen extends StatelessWidget {
           _instructorPhoto(),
           _instructorNameWidget(),
           _instructorInfoWidget(),
-          _instagramIcon(),
-          _instagramNickname(),
-          _telegramIcon(),
-          _telegramNumber(),
+          _instructorPhoneWidget(),
+          _socialNetworksList(),
           _backButtons(context)
         ],
       ),
@@ -38,8 +35,8 @@ class InstructorProfileScreen extends StatelessWidget {
   Widget _instructorPhoto() {
     return Container(
       margin: EdgeInsets.only(top: screenHeight * 0.07),
-      width: screenWidth * 0.65,
-      height: screenHeight * 0.25,
+      width: screenWidth * 0.55,
+      height: screenHeight * 0.2,
       child: Image.asset("assets/instructor_profile/1.png"),
     );
   }
@@ -48,11 +45,7 @@ class InstructorProfileScreen extends StatelessWidget {
     return Container(
         margin: EdgeInsets.only(top: 10),
         child: Text(
-          _instructorName.split("\n").length > 1
-              ? _instructorName.split("\n")[0] +
-                  " " +
-                  _instructorName.split("\n")[1]
-              : _instructorName,
+          instructor.name,
           style: TextStyle(
               fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
         ));
@@ -60,12 +53,39 @@ class InstructorProfileScreen extends StatelessWidget {
 
   Widget _instructorInfoWidget() {
     return Container(
+        height: screenHeight * 0.25,
+        width: screenWidth * 0.8,
         margin: EdgeInsets.only(top: 10),
         child: Text(
-          InstructorInfo.getInstructorInfo(),
+          instructor.info,
           textAlign: TextAlign.center,
           style: TextStyle(fontWeight: FontWeight.bold),
         ));
+  }
+
+  Widget _instructorPhoneWidget(){
+    return Container(alignment: Alignment.centerLeft, margin: EdgeInsets.only(left: screenWidth*0.1), child: Text("Телефон: ${instructor.phone}", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),);
+  }
+
+  Widget _socialNetworksList() {
+    return Container(
+      margin: EdgeInsets.only(left: screenWidth * 0.1),
+      height: screenHeight * 0.25,
+      child: ListView.builder(
+          itemCount: instructor.socialNetworks.length,
+          itemBuilder: (context, index) {
+            return Container(
+              child: Row(
+                children: [
+                  Text(
+                    "${instructor.socialNetworks.keys.toList()[index]}: ${instructor.socialNetworks.values.toList()[index]}",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+            );
+          }),
+    );
   }
 
   Widget _instagramIcon() {
@@ -111,7 +131,7 @@ class InstructorProfileScreen extends StatelessWidget {
 
   Widget _backButton(BuildContext context) {
     return ExpandTapWidget(
-      tapPadding: EdgeInsets.all(50),
+        tapPadding: EdgeInsets.all(50),
         onTap: () {
           Navigator.of(context).pop();
         },

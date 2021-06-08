@@ -43,7 +43,7 @@ class InstructorWidgetState extends State<InstructorWidget> {
             GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (c) => InstructorProfileScreen(instructor.name)));
+                      builder: (c) => InstructorProfileScreen(instructor)));
                 },
                 child: Container(
                     height: screenHeight * 0.08,
@@ -92,7 +92,7 @@ class InstructorWidgetState extends State<InstructorWidget> {
 
   void _openProfile() {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (c) => InstructorProfileScreen(instructor.name)));
+        builder: (c) => InstructorProfileScreen(instructor)));
   }
 
   @override

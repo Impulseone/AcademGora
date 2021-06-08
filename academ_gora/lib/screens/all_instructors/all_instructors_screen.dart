@@ -162,7 +162,7 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
   void _openInstructorProfileScreen(String instructorName) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (c) => InstructorProfileScreen(
-              instructorName,
+              null,
             )));
   }
 
