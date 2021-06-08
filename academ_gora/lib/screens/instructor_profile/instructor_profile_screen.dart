@@ -1,6 +1,5 @@
 import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/screens/extension.dart';
-import 'package:academ_gora/screens/instructor_profile/instructor_info.dart';
 import 'package:academ_gora/screens/main_screen.dart';
 import 'package:expand_tap_area/expand_tap_area.dart';
 import 'package:flutter/material.dart';

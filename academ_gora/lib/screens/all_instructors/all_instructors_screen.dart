@@ -1,3 +1,5 @@
+import 'package:academ_gora/controller/firebase_requests_controller.dart';
+import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/screens/instructor_profile/instructor_profile_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
 import 'package:expand_tap_area/expand_tap_area.dart';
@@ -15,25 +17,16 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
 
   String _selectedKindOfSport = "ГОРНЫЕ ЛЫЖИ";
 
-  List<String> _snowboardInstructors = [
-    "Ярославский\nАлександр",
-    "Карманова\nЕвгения",
-    "Крюкова\nОльга",
-    "Трофимов\nПавел",
-    "Ярославский\nАлександр",
-    "Карманова\nЕвгения",
-  ];
+  List<Instructor> _snowboardInstructors = [];
+  List<Instructor> _skiesInstructors = [];
 
-  List<String> _skiesInstructors = [
-    "Ярославский\nАлександр",
-    "Карманова\nЕвгения",
-    "Крюкова\nОльга",
-    "Трофимов\nПавел",
-    "Крюкова\nОльга",
-    "Трофимов\nПавел",
-    "Иванов\nИван",
-    "Петров\nПетр",
-  ];
+  FirebaseRequestsController _firebaseRequestsController = FirebaseRequestsController();
+
+  @override
+  void initState() {
+    super.initState();
+    _getInstructors();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +123,7 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
         ));
   }
 
-  List<Widget> _profileWidgets(List<String> instructors) {
+  List<Widget> _profileWidgets(List<Instructor> instructors) {
     List<Widget> widgets = [];
     for (var i = 0; i < instructors.length; ++i) {
       widgets.add(_profileWidget(i, instructors));
@@ -138,7 +131,7 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
     return widgets;
   }
 
-  Widget _profileWidget(int which, List<String> instructors) {
+  Widget _profileWidget(int which, List<Instructor> instructors) {
     return GestureDetector(
         onTap: () => _openInstructorProfileScreen(instructors[which]),
         child: Container(
@@ -150,7 +143,7 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
                 child: Image.asset("assets/all_instructors/2.png"),
               ),
               Text(
-                instructors[which],
+                instructors[which].name,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               ),
@@ -159,10 +152,10 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
         ));
   }
 
-  void _openInstructorProfileScreen(String instructorName) {
+  void _openInstructorProfileScreen(Instructor instructor) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (c) => InstructorProfileScreen(
-              null,
+              instructor,
             )));
   }
 
@@ -197,4 +190,24 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
       ),
     );
   }
+
+  void _getInstructors(){
+    _firebaseRequestsController.get("Инструкторы").then((value){
+      value.forEach((instructorId, instructorData) {
+        Instructor instructor = Instructor.fromJson(instructorData);
+        if(instructor.kindOfSport==KindsOfSport.SKIES){
+          _skiesInstructors.add(instructor);
+        }
+        else{
+          _snowboardInstructors.add(instructor);
+        }
+      });
+      setState(() {});
+    });
+  }
+}
+
+class KindsOfSport{
+  static const String SKIES = "Горные лыжи";
+  static const String SNOWBOARD = "Сноуборд";
 }

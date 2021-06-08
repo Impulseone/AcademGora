@@ -8,6 +8,7 @@ class Instructor {
   List<Workout> workouts;
   WorkoutsSchedule workoutsSchedule;
   String info;
+  String kindOfSport;
   Map<dynamic, dynamic> socialNetworks;
   Map<dynamic, dynamic> schedule;
 
@@ -19,6 +20,7 @@ class Instructor {
     instructor.info = map["Информация"];
     instructor.socialNetworks = map["Соцсети"];
     instructor.schedule = map["График работы"];
+    instructor.kindOfSport = map["Вид спорта"];
     return instructor;
   }
 
