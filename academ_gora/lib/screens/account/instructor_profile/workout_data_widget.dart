@@ -54,7 +54,7 @@ class _WorkoutDataWidgetState extends State<WorkoutDataWidget> {
             Container(
                 margin: EdgeInsets.only(left: 15),
                 child: Text(
-                  widget.workout.from,
+                 "${widget.workout.from}-${widget.workout.to}",
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 )),
             Container(

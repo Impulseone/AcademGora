@@ -62,7 +62,7 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
                 )),
             Container(
                 margin: EdgeInsets.only(left: screenWidth / 7),
-                child: Text(widget.workout.from,
+                child: Text("${widget.workout.from}-${widget.workout.to}",
                     style: TextStyle(color: Colors.white, fontSize: 22)))
           ],
         ));
