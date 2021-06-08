@@ -43,11 +43,7 @@ class UserAccountScreenState extends State<UserAccountScreen> {
     return Container(
         margin: EdgeInsets.only(top: screenHeight * 0.07, right: 10),
         child: Column(
-          children: [
-            _accountTextWidget(),
-            _phoneTextWidget(),
-            _logoutButton()
-          ],
+          children: [_accountTextWidget(), _phoneTextWidget(), _logoutButton()],
         ));
   }
 
@@ -175,9 +171,12 @@ class UserAccountScreenState extends State<UserAccountScreen> {
             if (value != null) {
               Map<dynamic, dynamic> workoutDataMap = value;
               List<Workout> workoutsFromDb = [];
-              for (Map<dynamic, dynamic> workoutData in workoutDataMap.values) {
-                workoutsFromDb.add(Workout.fromJson(workoutData));
-              }
+              workoutDataMap.forEach((key, value) {
+                if (_compareWorkoutDates(value["Дата"]))
+                  workoutsFromDb.add(Workout.fromJson(value));
+                else
+                  _deleteWorkout(key);
+              });
               Function eq = const ListEquality().equals;
               if (!eq(workouts, workoutsFromDb)) {
                 setState(() {
@@ -187,5 +186,23 @@ class UserAccountScreenState extends State<UserAccountScreen> {
             }
           })
         });
+  }
+
+  bool _compareWorkoutDates(String workoutDate) {
+    String formattedDate =
+        "${workoutDate.substring(4, 8)}-${workoutDate.substring(2, 4)}-${workoutDate.substring(0, 2)}";
+    DateTime workoutDateTime = DateTime.parse(formattedDate);
+    DateTime now = DateTime.now();
+    if (workoutDateTime.year >= now.year &&
+        workoutDateTime.day >= now.day &&
+        workoutDateTime.month >= now.month) {
+      return true;
+    } else
+      return false;
+  }
+
+  void _deleteWorkout(String workoutId) {
+    _firebaseController.delete(
+        "Пользователи/${FirebaseAuth.instance.currentUser.uid}/Занятия/$workoutId");
   }
 }
