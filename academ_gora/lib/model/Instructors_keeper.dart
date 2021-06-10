@@ -12,11 +12,29 @@ class InstructorsKeeper {
     return _instructorsKeeper;
   }
 
-  void updateInstructors(Map instructors){
+  void updateInstructors(Map instructors) {
     instructorsList = [];
     instructors.forEach((key, value) {
-      instructorsList.add(Instructor.fromJson(value));
+      instructorsList.add(Instructor.fromJson(key, value));
     });
+  }
+
+  List<Instructor> findInstructorsByKindOfSport(String kindOfSport) {
+    List<Instructor> filtered = [];
+    instructorsList.forEach((element) {
+      if (element.kindOfSport == kindOfSport) filtered.add(element);
+    });
+    return filtered;
+  }
+
+  Instructor findInstructorByPhoneNumber(String phoneNumber) {
+    Instructor instructor;
+    instructorsList.forEach((element) {
+      if (element.phone == phoneNumber) {
+        instructor = element;
+      }
+    });
+    return instructor;
   }
 
   void clear() {

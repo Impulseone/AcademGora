@@ -1,4 +1,5 @@
 import 'package:academ_gora/controller/firebase_requests_controller.dart';
+import 'package:academ_gora/model/Instructors_keeper.dart';
 import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/screens/account/instructor_profile/instructor_workouts_screen.dart';
@@ -19,6 +20,7 @@ class InstructorProfileScreen extends StatefulWidget {
 class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
   Instructor _currentInstructor = Instructor();
   FirebaseRequestsController _firebaseController = FirebaseRequestsController();
+  InstructorsKeeper _instructorsKeeper = InstructorsKeeper();
 
   @override
   void initState() {
@@ -311,18 +313,9 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
   }
 
   void _getInstructorInfo() async {
-    FirebaseRequestsController firebaseController = FirebaseRequestsController();
-    await UserRole.getUserRole().then((userRole) async {
-      Instructor instructor = Instructor();
-      if (userRole == UserRole.instructor) {
-        String userId = FirebaseAuth.instance.currentUser.uid;
-        Map<dynamic, dynamic> instructorInfo =
-            await firebaseController.get("$userRole/$userId");
-        instructor = Instructor.fromJson(instructorInfo);
-      }
-      setState(() {
-        _currentInstructor = instructor;
-      });
+    setState(() {
+      _currentInstructor = _instructorsKeeper.findInstructorByPhoneNumber(
+          FirebaseAuth.instance.currentUser.phoneNumber);
     });
   }
 

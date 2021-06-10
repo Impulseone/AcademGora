@@ -1,5 +1,6 @@
 import 'package:academ_gora/controller/firebase_requests_controller.dart';
 import 'package:academ_gora/main.dart';
+import 'package:academ_gora/model/Instructors_keeper.dart';
 import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
@@ -26,6 +27,7 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
   FirebaseRequestsController _firebaseRequestsController =
       FirebaseRequestsController();
   TimesController _timesController = TimesController();
+  InstructorsKeeper _instructorsKeeper = InstructorsKeeper();
 
   @override
   Widget build(BuildContext context) {
@@ -175,33 +177,20 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
   }
 
   void _deleteWorkoutFromInstructor() {
-    _firebaseRequestsController.get("Инструкторы").then((instructorData) {
-      Map<dynamic, dynamic> instructorDataMap = instructorData;
-      instructorDataMap.forEach((instructorId, value) {
-        Instructor instructor = Instructor.fromJson(value);
-        if (instructor.phone == widget.workout.instructorPhoneNumber) {
-          String path = "Инструкторы/$instructorId/Занятия/Занятие ${widget.workout.id}";
-          _firebaseRequestsController.delete(path);
-        }
-      });
-    }).then((_) => _updateInstructorSchedule());
-  }
-
-  void _updateInstructorSchedule() {
-    _firebaseRequestsController.get("Инструкторы").then((instructorData) {
-      Map<dynamic, dynamic> instructorDataMap = instructorData;
-      instructorDataMap.forEach((instructorId, value) {
-        Instructor instructor = Instructor.fromJson(value);
-        if (instructor.phone == widget.workout.instructorPhoneNumber) {
-          _firebaseRequestsController.update(
-              "Инструкторы/$instructorId/График работы/${widget.workout.date}",
+    Instructor instructor = _instructorsKeeper
+        .findInstructorByPhoneNumber(widget.workout.instructorPhoneNumber);
+    _firebaseRequestsController
+        .delete(
+            "${UserRole.instructor}/${instructor.id}/Занятия/Занятие ${widget.workout.id}")
+        .then((_) {
+      _firebaseRequestsController
+          .update(
+              "${UserRole.instructor}/${instructor.id}/График работы/${widget.workout.date}",
               _timesController.setTimesStatus(widget.workout.from,
-                  widget.workout.workoutDuration, "не открыто"));
-        }
+                  widget.workout.workoutDuration, "не открыто"))
+          .then((_) {
+        Navigator.of(context).pop();
       });
-    }).then((value) {
-      Navigator.of(context).pop();
-
     });
   }
 

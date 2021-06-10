@@ -1,4 +1,5 @@
 import 'package:academ_gora/controller/firebase_requests_controller.dart';
+import 'package:academ_gora/model/Instructors_keeper.dart';
 import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/screens/instructor_profile/instructor_profile_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
@@ -14,13 +15,14 @@ class AllInstructorsScreen extends StatefulWidget {
 }
 
 class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
-
   String _selectedKindOfSport = "ГОРНЫЕ ЛЫЖИ";
 
   List<Instructor> _snowboardInstructors = [];
   List<Instructor> _skiesInstructors = [];
 
-  FirebaseRequestsController _firebaseRequestsController = FirebaseRequestsController();
+  FirebaseRequestsController _firebaseRequestsController =
+      FirebaseRequestsController();
+  InstructorsKeeper _instructorsKeeper = InstructorsKeeper();
 
   @override
   void initState() {
@@ -74,9 +76,8 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
                 : "ГОРНЫЕ ЛЫЖИ");
         },
         child: Container(
-          width: _checkKindOfSport(name)
-              ? screenWidth * 0.75
-              : screenWidth * 0.7,
+          width:
+              _checkKindOfSport(name) ? screenWidth * 0.75 : screenWidth * 0.7,
           height: _checkKindOfSport(name)
               ? screenHeight * 0.06
               : screenHeight * 0.05,
@@ -191,23 +192,17 @@ class _AllInstructorsScreenState extends State<AllInstructorsScreen> {
     );
   }
 
-  void _getInstructors(){
-    _firebaseRequestsController.get("Инструкторы").then((value){
-      value.forEach((instructorId, instructorData) {
-        Instructor instructor = Instructor.fromJson(instructorData);
-        if(instructor.kindOfSport==KindsOfSport.SKIES){
-          _skiesInstructors.add(instructor);
-        }
-        else{
-          _snowboardInstructors.add(instructor);
-        }
-      });
-      setState(() {});
+  void _getInstructors() {
+    setState(() {
+      _skiesInstructors =
+          _instructorsKeeper.findInstructorsByKindOfSport(KindsOfSport.SKIES);
+      _snowboardInstructors = _instructorsKeeper
+          .findInstructorsByKindOfSport(KindsOfSport.SNOWBOARD);
     });
   }
 }
 
-class KindsOfSport{
+class KindsOfSport {
   static const String SKIES = "Горные лыжи";
   static const String SNOWBOARD = "Сноуборд";
 }

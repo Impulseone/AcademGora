@@ -1,7 +1,7 @@
 import 'package:academ_gora/model/workout.dart';
 
 class Instructor {
-  // String id;
+  String id;
   String name;
   String phone;
   String photoUrl;
@@ -11,8 +11,9 @@ class Instructor {
   Map<dynamic, dynamic> socialNetworks;
   Map<dynamic, dynamic> schedule;
 
-  static Instructor fromJson(Map<dynamic, dynamic> map) {
+  static Instructor fromJson(String id, Map<dynamic, dynamic> map) {
     Instructor instructor = Instructor();
+    instructor.id = id;
     instructor.name = map["ФИО"];
     instructor.phone = map["Телефон"];
     instructor.photoUrl = map["Фото"];

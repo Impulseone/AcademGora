@@ -1,9 +1,7 @@
-import 'package:academ_gora/controller/firebase_requests_controller.dart';
+import 'package:academ_gora/model/Instructors_keeper.dart';
 import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/reg_to_instructor_data.dart';
 import 'package:academ_gora/model/workout.dart';
-import 'package:collection/equality.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
@@ -20,13 +18,13 @@ class InstructorsListScreen extends StatefulWidget {
 
 class InstructorsListScreenState extends State<InstructorsListScreen> {
   List<Instructor> instructors = [];
-FirebaseRequestsController _firebaseRequestsController = FirebaseRequestsController();
   RegToInstructorData regToInstructorData;
   WorkoutDataKeeper _workoutSingleton = WorkoutDataKeeper();
+  InstructorsKeeper _instructorsKeeper = InstructorsKeeper();
 
   @override
   Widget build(BuildContext context) {
-    _getAllInstructorsOfSelectedSport();
+    instructors = _instructorsKeeper.findInstructorsByKindOfSport(_workoutSingleton.sportType);
     return Scaffold(
       body: Container(
           decoration: screenDecoration("assets/registration_to_instructor/1_bg.png"),
@@ -132,27 +130,5 @@ FirebaseRequestsController _firebaseRequestsController = FirebaseRequestsControl
     workoutSingleton.instructorPhoneNumber = regToInstructorData.phoneNumber;
     Navigator.of(context).push(
         MaterialPageRoute(builder: (c) => RegistrationParametersScreen()));
-  }
-
-  void _getAllInstructorsOfSelectedSport() async {
-    _firebaseRequestsController.get("Инструкторы").then((value) {
-      if (value != null) {
-        Map<dynamic, dynamic> instructorDataMap =
-            value;
-        List<Instructor> instructorsFromDb = [];
-        instructorDataMap.forEach((key, value) {
-          if (value["Вид спорта"] == _workoutSingleton.sportType) {
-            Instructor instructor = Instructor.fromJson(value);
-            instructorsFromDb.add(instructor);
-          }
-        });
-        Function eq = const ListEquality().equals;
-        if (!eq(instructors, instructorsFromDb)) {
-          setState(() {
-            instructors = instructorsFromDb;
-          });
-        }
-      }
-    });
   }
 }
