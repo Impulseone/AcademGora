@@ -1,5 +1,7 @@
 import 'package:academ_gora/controller/firebase_requests_controller.dart';
 import 'package:academ_gora/main.dart';
+import 'package:academ_gora/model/Instructors_keeper.dart';
+import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/registration_to_workout/helpers_widgets/horizontal_divider.dart';
@@ -45,6 +47,8 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   TimesController _timesController = TimesController();
   List<Workout> _workoutsPerDay = [];
 
+  InstructorsKeeper _instructorsKeeper = InstructorsKeeper();
+
   @override
   void initState() {
     super.initState();
@@ -85,7 +89,8 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
           Navigator.of(context).pop();
         },
         child: Container(
-            margin: EdgeInsets.only(left: 10, right: 20, top: screenHeight * 0.07),
+            margin:
+                EdgeInsets.only(left: 10, right: 20, top: screenHeight * 0.07),
             child: Row(
               children: [Icon(Icons.arrow_back_ios), Text("НАЗАД")],
             )));
@@ -383,7 +388,8 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
         _firebaseController.get("$value/$userId/Занятия").then((value) {
           value.forEach((key, value) {
             if (value["Дата"] == dateString)
-              workouts.add(Workout.fromJson(value));
+              workouts
+                  .add(Workout.fromJson((key as String).split(" ")[1], value));
           });
           _workoutsPerDay = workouts;
         });
@@ -434,19 +440,14 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   }
 
   void _getOpenedTimesPerMonth() {
-    UserRole.getUserRole().then((userRole) async {
-      if (userRole == UserRole.instructor) {
-        String userId = FirebaseAuth.instance.currentUser.uid;
-        Map<dynamic, dynamic> timesMap =
-            await _firebaseController.get("$userRole/$userId/График работы");
-        if (timesMap != null) {
-          setState(() {
-            _fillMarkedDateMap(
-                _getDatesWithOpenedRegistration(timesMap, userRole, userId));
-          });
-        }
-      }
-    });
+    Instructor instructor = _instructorsKeeper.findInstructorByPhoneNumber(
+        FirebaseAuth.instance.currentUser.phoneNumber);
+    if (instructor.schedule != null) {
+      setState(() {
+        _fillMarkedDateMap(_getDatesWithOpenedRegistration(instructor.schedule,
+            UserRole.instructor, FirebaseAuth.instance.currentUser.uid));
+      });
+    }
   }
 
   List<DateTime> _getDatesWithOpenedRegistration(
@@ -537,8 +538,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     ));
   }
 
-  Widget _changeStatusButton(
-      String timeStatus, String text, String iconPath) {
+  Widget _changeStatusButton(String timeStatus, String text, String iconPath) {
     return Container(
         height: screenHeight * 0.033,
         margin: EdgeInsets.only(left: screenWidth * 0.2),

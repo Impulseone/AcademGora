@@ -1,4 +1,5 @@
 import 'package:academ_gora/controller/firebase_requests_controller.dart';
+import 'package:academ_gora/model/Instructors_keeper.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/account/instructor_profile/instructor_profile_screen.dart';
@@ -58,6 +59,7 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
 
   FirebaseRequestsController _firebaseController = FirebaseRequestsController();
   EventList<Event> _markedDateMap = new EventList<Event>(events: Map());
+  InstructorsKeeper _instructorsKeeper = InstructorsKeeper();
 
   @override
   void initState() {
@@ -345,25 +347,17 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
   }
 
   void _getAllWorkouts() async {
-    UserRole.getUserRole().then((userRole) async {
-      if (userRole == UserRole.instructor) {
-        String userId = FirebaseAuth.instance.currentUser.uid;
-        Map<dynamic, dynamic> workoutsMap =
-            await _firebaseController.get("$userRole/$userId/Занятия");
-        List<Workout> workoutsList = [];
-        if (workoutsMap != null && workoutsMap.length > 0)
-          workoutsMap.keys.forEach((element) {
-            Workout workout = Workout.fromJson(workoutsMap[element]);
-            if (_compareWorkoutDates(workout.date))
-              workoutsList.add(workout);
-            else
-              _deleteWorkout(element);
-          });
-        setState(() {
-          _allWorkouts = workoutsList;
-          _workoutsPerDay = _sortWorkoutsBySelectedDate(workoutsList);
-        });
-      }
+    List<Workout> workouts = _instructorsKeeper.findInstructorByPhoneNumber(FirebaseAuth.instance.currentUser.phoneNumber).workouts;
+    List<Workout> workoutsList = [];
+    workouts.forEach((workout) {
+      if (_compareWorkoutDates(workout.date))
+        workoutsList.add(workout);
+      else
+        _deleteWorkout(workout.id);
+    });
+    setState(() {
+      _allWorkouts = workoutsList;
+      _workoutsPerDay = _sortWorkoutsBySelectedDate(workoutsList);
     });
   }
 

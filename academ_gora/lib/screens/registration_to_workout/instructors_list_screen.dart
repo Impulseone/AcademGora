@@ -128,6 +128,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
       workoutSingleton.id =
           regToInstructorData.date.millisecondsSinceEpoch.toString();
     workoutSingleton.instructorPhoneNumber = regToInstructorData.phoneNumber;
+    workoutSingleton.instructorId = _instructorsKeeper.findInstructorByPhoneNumber(regToInstructorData.phoneNumber).id;
     Navigator.of(context).push(
         MaterialPageRoute(builder: (c) => RegistrationParametersScreen()));
   }

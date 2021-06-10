@@ -173,7 +173,7 @@ class UserAccountScreenState extends State<UserAccountScreen> {
               List<Workout> workoutsFromDb = [];
               workoutDataMap.forEach((key, value) {
                 if (_compareWorkoutDates(value["Дата"]))
-                  workoutsFromDb.add(Workout.fromJson(value));
+                  workoutsFromDb.add(Workout.fromJson(key, value));
                 else
                   _deleteWorkout(key);
               });

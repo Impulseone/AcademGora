@@ -24,9 +24,9 @@ class Workout {
   String userPhoneNumber;
   List<Visitor> visitors = [];
 
-  static Workout fromJson(workoutData) {
+  static Workout fromJson(String id, workoutData) {
     Workout workout = Workout();
-    workout.id = workoutData["id"];
+    workout.id = id;
     workout.date = workoutData["Дата"];
     workout.from = (workoutData["Время"] as String).split('-')[0];
     workout.to = (workoutData["Время"] as String).split('-')[1];
