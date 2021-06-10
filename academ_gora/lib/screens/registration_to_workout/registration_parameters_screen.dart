@@ -1,6 +1,6 @@
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
-import 'package:academ_gora/times_controller.dart';
+import 'package:academ_gora/controller/times_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class RegistrationParametersScreen extends StatefulWidget {
 
 class RegistrationParametersScreenState
     extends State<RegistrationParametersScreen> {
-  WorkoutSingleton workoutSingleton = WorkoutSingleton();
+  WorkoutDataKeeper workoutSingleton = WorkoutDataKeeper();
 
   List<Pair> textEditingControllers = [];
   List<Visitor> visitors = [];

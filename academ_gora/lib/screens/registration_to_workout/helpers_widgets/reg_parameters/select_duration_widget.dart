@@ -1,6 +1,6 @@
 import 'package:academ_gora/controller/firebase_requests_controller.dart';
 import 'package:academ_gora/model/workout.dart';
-import 'package:academ_gora/times_controller.dart';
+import 'package:academ_gora/controller/times_controller.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../main.dart';
@@ -23,7 +23,7 @@ class SelectDurationWidget extends StatefulWidget {
 class _SelectDurationWidgetState extends State<SelectDurationWidget> {
   int _selectedDuration;
 
-  WorkoutSingleton _workoutSingleton = WorkoutSingleton();
+  WorkoutDataKeeper _workoutSingleton = WorkoutDataKeeper();
   FirebaseRequestsController _firebaseRequestsController =
       FirebaseRequestsController();
   TimesController _timesController = TimesController();

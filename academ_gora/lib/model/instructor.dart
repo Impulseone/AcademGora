@@ -1,12 +1,11 @@
 import 'package:academ_gora/model/workout.dart';
 
 class Instructor {
-  String id;
-  String phone;
+  // String id;
   String name;
+  String phone;
   String photoUrl;
   List<Workout> workouts;
-  WorkoutsSchedule workoutsSchedule;
   String info;
   String kindOfSport;
   Map<dynamic, dynamic> socialNetworks;
@@ -17,11 +16,20 @@ class Instructor {
     instructor.name = map["ФИО"];
     instructor.phone = map["Телефон"];
     instructor.photoUrl = map["Фото"];
+    instructor.workouts = _parseWorkouts(map["Занятия"]);
     instructor.info = map["Информация"];
     instructor.socialNetworks = map["Соцсети"];
     instructor.schedule = map["График работы"];
     instructor.kindOfSport = map["Вид спорта"];
     return instructor;
+  }
+
+  static List<Workout> _parseWorkouts(Map data) {
+    List<Workout> workouts = [];
+    data.forEach((key, value) {
+      workouts.add(Workout.fromJson(value));
+    });
+    return workouts;
   }
 
   @override
@@ -41,18 +49,3 @@ class SocialNetwork {
 
   SocialNetwork(this.name, this.url);
 }
-
-class WorkoutsSchedule {
-  List<DaySchedule> daySchedules;
-}
-
-class DaySchedule {
-  List<TimeAndStatus> timesAndStatuses;
-}
-
-class TimeAndStatus {
-  String time;
-  WorkoutStatus status;
-}
-
-enum WorkoutStatus { OPENED, TIMEBREAK, WORKOUT, CLOSED }

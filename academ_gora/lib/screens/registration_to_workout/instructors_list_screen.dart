@@ -22,7 +22,7 @@ class InstructorsListScreenState extends State<InstructorsListScreen> {
   List<Instructor> instructors = [];
 FirebaseRequestsController _firebaseRequestsController = FirebaseRequestsController();
   RegToInstructorData regToInstructorData;
-  WorkoutSingleton _workoutSingleton = WorkoutSingleton();
+  WorkoutDataKeeper _workoutSingleton = WorkoutDataKeeper();
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +122,7 @@ FirebaseRequestsController _firebaseRequestsController = FirebaseRequestsControl
   }
 
   void _openRegParametersScreen() {
-    WorkoutSingleton workoutSingleton = WorkoutSingleton();
+    WorkoutDataKeeper workoutSingleton = WorkoutDataKeeper();
     workoutSingleton.instructorName = regToInstructorData.instructorName;
     workoutSingleton.from = regToInstructorData.time;
     if (workoutSingleton.date == null) workoutSingleton.date = DateFormat('ddMMyyyy').format(regToInstructorData.date);
@@ -143,7 +143,6 @@ FirebaseRequestsController _firebaseRequestsController = FirebaseRequestsControl
         instructorDataMap.forEach((key, value) {
           if (value["Вид спорта"] == _workoutSingleton.sportType) {
             Instructor instructor = Instructor.fromJson(value);
-            instructor.id = key;
             instructorsFromDb.add(instructor);
           }
         });

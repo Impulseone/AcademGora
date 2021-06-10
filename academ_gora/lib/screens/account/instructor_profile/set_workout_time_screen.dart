@@ -3,14 +3,12 @@ import 'package:academ_gora/main.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/registration_to_workout/helpers_widgets/horizontal_divider.dart';
-import 'package:academ_gora/times_controller.dart';
+import 'package:academ_gora/controller/times_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:intl/intl.dart';
-
-enum TimeStatus { OPENED, CLOSED, NOT_AVAILABLE }
 
 class SetWorkoutTimeScreen extends StatefulWidget {
   @override
@@ -41,7 +39,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
 
   EventList<Event> _markedDateMap = new EventList<Event>(events: Map());
 
-  TimeStatus _selectedTimeStatus;
+  String _selectedTimeStatus;
 
   FirebaseRequestsController _firebaseController = FirebaseRequestsController();
   TimesController _timesController = TimesController();
@@ -327,9 +325,9 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
       setState(() {
         if (_selectedTimeStatus == TimeStatus.OPENED) {
           _sendOnce(time, "открыто");
-        } else if (_selectedTimeStatus == TimeStatus.CLOSED) {
-          _sendOnce(time, "недоступно");
         } else if (_selectedTimeStatus == TimeStatus.NOT_AVAILABLE) {
+          _sendOnce(time, "недоступно");
+        } else if (_selectedTimeStatus == TimeStatus.NOT_OPENED) {
           _sendOnce(time, "не открыто");
         }
       });
@@ -528,11 +526,11 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
         _changeStatusButton(TimeStatus.OPENED, "открыта предварительная запись",
             "assets/instructor_set_time/e5.png"),
         _changeStatusButton(
-            TimeStatus.CLOSED,
+            TimeStatus.NOT_AVAILABLE,
             "запись недоступна(занято,перерыв)",
             "assets/instructor_set_time/e4.png"),
         _changeStatusButton(
-            TimeStatus.NOT_AVAILABLE,
+            TimeStatus.NOT_OPENED,
             "предварительная запись не открыта",
             "assets/instructor_set_time/e15.png"),
       ],
@@ -540,7 +538,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   }
 
   Widget _changeStatusButton(
-      TimeStatus timeStatus, String text, String iconPath) {
+      String timeStatus, String text, String iconPath) {
     return Container(
         height: screenHeight * 0.033,
         margin: EdgeInsets.only(left: screenWidth * 0.2),

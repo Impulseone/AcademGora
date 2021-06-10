@@ -6,7 +6,7 @@ import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/account/helpers_widgets/workout_info.dart';
 import 'package:academ_gora/screens/account/update_workout_screen.dart';
 import 'package:academ_gora/screens/account/user_account_screen.dart';
-import 'package:academ_gora/times_controller.dart';
+import 'package:academ_gora/controller/times_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

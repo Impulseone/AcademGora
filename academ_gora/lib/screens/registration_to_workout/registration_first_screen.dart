@@ -23,7 +23,7 @@ class RegistrationFirstScreenState extends State<RegistrationFirstScreen> {
   String fromTime;
   String toTime;
 
-  WorkoutSingleton workoutSingleton = WorkoutSingleton();
+  WorkoutDataKeeper workoutSingleton = WorkoutDataKeeper();
 
   @override
   void initState() {

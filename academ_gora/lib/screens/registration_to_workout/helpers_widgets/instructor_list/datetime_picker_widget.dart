@@ -1,7 +1,7 @@
 import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/reg_to_instructor_data.dart';
 import 'package:academ_gora/model/workout.dart';
-import 'package:academ_gora/times_controller.dart';
+import 'package:academ_gora/controller/times_controller.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../main.dart';
@@ -25,7 +25,7 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   RegToInstructorData _regToInstructorDataCurrent;
 
   var _selectedDate;
-  WorkoutSingleton _workoutSingleton = WorkoutSingleton();
+  WorkoutDataKeeper _workoutSingleton = WorkoutDataKeeper();
 
   List<String> _openedTimes = [];
 
@@ -254,7 +254,6 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   }
 
   void _selectTime(String time) {
-    _workoutSingleton.instructorId = widget.instructor.id;
     _workoutSingleton.date = DateFormat("ddMMyyyy").format(_selectedDate);
     RegToInstructorData regToInstructorData = RegToInstructorData(
         widget.instructorWidgetState.instructor.name,

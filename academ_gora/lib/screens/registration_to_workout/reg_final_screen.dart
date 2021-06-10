@@ -14,7 +14,7 @@ class RegistrationFinalScreen extends StatefulWidget {
 
 class _RegistrationFinalScreenState extends State<RegistrationFinalScreen> {
 
-  WorkoutSingleton workoutSingleton = WorkoutSingleton();
+  WorkoutDataKeeper workoutSingleton = WorkoutDataKeeper();
 
   @override
   Widget build(BuildContext context) {

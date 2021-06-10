@@ -3,6 +3,12 @@ class SportType {
   static const String skiing = "Горные лыжи";
 }
 
+class TimeStatus {
+  static const String OPENED = "открыто";
+  static const String NOT_OPENED = "не открыто";
+  static const String NOT_AVAILABLE = "недоступно";
+}
+
 class Workout {
   String id;
   String sportType;
@@ -36,10 +42,10 @@ class Workout {
     return workout;
   }
 
-  static List<Visitor> _parseVisitors(Map<dynamic,dynamic> visitors) {
+  static List<Visitor> _parseVisitors(Map<dynamic, dynamic> visitors) {
     List<Visitor> visitorsList = [];
-    visitors.forEach((key,value) {
-        visitorsList.add(Visitor(value["Имя"], value["Возраст"]));
+    visitors.forEach((key, value) {
+      visitorsList.add(Visitor(value["Имя"], value["Возраст"]));
     });
     return visitorsList;
   }
@@ -53,8 +59,8 @@ class Workout {
   int get hashCode => id.hashCode;
 }
 
-class WorkoutSingleton {
-  static final WorkoutSingleton _singleton = WorkoutSingleton._internal();
+class WorkoutDataKeeper {
+  static final WorkoutDataKeeper _singleton = WorkoutDataKeeper._internal();
 
   String id;
   String sportType;
@@ -72,11 +78,11 @@ class WorkoutSingleton {
   String instructorPhoneNumber;
   List<Visitor> visitors = [];
 
-  factory WorkoutSingleton() {
+  factory WorkoutDataKeeper() {
     return _singleton;
   }
 
-  WorkoutSingleton._internal();
+  WorkoutDataKeeper._internal();
 
   void clear() {
     id = null;

@@ -93,7 +93,7 @@ class _DateWidgetState extends State<DateWidget> {
 
   void _clearDateFieldButton() {
     _selectedDate = null;
-    WorkoutSingleton().date = null;
+    WorkoutDataKeeper().date = null;
     widget.registrationToInstructorScreenState.setState(() {
       widget.registrationToInstructorScreenState.selectedDate = _selectedDate;
     });

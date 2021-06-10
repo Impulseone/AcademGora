@@ -1,8 +1,11 @@
 import 'package:academ_gora/controller/auth_controller.dart';
+import 'package:academ_gora/controller/firebase_requests_controller.dart';
+import 'package:academ_gora/model/Instructors_keeper.dart';
 import 'package:academ_gora/screens/auth/auth_screen.dart';
 import 'package:academ_gora/screens/main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 double screenHeight;
@@ -19,6 +22,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   AuthController authBloc = AuthController();
+  FirebaseRequestsController _firebaseController = FirebaseRequestsController();
+  InstructorsKeeper _instructorsKeeper = InstructorsKeeper();
 
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,6 +31,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
+        // home: HomeWidget(),
         home: FutureBuilder(
           future: _initApp(),
           builder: (context, snap) {
@@ -43,9 +49,16 @@ class _MyAppState extends State<MyApp> {
   Future<bool> _initApp() async {
     bool isUserAuthorized = false;
     await Firebase.initializeApp().then((_) {
+      _firebaseController.addListener(
+          "Инструкторы", _saveInstructorsIntoKeeper);
       if (FirebaseAuth.instance.currentUser != null) isUserAuthorized = true;
     });
     return isUserAuthorized;
+  }
+
+  void _saveInstructorsIntoKeeper(Event event) async {
+    _instructorsKeeper
+        .updateInstructors(await _firebaseController.get("Инструкторы"));
   }
 }
 
