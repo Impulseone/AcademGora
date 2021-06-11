@@ -12,6 +12,8 @@ import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:intl/intl.dart';
 
+import 'months.dart';
+
 class SetWorkoutTimeScreen extends StatefulWidget {
   @override
   _SetWorkoutTimeScreenState createState() => _SetWorkoutTimeScreenState();
@@ -19,21 +21,6 @@ class SetWorkoutTimeScreen extends StatefulWidget {
 
 class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   DateTime _selectedDate = DateTime.now();
-
-  List months = [
-    'Января',
-    'Февраля',
-    'Марта',
-    'Апреля',
-    'Мая',
-    'Июня',
-    'Июля',
-    'Августа',
-    'Сентября',
-    'Октября',
-    'Ноября',
-    'Декабря'
-  ];
 
   List<String> _openedTimesPerDay = [];
   List<String> _closedTimesPerDay = [];
@@ -48,17 +35,20 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   List<Workout> _workoutsPerDay = [];
 
   InstructorsKeeper _instructorsKeeper = InstructorsKeeper();
+  Instructor _currentInstructor;
 
   @override
   void initState() {
     super.initState();
-    _getOpenedTimesPerDay();
-    _getOpenedTimesPerMonth();
-    _getAllWorkoutsPerDay();
   }
 
   @override
   Widget build(BuildContext context) {
+    _currentInstructor = _instructorsKeeper.findInstructorByPhoneNumber(
+        "${FirebaseAuth.instance.currentUser.phoneNumber}");
+    _getOpenedTimesPerDay();
+    _getOpenedTimesPerMonth();
+    _getAllWorkoutsPerDay();
     return Scaffold(
         body: Container(
       alignment: Alignment.center,
@@ -380,21 +370,14 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   }
 
   void _getAllWorkoutsPerDay() {
-    UserRole.getUserRole().then((value) {
-      if (value == UserRole.instructor) {
-        String userId = FirebaseAuth.instance.currentUser.uid;
-        String dateString = DateFormat('ddMMyyyy').format(_selectedDate);
-        List<Workout> workouts = [];
-        _firebaseController.get("$value/$userId/Занятия").then((value) {
-          value.forEach((key, value) {
-            if (value["Дата"] == dateString)
-              workouts
-                  .add(Workout.fromJson((key as String).split(" ")[1], value));
-          });
-          _workoutsPerDay = workouts;
-        });
+    String dateString = DateFormat('ddMMyyyy').format(_selectedDate);
+    List<Workout> workouts = [];
+    _currentInstructor.workouts.forEach((element) {
+      if (element.date == dateString) {
+        workouts.add(element);
       }
     });
+    _workoutsPerDay = workouts;
   }
 
   bool _checkChangeTimePossibility(String time) {
@@ -416,35 +399,25 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     _openedTimesPerDay = [];
     _notAvailableTimesPerDay = [];
     _closedTimesPerDay = [];
-    UserRole.getUserRole().then((userRole) async {
-      if (userRole == UserRole.instructor) {
-        String userId = FirebaseAuth.instance.currentUser.uid;
-        String dateString = DateFormat('ddMMyyyy').format(_selectedDate);
-        Map<dynamic, dynamic> timesMap = await _firebaseController
-            .get("$userRole/$userId/График работы/$dateString");
-        if (timesMap != null)
-          timesMap.forEach((key, value) {
-            if (value == 'открыто' && !_openedTimesPerDay.contains(key)) {
-              _openedTimesPerDay.add(key);
-            } else if (value == 'не открыто' &&
-                !_notAvailableTimesPerDay.contains(key)) {
-              _notAvailableTimesPerDay.add(key);
-            } else if (value == 'недоступно' &&
-                !_closedTimesPerDay.contains(key)) {
-              _closedTimesPerDay.add(key);
-            }
-          });
-        setState(() {});
+    String dateString = DateFormat('ddMMyyyy').format(_selectedDate);
+    Map<dynamic, dynamic> timesMap = _currentInstructor.schedule["$dateString"];
+    if(timesMap!=null) timesMap.forEach((key, value) {
+      if (value == 'открыто' && !_openedTimesPerDay.contains(key)) {
+        _openedTimesPerDay.add(key);
+      } else if (value == 'не открыто' &&
+          !_notAvailableTimesPerDay.contains(key)) {
+        _notAvailableTimesPerDay.add(key);
+      } else if (value == 'недоступно' && !_closedTimesPerDay.contains(key)) {
+        _closedTimesPerDay.add(key);
       }
     });
+    setState(() {});
   }
 
   void _getOpenedTimesPerMonth() {
-    Instructor instructor = _instructorsKeeper.findInstructorByPhoneNumber(
-        FirebaseAuth.instance.currentUser.phoneNumber);
-    if (instructor.schedule != null) {
+    if (_currentInstructor.schedule != null) {
       setState(() {
-        _fillMarkedDateMap(_getDatesWithOpenedRegistration(instructor.schedule,
+        _fillMarkedDateMap(_getDatesWithOpenedRegistration(_currentInstructor.schedule,
             UserRole.instructor, FirebaseAuth.instance.currentUser.uid));
       });
     }
