@@ -1,3 +1,5 @@
+import 'package:academ_gora/model/Instructors_keeper.dart';
+import 'package:academ_gora/model/instructor.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/account/reg_parameters/human_info_widget.dart';
@@ -24,12 +26,12 @@ class UpdateWorkoutScreen extends StatefulWidget {
 }
 
 class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
-
   List<Pair> textEditingControllers = [];
   List<Visitor> visitors = [];
   int peopleCount = 0;
   int levelOfSkating;
   TextEditingController _commentEditingController;
+  InstructorsKeeper _instructorsKeeper = InstructorsKeeper();
 
   @override
   void initState() {
@@ -52,7 +54,8 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
     return Scaffold(
       body: Container(
           height: MediaQuery.of(context).size.height,
-          decoration: screenDecoration("assets/registration_parameters/0_bg.png"),
+          decoration:
+              screenDecoration("assets/registration_parameters/0_bg.png"),
           child: Container(
               width: screenWidth,
               child: SingleChildScrollView(
@@ -216,21 +219,51 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
   }
 
   void _saveChanges() async {
-    await UserRole.getUserRole().then((userRole) => {
-          FirebaseDatabase.instance
-              .reference()
-              .child(
-                  "$userRole/${FirebaseAuth.instance.currentUser.uid}/Занятия/${widget.workout.id}")
-              .update({
-            "Количество человек": peopleCount,
-            "Уровень катания": levelOfSkating,
-            "Комментарий": _commentEditingController.text,
-            "Посетители": _humansMap(),
-          })
-        });
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (c) => UserAccountScreen()),
-        (route) => false);
+    _saveChangesForUser().then((_) {
+      _saveChangesForInstructor().then((value) {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (c) => UserAccountScreen()),
+            (route) => false);
+      });
+    });
+  }
+
+  Future<void> _saveChangesForUser() async {
+    FirebaseDatabase.instance
+        .reference()
+        .child(
+            "${UserRole.user}/${FirebaseAuth.instance.currentUser.uid}/Занятия/${widget.workout.id}")
+        .set({
+      "Вид спорта": widget.workout.sportType,
+      "Время": "${widget.workout.from}-${widget.workout.to}",
+      "Дата": "${widget.workout.date}",
+      "Количество человек": peopleCount,
+      "Посетители": _humansMap(),
+      "Уровень катания": levelOfSkating,
+      "Комментарий": _commentEditingController.text,
+      "Продолжительность": widget.workout.workoutDuration,
+      "Телефон инструктора": widget.workout.instructorPhoneNumber
+    });
+  }
+
+  Future<void> _saveChangesForInstructor() async {
+    Instructor instructor = _instructorsKeeper
+        .findInstructorByPhoneNumber(widget.workout.instructorPhoneNumber);
+    FirebaseDatabase.instance
+        .reference()
+        .child(
+            "${UserRole.instructor}/${instructor.id}/Занятия/Занятие ${widget.workout.id}")
+        .set({
+      "Вид спорта": widget.workout.sportType,
+      "Время": "${widget.workout.from}-${widget.workout.to}",
+      "Дата": "${widget.workout.date}",
+      "Количество человек": peopleCount,
+      "Посетители": _humansMap(),
+      "Уровень катания": levelOfSkating,
+      "Комментарий": _commentEditingController.text,
+      "Продолжительность": widget.workout.workoutDuration,
+      "Телефон": FirebaseAuth.instance.currentUser.phoneNumber
+    });
   }
 
   Map<String, dynamic> _humansMap() {
@@ -239,7 +272,7 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
     for (var i = 0; i < visitors.length; ++i) {
       var human = visitors[i];
       map.putIfAbsent(
-          "${i + 1}",
+          "Посетитель ${i + 1}",
           () => {
                 "Имя": human.name,
                 "Возраст": human.age,
@@ -249,7 +282,8 @@ class UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
   }
 
   void _addVisitors(String name, int age) {
-    visitors.add(Visitor(name, age));
+    if (!visitors.contains(Visitor(name, age)))
+      visitors.add(Visitor(name, age));
   }
 
   Color _continueButtonBackgroundColor() {

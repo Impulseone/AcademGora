@@ -28,9 +28,11 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
       FirebaseRequestsController();
   TimesController _timesController = TimesController();
   InstructorsKeeper _instructorsKeeper = InstructorsKeeper();
+  Instructor _instructor;
 
   @override
   Widget build(BuildContext context) {
+    _instructor = _instructorsKeeper.findInstructorByPhoneNumber(widget.workout.instructorPhoneNumber);
     return Container(
       width: screenWidth * 0.9,
       decoration: BoxDecoration(
@@ -177,15 +179,13 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
   }
 
   void _deleteWorkoutFromInstructor() {
-    Instructor instructor = _instructorsKeeper
-        .findInstructorByPhoneNumber(widget.workout.instructorPhoneNumber);
     _firebaseRequestsController
         .delete(
-            "${UserRole.instructor}/${instructor.id}/Занятия/Занятие ${widget.workout.id}")
+            "${UserRole.instructor}/${_instructor.id}/Занятия/Занятие ${widget.workout.id}")
         .then((_) {
       _firebaseRequestsController
           .update(
-              "${UserRole.instructor}/${instructor.id}/График работы/${widget.workout.date}",
+              "${UserRole.instructor}/${_instructor.id}/График работы/${widget.workout.date}",
               _timesController.setTimesStatus(widget.workout.from,
                   widget.workout.workoutDuration, "не открыто"))
           .then((_) {
@@ -210,6 +210,7 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
   }
 
   Widget _instructorInfoWidget() {
+
     return Container(
         width: screenWidth * 0.9,
         margin: EdgeInsets.only(left: 10, top: 5),
@@ -223,7 +224,7 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
                 width: screenWidth * 0.4,
                 margin: EdgeInsets.only(left: 45),
                 child: Text(
-                  widget.workout.instructorName,
+                  _instructor.name,
                   style: TextStyle(fontSize: 14),
                 )),
           ],
