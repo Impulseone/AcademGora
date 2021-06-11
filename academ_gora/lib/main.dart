@@ -24,6 +24,21 @@ class _MyAppState extends State<MyApp> {
   AuthController authBloc = AuthController();
   FirebaseRequestsController _firebaseController = FirebaseRequestsController();
   InstructorsKeeper _instructorsKeeper = InstructorsKeeper();
+  bool _isUserAuthorized;
+
+  @override
+  void initState() {
+    super.initState();
+    Firebase.initializeApp().then((_) {
+      if (FirebaseAuth.instance.currentUser != null) {
+        setState(() {
+          _isUserAuthorized = true;
+        });
+      }
+      _firebaseController.addListener(
+          "Инструкторы", _saveInstructorsIntoKeeper);
+    });
+  }
 
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -31,34 +46,21 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        // home: HomeWidget(),
-        home: FutureBuilder(
-          future: _initApp(),
-          builder: (context, snap) {
-            screenHeight = MediaQuery.of(context).size.height;
-            screenWidth = MediaQuery.of(context).size.width;
-            if (snap.hasData)
-              return snap.data == true ? MainScreen() : AuthScreen();
-            else {
-              return SplashScreen();
-            }
-          },
-        ));
-  }
-
-  Future<bool> _initApp() async {
-    bool isUserAuthorized = false;
-    await Firebase.initializeApp().then((_) {
-      _firebaseController.addListener(
-          "Инструкторы", _saveInstructorsIntoKeeper);
-      if (FirebaseAuth.instance.currentUser != null) isUserAuthorized = true;
-    });
-    return isUserAuthorized;
+        home: Builder(builder: (context) {
+          screenHeight = MediaQuery.of(context).size.height;
+          screenWidth = MediaQuery.of(context).size.width;
+          if (_isUserAuthorized != null)
+            return _isUserAuthorized ? MainScreen() : AuthScreen();
+          else
+            return SplashScreen();
+        }));
   }
 
   void _saveInstructorsIntoKeeper(Event event) async {
-    _instructorsKeeper
-        .updateInstructors(await _firebaseController.get("Инструкторы"));
+    await _firebaseController.get("Инструкторы").then((value) {
+      _instructorsKeeper.updateInstructors(value);
+      setState(() {});
+    });
   }
 }
 

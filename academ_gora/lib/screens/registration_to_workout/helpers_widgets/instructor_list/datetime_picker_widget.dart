@@ -147,18 +147,18 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
           Row(
             children: _fillTimes(0, 4),
           ),
-          Row(children: _fillTimes(5, 9)),
+          Row(children: _fillTimes(4, 8)),
           Row(
-            children: _fillTimes(9, 12),
+            children: _fillTimes(8, 12),
           ),
           Row(
-            children: _fillTimes(13, 17),
+            children: _fillTimes(12, 16),
           ),
           Row(
-            children: _fillTimes(18, 22),
+            children: _fillTimes(16, 20),
           ),
           Row(
-            children: _fillTimes(23, 23),
+            children: _fillTimes(20, 23),
           ),
         ],
       ),

@@ -27,9 +27,10 @@ class Instructor {
 
   static List<Workout> _parseWorkouts(Map data) {
     List<Workout> workouts = [];
-    data.forEach((key, value) {
-      workouts.add(Workout.fromJson((key as String).split(" ")[1], value));
-    });
+    if (data != null && data.length > 0)
+      data.forEach((key, value) {
+        workouts.add(Workout.fromJson((key as String).split(" ")[1], value));
+      });
     return workouts;
   }
 

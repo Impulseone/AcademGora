@@ -15,18 +15,17 @@ class InstructorWidget extends StatefulWidget {
   InstructorWidget(this.instructor, this.instructorsListScreenState);
 
   @override
-  InstructorWidgetState createState() => InstructorWidgetState(instructor);
+  InstructorWidgetState createState() => InstructorWidgetState();
 }
 
 class InstructorWidgetState extends State<InstructorWidget> {
   RegToInstructorData regToInstructorData;
   Instructor instructor;
 
-  InstructorWidgetState(this.instructor);
-
   @override
   Widget build(BuildContext context) {
     regToInstructorData = widget.instructorsListScreenState.regToInstructorData;
+    instructor = widget.instructor;
     return ExpandablePanel(
       header: _header(),
       expanded: _body(),
