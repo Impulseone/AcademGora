@@ -62,13 +62,8 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
   InstructorsKeeper _instructorsKeeper = InstructorsKeeper();
 
   @override
-  void initState() {
-    super.initState();
-    _getAllWorkouts();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    _getAllWorkouts();
     _fillMarkedDateMap();
     return Scaffold(
         body: Container(
@@ -347,14 +342,18 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
   }
 
   void _getAllWorkouts() async {
-    List<Workout> workouts = _instructorsKeeper.findInstructorByPhoneNumber(FirebaseAuth.instance.currentUser.phoneNumber).workouts;
+    List<Workout> workouts = _instructorsKeeper
+        .findInstructorByPhoneNumber(
+            FirebaseAuth.instance.currentUser.phoneNumber)
+        .workouts;
     List<Workout> workoutsList = [];
-    workouts.forEach((workout) {
-      if (_compareWorkoutDates(workout.date))
-        workoutsList.add(workout);
-      else
-        _deleteWorkout(workout.id);
-    });
+    if (workouts != null)
+      workouts.forEach((workout) {
+        if (_compareWorkoutDates(workout.date))
+          workoutsList.add(workout);
+        else
+          _deleteWorkout(workout.id);
+      });
     setState(() {
       _allWorkouts = workoutsList;
       _workoutsPerDay = _sortWorkoutsBySelectedDate(workoutsList);
