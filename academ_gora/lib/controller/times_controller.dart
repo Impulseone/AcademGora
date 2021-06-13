@@ -44,9 +44,9 @@ class TimesController {
 
   bool checkTimeInterval(String time, String from, String to) {
     int timePriority = _times[time];
-    int fromPriority = _times[from];
+    int fromPriority = _times[from]-1;
     int toPriority = _times[to];
-    if (timePriority >= fromPriority && timePriority <= toPriority)
+    if (timePriority >= fromPriority && timePriority < toPriority)
       return true;
     else
       return false;
@@ -77,7 +77,7 @@ class TimesController {
       timesStatus.putIfAbsent(getTimeByValue(fromPriority), () => status);
       if (fromPriority != 0)
         timesStatus.putIfAbsent(getTimeByValue(fromPriority - 1), () => status);
-      if (fromPriority != _times.length) {
+      if (fromPriority != _times.length - 3) {
         timesStatus.putIfAbsent(getTimeByValue(fromPriority + 1), () => status);
         timesStatus.putIfAbsent(getTimeByValue(fromPriority + 2), () => status);
         timesStatus.putIfAbsent(getTimeByValue(fromPriority + 3), () => status);
@@ -86,38 +86,25 @@ class TimesController {
     return timesStatus;
   }
 
-  bool checkTimesStatusForOneHour(
-      Map<dynamic, dynamic> schedule, String from, String status) {
-    int fromPriority = _times[from];
-    if (schedule[getTimeByValue(fromPriority)] == 'открыто' &&
-        schedule[getTimeByValue(fromPriority + 1)] == 'открыто') {
-      return true;
-    } else
-      return false;
-  }
+  // bool checkTimesStatusForOneHour(
+  //     Map<dynamic, dynamic> schedule, String from, String status) {
+  //   int fromPriority = _times[from];
+  //   if (schedule[getTimeByValue(fromPriority)] == 'открыто' &&
+  //       schedule[getTimeByValue(fromPriority + 1)] == 'открыто') {
+  //     return true;
+  //   } else
+  //     return false;
+  // }
+
 
   bool checkTimesStatusForTwoHours(
       Map<dynamic, dynamic> schedule, String from, String status) {
     int fromPriority = _times[from];
-    if (fromPriority == 22)
+    if (fromPriority >= 21)
       return true;
-    else if (fromPriority == 21) {
-      if (schedule[getTimeByValue(fromPriority)] == 'открыто' &&
-          schedule[getTimeByValue(fromPriority + 1)] == 'открыто') {
-        return true;
-      } else
-        return false;
-    } else if (fromPriority == 20) {
-      if (schedule[getTimeByValue(fromPriority)] == 'открыто' &&
-          schedule[getTimeByValue(fromPriority + 1)] == 'открыто' &&
-          schedule[getTimeByValue(fromPriority + 2)] == 'открыто') {
-        return true;
-      } else
-        return false;
-    } else if (schedule[getTimeByValue(fromPriority)] == 'открыто' &&
-        schedule[getTimeByValue(fromPriority + 1)] == 'открыто' &&
-        schedule[getTimeByValue(fromPriority + 2)] == 'открыто' &&
-        schedule[getTimeByValue(fromPriority + 3)] == 'открыто') {
+    else if (schedule[getTimeByValue(fromPriority)] == 'открыто' &&
+        schedule[getTimeByValue(fromPriority + 2)] == 'открыто'
+    ) {
       return true;
     } else
       return false;

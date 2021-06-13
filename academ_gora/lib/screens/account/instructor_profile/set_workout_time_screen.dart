@@ -90,7 +90,7 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     return Container(
         margin: EdgeInsets.only(top: screenHeight * 0.07),
         child: Text(
-          "Ярославский Александр",
+          "${_instructorsKeeper.findInstructorByPhoneNumber(FirebaseAuth.instance.currentUser.phoneNumber).name}",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
         ));
   }
@@ -131,7 +131,6 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // _indicator("выходной", "assets/instructor_set_time/e4.png"),
           _indicator("запись открыта", "assets/instructor_set_time/e5.png"),
           _indicator("записи нет", "assets/instructor_set_time/e6.png"),
         ],
