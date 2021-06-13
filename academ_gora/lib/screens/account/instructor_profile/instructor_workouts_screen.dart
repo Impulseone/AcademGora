@@ -8,6 +8,7 @@ import 'package:academ_gora/screens/account/instructor_profile/workout_data_widg
 import 'package:academ_gora/screens/auth/auth_screen.dart';
 import 'package:academ_gora/screens/extension.dart';
 import 'package:academ_gora/screens/main_screen.dart';
+import 'package:academ_gora/screens/registration_to_workout/helpers_widgets/reg_to_instructor/date_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_ui/firebase_auth_ui.dart';
 import 'package:flutter/material.dart';
@@ -276,8 +277,10 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
       todayButtonColor: Colors.transparent,
       todayTextStyle: TextStyle(color: Colors.black, fontSize: 14),
       onDayPressed: (DateTime date, List<Event> events) {
-        setState(() => _selectedDate = date);
-        _getAllWorkouts();
+        if (date.isAfter(DateTime.now()) || date.isSameDate(DateTime.now())) {
+          setState(() => _selectedDate = date);
+          _getAllWorkouts();
+        }
       },
       weekendTextStyle: TextStyle(color: Colors.black, fontSize: 14),
       daysTextStyle: TextStyle(color: Colors.black, fontSize: 14),

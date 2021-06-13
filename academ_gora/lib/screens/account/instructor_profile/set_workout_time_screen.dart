@@ -6,6 +6,7 @@ import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/registration_to_workout/helpers_widgets/horizontal_divider.dart';
 import 'package:academ_gora/controller/times_controller.dart';
+import 'package:academ_gora/screens/registration_to_workout/helpers_widgets/reg_to_instructor/date_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
@@ -109,12 +110,13 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
       todayButtonColor: Colors.transparent,
       todayTextStyle: TextStyle(color: Colors.black),
       onDayPressed: (DateTime date, List<Event> events) {
-        setState(() {
-          _selectedDate = date;
-          _getOpenedTimesPerDay();
-          _getOpenedTimesPerMonth();
-          _getAllWorkoutsPerDay();
-        });
+        if (date.isAfter(DateTime.now()) || date.isSameDate(DateTime.now()))
+          setState(() {
+            _selectedDate = date;
+            _getOpenedTimesPerDay();
+            _getOpenedTimesPerMonth();
+            _getAllWorkoutsPerDay();
+          });
       },
       markedDatesMap: _markedDateMap,
       weekendTextStyle: TextStyle(color: Colors.black),
@@ -217,15 +219,17 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
   }
 
   void _decreaseDate() {
-    setState(() {
-      _selectedDate = _selectedDate.subtract(Duration(days: 1));
-      _openedTimesPerDay = [];
-      _closedTimesPerDay = [];
-      _notAvailableTimesPerDay = [];
-    });
-    _getOpenedTimesPerDay();
-    _getOpenedTimesPerMonth();
-    _getAllWorkoutsPerDay();
+    if (_selectedDate.isAfter(DateTime.now())) {
+      setState(() {
+        _selectedDate = _selectedDate.subtract(Duration(days: 1));
+        _openedTimesPerDay = [];
+        _closedTimesPerDay = [];
+        _notAvailableTimesPerDay = [];
+      });
+      _getOpenedTimesPerDay();
+      _getOpenedTimesPerMonth();
+      _getAllWorkoutsPerDay();
+    }
   }
 
   Widget _timeWidget() {
@@ -400,24 +404,27 @@ class _SetWorkoutTimeScreenState extends State<SetWorkoutTimeScreen> {
     _closedTimesPerDay = [];
     String dateString = DateFormat('ddMMyyyy').format(_selectedDate);
     Map<dynamic, dynamic> timesMap = _currentInstructor.schedule["$dateString"];
-    if(timesMap!=null) timesMap.forEach((key, value) {
-      if (value == 'открыто' && !_openedTimesPerDay.contains(key)) {
-        _openedTimesPerDay.add(key);
-      } else if (value == 'не открыто' &&
-          !_notAvailableTimesPerDay.contains(key)) {
-        _notAvailableTimesPerDay.add(key);
-      } else if (value == 'недоступно' && !_closedTimesPerDay.contains(key)) {
-        _closedTimesPerDay.add(key);
-      }
-    });
+    if (timesMap != null)
+      timesMap.forEach((key, value) {
+        if (value == 'открыто' && !_openedTimesPerDay.contains(key)) {
+          _openedTimesPerDay.add(key);
+        } else if (value == 'не открыто' &&
+            !_notAvailableTimesPerDay.contains(key)) {
+          _notAvailableTimesPerDay.add(key);
+        } else if (value == 'недоступно' && !_closedTimesPerDay.contains(key)) {
+          _closedTimesPerDay.add(key);
+        }
+      });
     setState(() {});
   }
 
   void _getOpenedTimesPerMonth() {
     if (_currentInstructor.schedule != null) {
       setState(() {
-        _fillMarkedDateMap(_getDatesWithOpenedRegistration(_currentInstructor.schedule,
-            UserRole.instructor, FirebaseAuth.instance.currentUser.uid));
+        _fillMarkedDateMap(_getDatesWithOpenedRegistration(
+            _currentInstructor.schedule,
+            UserRole.instructor,
+            FirebaseAuth.instance.currentUser.uid));
       });
     }
   }
