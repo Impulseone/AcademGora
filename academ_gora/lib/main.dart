@@ -35,6 +35,11 @@ class _MyAppState extends State<MyApp> {
           _isUserAuthorized = true;
         });
       }
+      else {
+        setState(() {
+          _isUserAuthorized = false;
+        });
+      }
       _firebaseController.addListener(
           "Инструкторы", _saveInstructorsIntoKeeper);
     });
