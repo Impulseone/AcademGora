@@ -122,9 +122,21 @@ class _DateWidgetState extends State<DateWidget> {
                       todayButtonColor: Colors.transparent,
                       todayTextStyle: TextStyle(color: Colors.blueAccent),
                       onDayPressed: (DateTime date, List<Event> events) {
-                        if (date.isAfter(DateTime.now()) ||
-                            date.isSameDate(DateTime.now()))
-                          setState(() => _selectedDate = date);
+                        DateTime now = DateTime.now();
+                        if (date.isAfter(now) || date.isSameDate(now))
+                          setState(() {
+                            {
+                              DateTime newDateTime = DateTime(
+                                  date.year,
+                                  date.month,
+                                  date.day,
+                                  now.hour,
+                                  now.minute,
+                                  now.second,
+                                  now.millisecond);
+                              _selectedDate = newDateTime;
+                            }
+                          });
                       },
                       selectedDateTime: _selectedDate,
                       targetDateTime: _selectedDate,
@@ -145,7 +157,8 @@ class _DateWidgetState extends State<DateWidget> {
 
 extension DateOnlyCompare on DateTime {
   bool isSameDate(DateTime other) {
-    return this.year == other.year && this.month == other.month
-        && this.day == other.day;
+    return this.year == other.year &&
+        this.month == other.month &&
+        this.day == other.day;
   }
 }

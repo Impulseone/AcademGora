@@ -1,3 +1,4 @@
+import 'package:academ_gora/controller/firebase_requests_controller.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/controller/times_controller.dart';
@@ -33,6 +34,8 @@ class RegistrationParametersScreenState
 
   TextEditingController _commentController = TextEditingController();
   TimesController _timesController = TimesController();
+  FirebaseRequestsController _firebaseRequestsController =
+      FirebaseRequestsController();
 
   @override
   Widget build(BuildContext context) {
@@ -227,47 +230,44 @@ class RegistrationParametersScreenState
 
   Future<void> _sendWorkoutDataToUser() async {
     await UserRole.getUserRole().then((userRole) => {
-          FirebaseDatabase.instance
-              .reference()
-              .child(
-                  "$userRole/${FirebaseAuth.instance.currentUser.uid}/Занятия/${workoutSingleton.id}")
-              .set({
-            "id": workoutSingleton.id,
-            "Телефон инструктора": workoutSingleton.instructorPhoneNumber,
-            "Вид спорта": workoutSingleton.sportType,
-            "Время": _getWorkoutTime(),
-            "Дата": workoutSingleton.date,
-            "Инструктор": workoutSingleton.instructorName,
-            "Количество человек": workoutSingleton.peopleCount,
-            "Посетители": _humansMap(),
-            "Уровень катания": levelOfSkating,
-            "Продолжительность": workoutSingleton.workoutDuration,
-            "Комментарий": _commentController.text
-          })
+          if (userRole == UserRole.instructor)
+            {_sendWorkoutDataToInstructor()}
+          else
+            _firebaseRequestsController.send(
+                "$userRole/${FirebaseAuth.instance.currentUser.uid}/Занятия/${workoutSingleton.id}",
+                {
+                  "id": workoutSingleton.id,
+                  "Телефон инструктора": workoutSingleton.instructorPhoneNumber,
+                  "Вид спорта": workoutSingleton.sportType,
+                  "Время": _getWorkoutTime(),
+                  "Дата": workoutSingleton.date,
+                  "Инструктор": workoutSingleton.instructorName,
+                  "Количество человек": workoutSingleton.peopleCount,
+                  "Посетители": _humansMap(),
+                  "Уровень катания": levelOfSkating,
+                  "Продолжительность": workoutSingleton.workoutDuration,
+                  "Комментарий": _commentController.text
+                })
         });
   }
 
   Future<void> _sendWorkoutDataToInstructor() async {
-    FirebaseDatabase.instance
-        .reference()
-        .child(
-            "Инструкторы/${workoutSingleton.instructorId}/Занятия/Занятие ${workoutSingleton.id}")
-        .set({
-      "Вид спорта": workoutSingleton.sportType,
-      "Время": _getWorkoutTime(),
-      "Дата": workoutSingleton.date,
-      "Количество человек": workoutSingleton.peopleCount,
-      "Посетители": _humansMap(),
-      "Уровень катания": levelOfSkating,
-      "Комментарий": _commentController.text,
-      "Продолжительность": workoutSingleton.workoutDuration,
-      "Телефон": FirebaseAuth.instance.currentUser.phoneNumber
-    });
-    FirebaseDatabase.instance
-        .reference()
-        .child(
-            "Инструкторы/${workoutSingleton.instructorId}/График работы/${workoutSingleton.date}")
-        .update(_timesController.setTimesStatus(
+    _firebaseRequestsController.send(
+        "Инструкторы/${workoutSingleton.instructorId}/Занятия/Занятие ${workoutSingleton.id}",
+        {
+          "Вид спорта": workoutSingleton.sportType,
+          "Время": _getWorkoutTime(),
+          "Дата": workoutSingleton.date,
+          "Количество человек": workoutSingleton.peopleCount,
+          "Посетители": _humansMap(),
+          "Уровень катания": levelOfSkating,
+          "Комментарий": _commentController.text,
+          "Продолжительность": workoutSingleton.workoutDuration,
+          "Телефон": FirebaseAuth.instance.currentUser.phoneNumber
+        });
+    _firebaseRequestsController.update(
+        "Инструкторы/${workoutSingleton.instructorId}/График работы/${workoutSingleton.date}",
+        _timesController.setTimesStatus(
             workoutSingleton.from, duration, "недоступно"));
   }
 
