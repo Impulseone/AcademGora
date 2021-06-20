@@ -1,4 +1,5 @@
 import 'package:academ_gora/controller/firebase_requests_controller.dart';
+import 'package:academ_gora/controller/times_controller.dart';
 import 'package:academ_gora/model/Instructors_keeper.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
@@ -389,7 +390,16 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
         String now = DateFormat('ddMMyyyy').format(_selectedDate);
         if (now == workoutDateString) sortedWorkouts.add(workout);
       });
-    return sortedWorkouts;
+    return _sortWorkoutsByTime(sortedWorkouts);
+  }
+
+  List<Workout> _sortWorkoutsByTime(List<Workout> list) {
+    TimesController timesController = TimesController();
+    if (list.length > 0)
+      list.sort((first, second) {
+        return timesController.times[first.from] - timesController.times[second.from];
+      });
+    return list;
   }
 
   void _openAuthScreen() async {

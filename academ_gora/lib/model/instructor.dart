@@ -1,4 +1,5 @@
 import 'package:academ_gora/controller/firebase_requests_controller.dart';
+import 'package:academ_gora/controller/times_controller.dart';
 import 'package:academ_gora/model/workout.dart';
 
 class Instructor {
@@ -26,17 +27,19 @@ class Instructor {
     return instructor;
   }
 
-  static Map<dynamic, dynamic> _parseDates(Map<dynamic, dynamic> schedule, String instructorId) {
+  static Map<dynamic, dynamic> _parseDates(
+      Map<dynamic, dynamic> schedule, String instructorId) {
     var parsedMap = {};
     schedule.forEach((date, value) {
       String formattedDate =
           "${date.substring(4, 8)}-${date.substring(2, 4)}-${date.substring(0, 2)}";
       DateTime dateTime = DateTime.parse(formattedDate);
-      if (dateTime.year < DateTime.now().year)
+      DateTime now = DateTime.now();
+      if (dateTime.year < now.year)
         _deleteOldDate(instructorId, date);
-      else if (dateTime.month < DateTime.now().month)
+      else if (dateTime.month < now.month)
         _deleteOldDate(instructorId, date);
-      else if (dateTime.day < DateTime.now().day - 1)
+      else if (dateTime.day < now.day - 1)
         _deleteOldDate(instructorId, date);
       else {
         parsedMap.putIfAbsent(date, () => value);

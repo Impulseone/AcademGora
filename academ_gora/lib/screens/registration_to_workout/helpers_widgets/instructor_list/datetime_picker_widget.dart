@@ -5,6 +5,7 @@ import 'package:academ_gora/controller/times_controller.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../main.dart';
+import '../../../extension.dart';
 import 'instructor_widget.dart';
 import 'package:intl/intl.dart';
 
@@ -28,31 +29,6 @@ class _DateTimePickerWidgetState extends State<DateTimePickerWidget> {
   WorkoutDataKeeper _workoutSingleton = WorkoutDataKeeper();
 
   List<String> _openedTimes = [];
-
-  List months = [
-    'Января',
-    'Февраля',
-    'Марта',
-    'Апреля',
-    'Мая',
-    'Июня',
-    'Июля',
-    'Августа',
-    'Сентября',
-    'Октября',
-    'Ноября',
-    'Декабря'
-  ];
-
-  List weekdays = [
-    'ПН',
-    'ВТ',
-    'СР',
-    'ЧТ',
-    'ПТ',
-    'СБ',
-    'ВС',
-  ];
 
   TimesController _timesController = TimesController();
 
