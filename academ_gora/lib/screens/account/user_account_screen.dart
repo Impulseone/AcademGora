@@ -1,4 +1,5 @@
 import 'package:academ_gora/controller/firebase_requests_controller.dart';
+import 'package:academ_gora/controller/times_controller.dart';
 import 'package:academ_gora/model/user_role.dart';
 import 'package:academ_gora/model/workout.dart';
 import 'package:academ_gora/screens/account/helpers_widgets/workout_widget.dart';
@@ -159,9 +160,8 @@ class UserAccountScreenState extends State<UserAccountScreen> {
   }
 
   void _getAllWorkouts() async {
-    await UserRole.getUserRole().then((value) => {
-          _firebaseController
-              .get("$value/${FirebaseAuth.instance.currentUser.uid}/Занятия")
+    await _firebaseController
+              .get("${UserRole.user}/${FirebaseAuth.instance.currentUser.uid}/Занятия")
               .then((value) {
             if (value == null && workouts.length != 0) {
               setState(() {
@@ -180,12 +180,20 @@ class UserAccountScreenState extends State<UserAccountScreen> {
               Function eq = const ListEquality().equals;
               if (!eq(workouts, workoutsFromDb)) {
                 setState(() {
-                  workouts = workoutsFromDb;
+                  workouts = _sortWorkoutsByTime(workoutsFromDb);
                 });
               }
             }
-          })
-        });
+          });
+  }
+
+  List<Workout> _sortWorkoutsByTime(List<Workout> list) {
+    TimesController timesController = TimesController();
+    if (list.length > 0)
+      list.sort((first, second) {
+        return timesController.times[first.from] - timesController.times[second.from];
+      });
+    return list;
   }
 
   bool _compareWorkoutDates(String workoutDate) {

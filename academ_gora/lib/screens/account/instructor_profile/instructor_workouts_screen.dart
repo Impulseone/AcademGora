@@ -31,31 +31,6 @@ class InstructorWorkoutsScreen extends StatefulWidget {
 class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
   DateTime _selectedDate = DateTime.now();
 
-  List _months = [
-    'Января',
-    'Февраля',
-    'Марта',
-    'Апреля',
-    'Мая',
-    'Июня',
-    'Июля',
-    'Августа',
-    'Сентября',
-    'Октября',
-    'Ноября',
-    'Декабря'
-  ];
-
-  List _weekdays = [
-    'ПН',
-    'ВТ',
-    'СР',
-    'ЧТ',
-    'ПТ',
-    'СБ',
-    'ВС',
-  ];
-
   List<Workout> _workoutsPerDay = [];
   List<Workout> _allWorkouts = [];
 
@@ -184,8 +159,8 @@ class _InstructorWorkoutsScreenState extends State<InstructorWorkoutsScreen> {
   }
 
   String _getSelectedDate() {
-    String month = _months[_selectedDate.month - 1];
-    String weekday = _weekdays[_selectedDate.weekday - 1];
+    String month = months[_selectedDate.month - 1];
+    String weekday = weekdays[_selectedDate.weekday - 1];
     return "${_selectedDate.day} $month ($weekday)";
   }
 
