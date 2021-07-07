@@ -40,6 +40,7 @@ class _MyAppState extends State<MyApp> {
           _isUserAuthorized = false;
         });
       }
+      _saveInstructorsIntoKeeper(null);
       _firebaseController.addListener(
           "Инструкторы", _saveInstructorsIntoKeeper);
     });
