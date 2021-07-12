@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../main.dart';
 import 'account/instructor_profile/instructor_workouts_screen.dart';
 import 'registration_to_workout/registration_first_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -31,37 +32,37 @@ class _MainScreenState extends State<MainScreen> {
     "assets/main/10_pic4.png"
   ];
 
-  void _setImageSliders(){
+  void _setImageSliders() {
     imageSliders = imgList
         .map((item) => Container(
-      child: Container(
-        margin: EdgeInsets.all(5.0),
-        child: Stack(
-          children: <Widget>[
-            Image.asset(item),
-            Positioned(
-              top: 0.0,
-              left: 0.0,
-              right: 0.0,
               child: Container(
-                alignment: Alignment.topRight,
-                padding:
-                EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                child: Text(
-                  'Время \nкатать',
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                  ),
+                margin: EdgeInsets.all(5.0),
+                child: Stack(
+                  children: <Widget>[
+                    Image.asset(item),
+                    Positioned(
+                      top: 0.0,
+                      left: 0.0,
+                      right: 0.0,
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
+                        child: Text(
+                          'Время \nкатать',
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
-            )
-          ],
-        ),
-      ),
-    ))
+            ))
         .toList();
   }
 
@@ -120,8 +121,8 @@ class _MainScreenState extends State<MainScreen> {
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (c) => UserAccountScreen()));
       else
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (c) => InstructorWorkoutsScreen()));
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (c) => InstructorWorkoutsScreen()));
     });
   }
 
@@ -129,23 +130,38 @@ class _MainScreenState extends State<MainScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-            width: screenWidth * 0.1,
-            height: screenWidth * 0.1,
-            child: Image.asset("assets/main/2_phone.png")),
-        Container(
-            width: screenWidth * 0.1,
-            height: screenWidth * 0.1,
-            margin: EdgeInsets.only(left: 18),
-            child: Image.asset("assets/main/3_insta.png")),
-        Container(
-            width: screenWidth * 0.1,
-            height: screenWidth * 0.1,
-            margin: EdgeInsets.only(left: 18),
-            child: Image.asset("assets/main/4_vk.png")),
+        GestureDetector(
+            onTap: () {
+              // _launchURL(url)
+            },
+            child: Container(
+                width: screenWidth * 0.1,
+                height: screenWidth * 0.1,
+                child: Image.asset("assets/main/2_phone.png"))),
+        GestureDetector(
+            onTap: () {
+              _launchURL("https://www.instagram.com/akademgora");
+            },
+            child: Container(
+                width: screenWidth * 0.1,
+                height: screenWidth * 0.1,
+                margin: EdgeInsets.only(left: 18),
+                child: Image.asset("assets/main/3_insta.png"))),
+        GestureDetector(
+            onTap: () {
+              _launchURL("https://vk.com/akademgora");
+            },
+            child: Container(
+                width: screenWidth * 0.1,
+                height: screenWidth * 0.1,
+                margin: EdgeInsets.only(left: 18),
+                child: Image.asset("assets/main/4_vk.png"))),
       ],
     );
   }
+
+  void _launchURL(String url) async =>
+      await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
 
   Widget _slider() {
     return Container(
