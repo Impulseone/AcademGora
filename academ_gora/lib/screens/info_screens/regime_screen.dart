@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../../main.dart';
 import '../main_screen.dart';
-import 'about_us_info.dart';
 
 final List<String> imgList = [
   "assets/info_screens/about_us/0.jpg",
@@ -112,7 +111,7 @@ class _RegimeScreenState extends State<RegimeScreen> {
           direction: Axis.vertical,
           children: [
             Text(
-              "Мы находимся по адресу – ул. Фаворского 1 Б, остановка общественного транспорта  «Госуниверситет» или «Мегаполис», 100 м от улицы Улан-Баторская. В 2гис нас можно найти как «спортивный комплекс Академический» - ",
+              "Мы находимся по адресу – ул. Фаворского 1 Б, остановка общественного транспорта  «Госуниверситет» или «Мегаполис», 100 м от улицы Улан-Баторская. В 2гис нас можно найти как «спортивный комплекс Академический» - \n",
               style: TextStyle(fontSize: 12),
             ),
             GestureDetector(
@@ -120,7 +119,7 @@ class _RegimeScreenState extends State<RegimeScreen> {
                 launchURL("https://go.2gis.com/junny");
               },
               child: Text(
-                "https://go.2gis.com/junny.",
+                "https://go.2gis.com/junny.\n",
                 style: TextStyle(fontSize: 12),
               ),
             ),

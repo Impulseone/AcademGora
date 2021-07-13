@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../../main.dart';
 import '../main_screen.dart';
-import 'about_us_info.dart';
 
 final List<String> imgList = [
   "assets/info_screens/chill_zone/chill_zone.jpg",
@@ -16,33 +15,37 @@ class ChillZoneScreen extends StatefulWidget {
 }
 
 class _ChillZoneScreenState extends State<ChillZoneScreen> {
-
   int _current = 0;
+
+  final String _phoneNumber = "89646546227";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-          height: screenHeight,
-          width: screenWidth,
-          decoration: screenDecoration("assets/info_screens/chill_zone/bg.png"),
-          child: Column(
-            children: [
-              _title(),
-              _slider(),
-              _description(),
-              _button(context, "НА ГЛАВНУЮ")
-            ],
-          ),
-        ));
+      height: screenHeight,
+      width: screenWidth,
+      decoration: screenDecoration("assets/info_screens/chill_zone/bg.png"),
+      child: Column(
+        children: [
+          _title(),
+          _slider(),
+          _description(),
+          _button(context, "НА ГЛАВНУЮ")
+        ],
+      ),
+    ));
   }
+
   Widget _title() {
     return Container(
         margin: EdgeInsets.only(top: screenHeight * 0.07),
         child: Text(
           "ЗОНА ОТДЫХА И ДЕТСКОГО ДОСУГА",
           style: TextStyle(
-              fontSize: screenHeight * 0.024, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: screenHeight * 0.024,
+              fontWeight: FontWeight.bold,
+              color: Colors.white),
         ));
   }
 
@@ -87,14 +90,14 @@ class _ChillZoneScreenState extends State<ChillZoneScreen> {
     return imgList
         .map(
           (item) => Container(
-        child: Container(
-          margin: EdgeInsets.all(5.0),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: Image.asset(item),
-        ),
-      ),
-    )
+            child: Container(
+              margin: EdgeInsets.all(5.0),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              child: Image.asset(item),
+            ),
+          ),
+        )
         .toList();
   }
 
@@ -104,14 +107,27 @@ class _ChillZoneScreenState extends State<ChillZoneScreen> {
         width: screenWidth * 0.8,
         child: SingleChildScrollView(
             child: Flex(
-              direction: Axis.vertical,
-              children: [
-                Text(
-                  AboutUs.chillZone(),
-                  style: TextStyle(fontSize: 12),
-                )
-              ],
-            )));
+          direction: Axis.vertical,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Дорогие гости!\n\n"
+              "Приглашаем Вас отдохнуть на Второй этаж. Вас ждет приятная атмосфера для отдыха и ожидания.\n\n"
+              "Для Вас услуги буфета и платной комфортабельной зоны отдыха для взрослых и детей: wi-fi, зона детского досуга, настольные игры для детей и взрослых, теплый туалет, массажер для ног, горячий шашлык и вкусные домашние колбаски от Коляна. Вас ждет приятная атмосфера для отдыха и ожидания. И услуга для родителей – присмотр за детками старше трех лет.\n\n"
+              "Вход с торца здания проката по лестнице.\n\n"
+              "Ждем Вас)\n\n"
+              "Контакты директора: \n",
+              style: TextStyle(fontSize: 12),
+            ),
+            GestureDetector(
+              onTap: () {
+                callNumber(_phoneNumber);
+              },
+              child: Text(_phoneNumber, style: TextStyle(fontSize: 12),),
+            ),
+            Text("\nkatyagolodiaeva@gmail.com\n",style: TextStyle(fontSize: 12),)
+          ],
+        )));
   }
 
   Widget _button(BuildContext context, String text) {

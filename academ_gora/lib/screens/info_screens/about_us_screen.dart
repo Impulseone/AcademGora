@@ -1,6 +1,5 @@
 import 'package:academ_gora/screens/all_instructors/all_instructors_screen.dart';
 import 'package:academ_gora/screens/extension.dart';
-import 'package:academ_gora/screens/info_screens/about_us_info.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -116,7 +115,13 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              AboutUs.aboutUs(),
+              "На базе работает два подъемника – кресельный и веревочный. "
+              "Три трассы для катания.\n\n"
+              "Лесная трасса для беговых лыж, ближайшее место проката беговых лыж находится в ледовом дворце «Айсберг» - спортивно-экипировочный центр «ЮниорСпорт».\n\n"
+              "На нашей горнолыжной базе вы можете взять в аренду горные лыжи от 24 до 46 размера ноги, сноуборды от 30 до 46 размера ноги.\n\n"
+              "Имеются квалифицированные инструкторы для индивидуальных и групповых занятий по горным лыжам и сноуборду для детей и взрослых.\n\n"
+              "На втором этаже здания проката есть буфет, комфортабельная комната отдыха и ожидания для взрослых и зона детского досуга; по выходным и праздникам Колян готовит вкусные шашлыки;\n\n"
+              "Также есть детская школа горных лыж «Вершина» от 3,5 до 8 лет – информация и контакты вы можете найти в инстаграмме \n\n«Вершина горнолыжный клуб» -",
               style: TextStyle(fontSize: 12),
             ),
             GestureDetector(
@@ -125,11 +130,27 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                       "https://instagram.com/vershina_skiclub?igshid=10c5vgh9rlsew");
                 },
                 child: Text(
-                  "https://instagram.com/vershina_skiclub?igshid=10c5vgh9rlsew",
+                  "https://instagram.com/vershina_skiclub?igshid=10c5vgh9rlsew\n",
                   style: TextStyle(fontSize: 12),
                 )),
+            Row(
+              children: [
+                Text(
+                  "или по телефону ",
+                  style: TextStyle(fontSize: 12),
+                ),
+                phoneNumberForCallWidget(
+                  "89025664248 ",
+                  textStyle: TextStyle(fontSize: 12),
+                ),
+                Text(
+                  "Наталья",
+                  style: TextStyle(fontSize: 12),
+                )
+              ],
+            ),
             Text(
-              AboutUs.aboutUs2(),
+              "\nШкола сноуборда для детей и взрослых «Байкальское солнце» - информация в инстаграмме «ирк сноуборд» или «сноуборд иркутск» - \n",
               style: TextStyle(fontSize: 12),
             ),
             GestureDetector(
@@ -138,11 +159,27 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                       "https://instagram.com/irk_snowboard?igshid=1x8vatsggr7mu");
                 },
                 child: Text(
-                  "https://instagram.com/irk_snowboard?igshid=1x8vatsggr7mu",
+                  "https://instagram.com/irk_snowboard?igshid=1x8vatsggr7mu\n",
                   style: TextStyle(fontSize: 12),
                 )),
+            Row(
+              children: [
+                Text(
+                  "а также по телефону – ",
+                  style: TextStyle(fontSize: 12),
+                ),
+                phoneNumberForCallWidget(
+                  "89041405551 ",
+                  textStyle: TextStyle(fontSize: 12),
+                ),
+                Text(
+                  "Екатерина",
+                  style: TextStyle(fontSize: 12),
+                )
+              ],
+            ),
             Text(
-              AboutUs.aboutUs3(),
+              "\nВъезд на парковку платный – 100 рублей. ",
               style: TextStyle(fontSize: 12),
             )
           ],

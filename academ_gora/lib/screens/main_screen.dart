@@ -25,6 +25,8 @@ class _MainScreenState extends State<MainScreen> {
   int _current = 0;
   List<Widget> imageSliders;
 
+  String phoneNumber = "+73952657066";
+
   final List<String> imgList = [
     "assets/main/10_pic1.png",
     "assets/main/10_pic2.png",
@@ -132,7 +134,7 @@ class _MainScreenState extends State<MainScreen> {
       children: [
         GestureDetector(
             onTap: () {
-              // _launchURL(url)
+             callNumber(phoneNumber);
             },
             child: Container(
                 width: screenWidth * 0.1,

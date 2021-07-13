@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-Decoration screenDecoration(String path){
+Decoration screenDecoration(String path) {
   return BoxDecoration(
     image: DecorationImage(
       image: AssetImage(path),
@@ -37,3 +38,20 @@ List weekdays = [
 
 void launchURL(String url) async =>
     await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
+
+Widget phoneNumberForCallWidget(String phoneNumber, {TextStyle textStyle}) {
+  return GestureDetector(
+    onTap: () {
+      callNumber(phoneNumber);
+    },
+    child: Text(
+      phoneNumber,
+      style: textStyle,
+    ),
+  );
+}
+
+callNumber(String phoneNumber) async {
+  String number = phoneNumber;
+  await FlutterPhoneDirectCaller.callNumber(number);
+}
