@@ -16,7 +16,6 @@ class RegimeScreen extends StatefulWidget {
 }
 
 class _RegimeScreenState extends State<RegimeScreen> {
-
   int _current = 0;
 
   @override
@@ -109,12 +108,63 @@ class _RegimeScreenState extends State<RegimeScreen> {
         width: screenWidth * 0.8,
         child: SingleChildScrollView(
             child: Flex(
+              crossAxisAlignment: CrossAxisAlignment.start,
           direction: Axis.vertical,
           children: [
             Text(
-              AboutUs.regime(),
+              "Мы находимся по адресу – ул. Фаворского 1 Б, остановка общественного транспорта  «Госуниверситет» или «Мегаполис», 100 м от улицы Улан-Баторская. В 2гис нас можно найти как «спортивный комплекс Академический» - ",
               style: TextStyle(fontSize: 12),
-            )
+            ),
+            GestureDetector(
+              onTap: () {
+                launchURL("https://go.2gis.com/junny");
+              },
+              child: Text(
+                "https://go.2gis.com/junny.",
+                style: TextStyle(fontSize: 12),
+              ),
+            ),
+            Text(
+              "Мы в социальных сетях инстаграмм и вконтакте – горнолыжка в академе!\n",
+              style: TextStyle(fontSize: 12),
+            ),
+            GestureDetector(
+              onTap: () {
+                launchURL("https://vk.com/akademgora");
+              },
+              child: Text(
+                "https://vk.com/akademgora\n",
+                style: TextStyle(fontSize: 12),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                launchURL("https://www.instagram.com/akademgora/");
+              },
+              child: Text(
+                "https://www.instagram.com/akademgora/\n\n",
+                style: TextStyle(fontSize: 12),
+              ),
+            ),
+            Text(
+              "Понедельник – выходной\n"
+              "Со вторника по пятницу работаем с 15:00 до 21:00\n"
+              "В выходные, а также праздничные дни работаем с 10:00 до 21:00, обратите внимание, что с 14:00 до 15:00 прокат закрывается на санитарную обработку, получить или сдать арендованный инвентарь в этот период не получится. "
+              "Для приобретения билетов на подъемник есть отдельное окно со стороны улицы.\n"
+              "\n\n"
+              "Работа кресельного подъемника ограничена понижением температуры ниже -23 гр. Цельсия и скоростью ветра более 15 м/с. "
+              "Актуальную информацию при таких погодных условиях вы можете уточнить в инстаграмме «горнолыжка в академе»\n",
+              style: TextStyle(fontSize: 12),
+            ),
+            GestureDetector(
+              onTap: () {
+                launchURL("https://www.instagram.com/akademgora/");
+              },
+              child: Text(
+                "https://www.instagram.com/akademgora/",
+                style: TextStyle(fontSize: 12),
+              ),
+            ),
           ],
         )));
   }
