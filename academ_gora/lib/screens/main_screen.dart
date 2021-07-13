@@ -140,7 +140,7 @@ class _MainScreenState extends State<MainScreen> {
                 child: Image.asset("assets/main/2_phone.png"))),
         GestureDetector(
             onTap: () {
-              _launchURL("https://www.instagram.com/akademgora");
+              launchURL("https://www.instagram.com/akademgora");
             },
             child: Container(
                 width: screenWidth * 0.1,
@@ -149,7 +149,7 @@ class _MainScreenState extends State<MainScreen> {
                 child: Image.asset("assets/main/3_insta.png"))),
         GestureDetector(
             onTap: () {
-              _launchURL("https://vk.com/akademgora");
+              launchURL("https://vk.com/akademgora");
             },
             child: Container(
                 width: screenWidth * 0.1,
@@ -159,9 +159,6 @@ class _MainScreenState extends State<MainScreen> {
       ],
     );
   }
-
-  void _launchURL(String url) async =>
-      await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
 
   Widget _slider() {
     return Container(

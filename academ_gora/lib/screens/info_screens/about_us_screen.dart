@@ -21,7 +21,6 @@ class AboutUsScreen extends StatefulWidget {
 }
 
 class _AboutUsScreenState extends State<AboutUsScreen> {
-
   int _current = 0;
 
   @override
@@ -49,7 +48,9 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
         child: Text(
           "СК \"АКАДЕМИЧЕСКИЙ\"",
           style: TextStyle(
-              fontSize: screenHeight * 0.024, fontWeight: FontWeight.bold, color: Colors.white),
+              fontSize: screenHeight * 0.024,
+              fontWeight: FontWeight.bold,
+              color: Colors.white),
         ));
   }
 
@@ -112,9 +113,36 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
         child: SingleChildScrollView(
             child: Flex(
           direction: Axis.vertical,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               AboutUs.aboutUs(),
+              style: TextStyle(fontSize: 12),
+            ),
+            GestureDetector(
+                onTap: () {
+                  launchURL(
+                      "https://instagram.com/vershina_skiclub?igshid=10c5vgh9rlsew");
+                },
+                child: Text(
+                  "https://instagram.com/vershina_skiclub?igshid=10c5vgh9rlsew",
+                  style: TextStyle(fontSize: 12),
+                )),
+            Text(
+              AboutUs.aboutUs2(),
+              style: TextStyle(fontSize: 12),
+            ),
+            GestureDetector(
+                onTap: () {
+                  launchURL(
+                      "https://instagram.com/irk_snowboard?igshid=1x8vatsggr7mu");
+                },
+                child: Text(
+                  "https://instagram.com/irk_snowboard?igshid=1x8vatsggr7mu",
+                  style: TextStyle(fontSize: 12),
+                )),
+            Text(
+              AboutUs.aboutUs3(),
               style: TextStyle(fontSize: 12),
             )
           ],
@@ -143,7 +171,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: screenHeight*0.027,
+                        fontSize: screenHeight * 0.027,
                       ),
                     ),
                   ]),

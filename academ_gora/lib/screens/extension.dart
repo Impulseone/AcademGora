@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Decoration screenDecoration(String path){
   return BoxDecoration(
@@ -33,3 +34,6 @@ List weekdays = [
   'СБ',
   'ВС',
 ];
+
+void launchURL(String url) async =>
+    await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
