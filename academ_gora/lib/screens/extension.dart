@@ -3,6 +3,10 @@ import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+String whatsAppUrl(String phoneNumber){
+  return "https://wa.me/$phoneNumber";
+}
+
 Decoration screenDecoration(String path) {
   return BoxDecoration(
     image: DecorationImage(

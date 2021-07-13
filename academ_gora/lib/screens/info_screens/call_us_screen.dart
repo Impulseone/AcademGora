@@ -10,7 +10,6 @@ class CallUsScreen extends StatefulWidget {
 }
 
 class _CallUsScreenState extends State<CallUsScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,82 +38,88 @@ class _CallUsScreenState extends State<CallUsScreen> {
   }
 
   Widget _callNumberButton() {
-    return GestureDetector(onTap: (){
-      callNumber("89025101513");
-    }, child:  Container(
-      height: screenHeight * 0.07,
-      width: screenWidth * 0.8,
-      alignment: Alignment.centerRight,
-      padding: EdgeInsets.only(right: screenWidth * 0.1),
-      margin: EdgeInsets.only(top: screenHeight * 0.07),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        image: DecorationImage(
-          image: AssetImage("assets/info_screens/call_us/1.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Text(
-        "89025101513",
-        style: TextStyle(
-            fontSize: screenHeight * 0.04,
-            color: Colors.white,
-            fontWeight: FontWeight.bold),
-      ),
-    ));
+    return GestureDetector(
+        onTap: () {
+          callNumber("89025101513");
+        },
+        child: Container(
+          height: screenHeight * 0.07,
+          width: screenWidth * 0.8,
+          alignment: Alignment.centerRight,
+          padding: EdgeInsets.only(right: screenWidth * 0.1),
+          margin: EdgeInsets.only(top: screenHeight * 0.07),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            image: DecorationImage(
+              image: AssetImage("assets/info_screens/call_us/1.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Text(
+            "89025101513",
+            style: TextStyle(
+                fontSize: screenHeight * 0.04,
+                color: Colors.white,
+                fontWeight: FontWeight.bold),
+          ),
+        ));
   }
 
   Widget _whatsAppButton() {
-    return Container(
-      height: screenHeight * 0.07,
-      width: screenWidth * 0.8,
-      alignment: Alignment.centerRight,
-      padding: EdgeInsets.only(right: screenWidth * 0.15),
-      margin: EdgeInsets.only(top: screenHeight * 0.04),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        image: DecorationImage(
-          image: AssetImage("assets/info_screens/call_us/2.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Text(
-        "НАПИСАТЬ",
-        style: TextStyle(
-            fontSize: screenHeight * 0.04,
-            color: Colors.white,
-            fontWeight: FontWeight.bold),
-      ),
-    );
+    return GestureDetector(
+        onTap: () {
+          launchURL(whatsAppUrl("+79025101513"));
+        },
+        child: Container(
+          height: screenHeight * 0.07,
+          width: screenWidth * 0.8,
+          alignment: Alignment.centerRight,
+          padding: EdgeInsets.only(right: screenWidth * 0.15),
+          margin: EdgeInsets.only(top: screenHeight * 0.04),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            image: DecorationImage(
+              image: AssetImage("assets/info_screens/call_us/2.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Text(
+            "НАПИСАТЬ",
+            style: TextStyle(
+                fontSize: screenHeight * 0.04,
+                color: Colors.white,
+                fontWeight: FontWeight.bold),
+          ),
+        ));
   }
 
   Widget _mailButton() {
-    return GestureDetector(onTap: (){
-      writeEmail("Progress077@yandex.ru");
-    }, child: Container(
-      height: screenHeight * 0.07,
-      width: screenWidth * 0.8,
-      alignment: Alignment.centerRight,
-      padding: EdgeInsets.only(right: screenWidth * 0.05),
-      margin: EdgeInsets.only(top: screenHeight * 0.04),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-        image: DecorationImage(
-          image: AssetImage("assets/info_screens/call_us/3.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Text(
-        "Progress077@yandex.ru",
-        style: TextStyle(
-            fontSize: screenHeight * 0.025,
-            color: Colors.white,
-            fontWeight: FontWeight.bold),
-      ),
-    ));
+    return GestureDetector(
+        onTap: () {
+          writeEmail("Progress077@yandex.ru");
+        },
+        child: Container(
+          height: screenHeight * 0.07,
+          width: screenWidth * 0.8,
+          alignment: Alignment.centerRight,
+          padding: EdgeInsets.only(right: screenWidth * 0.05),
+          margin: EdgeInsets.only(top: screenHeight * 0.04),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            image: DecorationImage(
+              image: AssetImage("assets/info_screens/call_us/3.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Text(
+            "Progress077@yandex.ru",
+            style: TextStyle(
+                fontSize: screenHeight * 0.025,
+                color: Colors.white,
+                fontWeight: FontWeight.bold),
+          ),
+        ));
   }
-
-
 
   Widget _logo() {
     return Container(
