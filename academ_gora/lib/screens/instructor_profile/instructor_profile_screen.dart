@@ -67,45 +67,94 @@ class InstructorProfileScreen extends StatelessWidget {
         onTap: () {
           callNumber("${instructor.phone}");
         },
-        child: Container(
-            alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(left: screenWidth * 0.1),
-            child: Text(
-              "Телефон: ${instructor.phone}",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            )));
+        child: GestureDetector(
+            onTap: () {
+              callNumber(instructor.phone);
+            },
+            child: Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(left: screenWidth * 0.1),
+                child: Text(
+                  "Телефон: ${instructor.phone}",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ))));
   }
 
   Widget _socialNetworksList() {
     return Container(
-      margin: EdgeInsets.only(left: screenWidth * 0.1),
       height: screenHeight * 0.25,
       child: ListView.builder(
           itemCount: instructor.socialNetworks.length,
           itemBuilder: (context, index) {
-            return Container(
-              margin: EdgeInsets.only(top: 5),
-              child: Row(
-                children: [
-                  Text(
-                    "${instructor.socialNetworks.keys.toList()[index]}: ",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  GestureDetector(
-                      onTap: () {
-                        launchURL(
-                            "${instructor.socialNetworks.values.toList()[index]}");
-                      },
-                      child: Text(
-                        "${instructor.socialNetworks.values.toList()[index]}",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ))
-                ],
-              ),
-            );
+            return "${instructor.socialNetworks.values.toList()[index]}"
+                    .isNotEmpty
+                ? _socialNetworkWidget(
+                    _getSocialNetworkImagePath(
+                        "${instructor.socialNetworks.keys.toList()[index]}"),
+                    "${instructor.socialNetworks.values.toList()[index]}")
+                : Container();
           }),
     );
+  }
+
+  Widget _socialNetworkWidget(String path, String url) {
+    return Container(
+      margin: EdgeInsets.only(top: 3, bottom: 3),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            margin: EdgeInsets.only(right: 15),
+            height: 22,
+            width: 22,
+            child: Image.asset(path),
+          ),
+          GestureDetector(
+              onTap: () {
+                launchURL(url);
+              },
+              child: Container(
+                width: screenWidth * 0.7,
+                child: Text(
+                  url == null ? "" : url,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                ),
+              )),
+        ],
+      ),
+    );
+  }
+
+  String _getSocialNetworkImagePath(String socialNetworkName) {
+    switch (socialNetworkName) {
+      case "instagram":
+        return "assets/instructor_profile/social_network_icons/2insta.png";
+        break;
+      case "vk":
+        return "assets/instructor_profile/social_network_icons/3vk.png";
+        break;
+      case "facebook":
+        return "assets/instructor_profile/social_network_icons/4fb.png";
+        break;
+      case "ok":
+        return "assets/instructor_profile/social_network_icons/5ok.png";
+        break;
+      case "twitter":
+        return "assets/instructor_profile/social_network_icons/6twitter.png";
+        break;
+      case "tiktok":
+        return "assets/instructor_profile/social_network_icons/7tiktok.png";
+        break;
+      case "youtube":
+        return "assets/instructor_profile/social_network_icons/8youtube.png";
+        break;
+      case "telegram":
+        return "assets/instructor_profile/social_network_icons/9telegram.png";
+        break;
+      default:
+        return "";
+        break;
+    }
   }
 
   Widget _backButtons(BuildContext context) {

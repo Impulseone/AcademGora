@@ -34,7 +34,6 @@ class InstructorsKeeper {
       if (element.runtimeType == listener.runtimeType) contains = true;
     });
     if (contains) _listeners.remove(listener);
-    // _listeners = [];
   }
 
   void updateInstructors(Map instructors) {

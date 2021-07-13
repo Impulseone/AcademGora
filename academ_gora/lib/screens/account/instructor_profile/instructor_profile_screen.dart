@@ -188,11 +188,7 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
       path = "${UserRole.instructor}/$userId";
       info = {"Информация": updatedText};
     }
-    // await _firebaseController.update(path, info).then((value) {
-    //   _getInstructorInfo();
-    // });
-
-    var v = await _firebaseController.update(path, info);
+    await _firebaseController.update(path, info);
   }
 
   Widget _socialNetworksList() {
