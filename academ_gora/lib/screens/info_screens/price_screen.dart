@@ -1,5 +1,4 @@
 import 'package:academ_gora/screens/extension.dart';
-import 'package:academ_gora/screens/info_screens/price_info.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
@@ -40,6 +39,7 @@ class _PriceScreenState extends State<PriceScreen> {
 
   Widget _table() {
     return Container(
+      height: screenHeight*0.45,
         margin: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 5),
         child: Table(
           border: TableBorder.all(color: Colors.white, width: 2),
@@ -93,7 +93,7 @@ class _PriceScreenState extends State<PriceScreen> {
 
   Widget _info() {
     return Container(
-      height: screenHeight * 0.25,
+      height: screenHeight * 0.35,
       width: screenWidth * 0.9,
       margin: EdgeInsets.only(top: 10),
       child: SingleChildScrollView(
