@@ -11,7 +11,6 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +19,12 @@ class _PriceScreenState extends State<PriceScreen> {
             width: screenWidth,
             decoration: screenDecoration("assets/info_screens/prices/bg.png"),
             child: Column(
-              children: [_priceTitle(), _table(), _info(), _openMainScreenButton()],
+              children: [
+                _priceTitle(),
+                _table(),
+                _info(),
+                _openMainScreenButton()
+              ],
             )));
   }
 
@@ -82,7 +86,9 @@ class _PriceScreenState extends State<PriceScreen> {
         alignment: alignment,
         color: color,
         padding: EdgeInsets.only(left: leftPadding, top: 5, bottom: 5),
-        child: Text(text, style: TextStyle(fontWeight: FontWeight.bold,fontSize: screenHeight*0.02)));
+        child: Text(text,
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: screenHeight * 0.02)));
   }
 
   Widget _info() {
@@ -91,12 +97,34 @@ class _PriceScreenState extends State<PriceScreen> {
       width: screenWidth * 0.9,
       margin: EdgeInsets.only(top: 10),
       child: SingleChildScrollView(
-        child: Text(
-          PriceInfo.getPriceInfo(),
-          textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenHeight*0.02),
-        ),
-      ),
+          child: Flex(
+              direction: Axis.vertical,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+            Text(
+              "1.Инвентарь выдается только при наличии паспорта или водительского удостоверения (один комплект – на один документ или денежный залог в размере 10 000 р.)\n"
+              "2.После 20:00 инвентарь не выдается\n"
+              "3.Работник проката вправе отказать в выдаче инвентаря без объяснения причин.\n"
+              "Подробный прайс и другая полезная информация -  в нашей группе,\n",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, fontSize: screenHeight * 0.02),
+            ),
+            GestureDetector(
+                onTap: () {
+                  launchURL("https://vk.com/akademgora");
+                },
+                child: Text(
+                  "https://vk.com/akademgora\n",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: screenHeight * 0.02),
+                )),
+            Text(
+              "Уважаемые гости. В нашем комплексе вы можете приобрести подарочные сертификаты на любую сумму и услуги комплекса. А также, есть возможность приобрести депозитный сертификат на любую сумму с возможностью частичного (не разового) использования на протяжении всего сезона.\n"
+              "Сертификаты не обналичиваются. На оплату услуг парковки и буфета не распространяются.",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, fontSize: screenHeight * 0.02),
+            ),
+          ])),
     );
   }
 
