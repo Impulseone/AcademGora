@@ -255,7 +255,7 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
             child: Image.asset(path),
           ),
           Container(
-            width: screenWidth * 0.5,
+            width: screenWidth * 0.6,
             child: Text(
               text == null ? "" : text,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
