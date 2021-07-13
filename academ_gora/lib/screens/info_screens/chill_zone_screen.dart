@@ -1,5 +1,8 @@
+import 'package:academ_gora/controller/firebase_requests_controller.dart';
+import 'package:academ_gora/model/Instructors_keeper.dart';
 import 'package:academ_gora/screens/extension.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 import '../../main.dart';
@@ -18,6 +21,19 @@ class _ChillZoneScreenState extends State<ChillZoneScreen> {
   int _current = 0;
 
   final String _phoneNumber = "89646546227";
+
+  @override
+  void initState() {
+    super.initState();
+    _saveInstructorsIntoKeeper(null);
+  }
+
+  void _saveInstructorsIntoKeeper(Event event) async {
+    await FirebaseRequestsController().get("Инструкторы").then((value) {
+      InstructorsKeeper().updateInstructors(value);
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +141,12 @@ class _ChillZoneScreenState extends State<ChillZoneScreen> {
               },
               child: Text(_phoneNumber, style: TextStyle(fontSize: 12),),
             ),
-            Text("\nkatyagolodiaeva@gmail.com\n",style: TextStyle(fontSize: 12),)
+            GestureDetector(
+              onTap: () {
+                writeEmail("katyagolodiaeva@gmail.com");
+              },
+              child: Text("\nkatyagolodiaeva@gmail.com\n", style: TextStyle(fontSize: 12),),
+            ),
           ],
         )));
   }

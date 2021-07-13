@@ -62,8 +62,18 @@ class InstructorProfileScreen extends StatelessWidget {
         ));
   }
 
-  Widget _instructorPhoneWidget(){
-    return Container(alignment: Alignment.centerLeft, margin: EdgeInsets.only(left: screenWidth*0.1), child: Text("Телефон: ${instructor.phone}", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),);
+  Widget _instructorPhoneWidget() {
+    return GestureDetector(
+        onTap: () {
+          callNumber("${instructor.phone}");
+        },
+        child: Container(
+            alignment: Alignment.centerLeft,
+            margin: EdgeInsets.only(left: screenWidth * 0.1),
+            child: Text(
+              "Телефон: ${instructor.phone}",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            )));
   }
 
   Widget _socialNetworksList() {
@@ -74,48 +84,27 @@ class InstructorProfileScreen extends StatelessWidget {
           itemCount: instructor.socialNetworks.length,
           itemBuilder: (context, index) {
             return Container(
+              margin: EdgeInsets.only(top: 5),
               child: Row(
                 children: [
                   Text(
-                    "${instructor.socialNetworks.keys.toList()[index]}: ${instructor.socialNetworks.values.toList()[index]}",
+                    "${instructor.socialNetworks.keys.toList()[index]}: ",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  )
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        launchURL(
+                            "${instructor.socialNetworks.values.toList()[index]}");
+                      },
+                      child: Text(
+                        "${instructor.socialNetworks.values.toList()[index]}",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ))
                 ],
               ),
             );
           }),
-    );
-  }
-
-  Widget _instagramIcon() {
-    return Container(
-      margin: EdgeInsets.only(top: 20),
-      width: 20,
-      height: 20,
-      child: Image.asset("assets/instructor_profile/2.png"),
-    );
-  }
-
-  Widget _instagramNickname() {
-    return Text(
-      "Alexsnowboard38",
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-    );
-  }
-
-  Widget _telegramIcon() {
-    return Container(
-      margin: EdgeInsets.only(top: 20),
-      width: 20,
-      height: 20,
-      child: Image.asset("assets/instructor_profile/3.png"),
-    );
-  }
-
-  Widget _telegramNumber() {
-    return Text(
-      "+79503884278",
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
     );
   }
 
