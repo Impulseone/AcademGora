@@ -8,6 +8,7 @@ import 'package:academ_gora/screens/account/helpers_widgets/workout_info.dart';
 import 'package:academ_gora/screens/account/update_workout_screen.dart';
 import 'package:academ_gora/screens/account/user_account_screen.dart';
 import 'package:academ_gora/controller/times_controller.dart';
+import 'package:academ_gora/screens/extension.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +33,8 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
 
   @override
   Widget build(BuildContext context) {
-    _instructor = _instructorsKeeper.findInstructorByPhoneNumber(widget.workout.instructorPhoneNumber);
+    _instructor = _instructorsKeeper
+        .findInstructorByPhoneNumber(widget.workout.instructorPhoneNumber);
     return Container(
       width: screenWidth * 0.9,
       decoration: BoxDecoration(
@@ -210,7 +212,6 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
   }
 
   Widget _instructorInfoWidget() {
-
     return Container(
         width: screenWidth * 0.9,
         margin: EdgeInsets.only(left: 10, top: 5),
@@ -239,37 +240,45 @@ class _WorkoutWidgetState extends State<WorkoutWidget> {
   }
 
   Widget _phoneNumberButton() {
-    return Container(
-        alignment: Alignment.center,
-        height: 30,
-        width: screenWidth * 0.45,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          image: DecorationImage(
-            image: AssetImage("assets/account/phone.png"),
-          ),
-        ),
-        child: Text(
-          widget.workout.instructorPhoneNumber,
-          style: TextStyle(color: Colors.white, fontSize: 12),
-        ));
+    return GestureDetector(
+        onTap: () {
+          callNumber(widget.workout.instructorPhoneNumber);
+        },
+        child: Container(
+            alignment: Alignment.center,
+            height: 30,
+            width: screenWidth * 0.45,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              image: DecorationImage(
+                image: AssetImage("assets/account/phone.png"),
+              ),
+            ),
+            child: Text(
+              widget.workout.instructorPhoneNumber,
+              style: TextStyle(color: Colors.white, fontSize: 12),
+            )));
   }
 
   Widget _whatsAppButton() {
-    return Container(
-        alignment: Alignment.center,
-        height: 30,
-        width: screenWidth * 0.35,
-        margin: EdgeInsets.only(left: screenWidth * 0.05),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          image: DecorationImage(
-            image: AssetImage("assets/account/wa.png"),
-          ),
-        ),
-        child: Text(
-          "Написать",
-          style: TextStyle(color: Colors.white, fontSize: 12),
-        ));
+    return GestureDetector(
+        onTap: () {
+          launchURL(whatsAppUrl(widget.workout.instructorPhoneNumber));
+        },
+        child: Container(
+            alignment: Alignment.center,
+            height: 30,
+            width: screenWidth * 0.35,
+            margin: EdgeInsets.only(left: screenWidth * 0.05),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              image: DecorationImage(
+                image: AssetImage("assets/account/wa.png"),
+              ),
+            ),
+            child: Text(
+              "Написать",
+              style: TextStyle(color: Colors.white, fontSize: 12),
+            )));
   }
 }

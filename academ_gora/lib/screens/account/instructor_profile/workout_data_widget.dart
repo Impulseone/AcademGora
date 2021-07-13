@@ -1,4 +1,5 @@
 import 'package:academ_gora/model/workout.dart';
+import 'package:academ_gora/screens/extension.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -15,7 +16,6 @@ class WorkoutDataWidget extends StatefulWidget {
 }
 
 class _WorkoutDataWidgetState extends State<WorkoutDataWidget> {
-
   bool isExpanded = false;
   Icon _expandedIcon = Icon(Icons.keyboard_arrow_down);
   ExpandableController _expandableController = ExpandableController();
@@ -54,7 +54,7 @@ class _WorkoutDataWidgetState extends State<WorkoutDataWidget> {
             Container(
                 margin: EdgeInsets.only(left: 15),
                 child: Text(
-                 "${widget.workout.from}-${widget.workout.to}",
+                  "${widget.workout.from}-${widget.workout.to}",
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 )),
             Container(
@@ -75,7 +75,11 @@ class _WorkoutDataWidgetState extends State<WorkoutDataWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(_parsePeopleNames()),
-                Text(widget.workout.userPhoneNumber),
+                GestureDetector(
+                    onTap: () {
+                      callNumber(widget.workout.userPhoneNumber);
+                    },
+                    child: Text(widget.workout.userPhoneNumber)),
                 Text("Количество человек: ${widget.workout.peopleCount}"),
                 Text("Возраст: ${_parsePeopleAges()}"),
                 Text(
@@ -86,8 +90,9 @@ class _WorkoutDataWidgetState extends State<WorkoutDataWidget> {
             )));
   }
 
-  String _parseDate(String date){
-    String formattedDate = "${date.substring(0, 2)}.${date.substring(2, 4)}.${date.substring(6, 8)}";
+  String _parseDate(String date) {
+    String formattedDate =
+        "${date.substring(0, 2)}.${date.substring(2, 4)}.${date.substring(6, 8)}";
     return formattedDate;
   }
 
