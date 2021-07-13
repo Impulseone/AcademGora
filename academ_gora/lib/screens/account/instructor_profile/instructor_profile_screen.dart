@@ -25,11 +25,12 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
   @override
   void initState() {
     super.initState();
-    _getInstructorInfo();
+    _instructorsKeeper.addListener(this);
   }
 
   @override
   Widget build(BuildContext context) {
+    _getInstructorInfo();
     return Scaffold(
         body: Container(
       width: screenWidth,
@@ -176,24 +177,22 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
   }
 
   void _updateInstructorInfo(String updatedText, bool isSocialNetwork,
-      {String socialNetworkName}) {
-    UserRole.getUserRole().then((userRole) async {
-      if (userRole == UserRole.instructor) {
-        String userId = FirebaseAuth.instance.currentUser.uid;
-        Map<String, dynamic> info = {};
-        String path = "";
-        if (isSocialNetwork) {
-          path = "$userRole/$userId/Соцсети";
-          info = {socialNetworkName: updatedText};
-        } else {
-          path = "$userRole/$userId";
-          info = {"Информация": updatedText};
-        }
-        await _firebaseController.update(path, info).then((value) {
-          _getInstructorInfo();
-        });
-      }
-    });
+      {String socialNetworkName}) async {
+    String userId = FirebaseAuth.instance.currentUser.uid;
+    Map<String, dynamic> info = {};
+    String path = "";
+    if (isSocialNetwork) {
+      path = "${UserRole.instructor}/$userId/Соцсети";
+      info = {socialNetworkName: updatedText};
+    } else {
+      path = "${UserRole.instructor}/$userId";
+      info = {"Информация": updatedText};
+    }
+    // await _firebaseController.update(path, info).then((value) {
+    //   _getInstructorInfo();
+    // });
+
+    var v = await _firebaseController.update(path, info);
   }
 
   Widget _socialNetworksList() {
@@ -323,5 +322,11 @@ class _InstructorProfileScreenState extends State<InstructorProfileScreen> {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => InstructorWorkoutsScreen()),
         (route) => false);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _instructorsKeeper.removeListener(this);
   }
 }
