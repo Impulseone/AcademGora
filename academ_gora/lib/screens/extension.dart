@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -49,6 +50,13 @@ Widget phoneNumberForCallWidget(String phoneNumber, {TextStyle textStyle}) {
       style: textStyle,
     ),
   );
+}
+
+void writeEmail(String address) async {
+  final Email email = Email(
+    recipients: [address],
+  );
+  await FlutterEmailSender.send(email);
 }
 
 callNumber(String phoneNumber) async {

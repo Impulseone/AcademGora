@@ -39,7 +39,9 @@ class _CallUsScreenState extends State<CallUsScreen> {
   }
 
   Widget _callNumberButton() {
-    return Container(
+    return GestureDetector(onTap: (){
+      callNumber("89025101513");
+    }, child:  Container(
       height: screenHeight * 0.07,
       width: screenWidth * 0.8,
       alignment: Alignment.centerRight,
@@ -59,7 +61,7 @@ class _CallUsScreenState extends State<CallUsScreen> {
             color: Colors.white,
             fontWeight: FontWeight.bold),
       ),
-    );
+    ));
   }
 
   Widget _whatsAppButton() {
@@ -87,7 +89,9 @@ class _CallUsScreenState extends State<CallUsScreen> {
   }
 
   Widget _mailButton() {
-    return Container(
+    return GestureDetector(onTap: (){
+      writeEmail("Progress077@yandex.ru");
+    }, child: Container(
       height: screenHeight * 0.07,
       width: screenWidth * 0.8,
       alignment: Alignment.centerRight,
@@ -107,8 +111,10 @@ class _CallUsScreenState extends State<CallUsScreen> {
             color: Colors.white,
             fontWeight: FontWeight.bold),
       ),
-    );
+    ));
   }
+
+
 
   Widget _logo() {
     return Container(

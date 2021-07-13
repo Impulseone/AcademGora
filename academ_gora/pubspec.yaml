@@ -27,6 +27,7 @@ dependencies:
   collection: any
   url_launcher: any
   flutter_phone_direct_caller: any
+  flutter_email_sender: any
 
 
   # The following adds the Cupertino Icons font to your application.
